@@ -41,8 +41,20 @@ public final class Constants {
   public final double k_driveWidth = Units.inchesToMeters(26.5);
   public final double k_driveLength = Units.inchesToMeters(26.5);
 
-  public static final double k_driveTicksToMeters = 1;
-  public static final double k_turnTicksToMeters = 1;
+  public static final double k_driveTicksToMetersVelocity = 1; // to be tuned
+  public static final double k_driveTicksToMetersPosition = 1; // to be tuned
+  public static final double k_turnTicksToMetersVelocity = 1; // to be tuned
+  public static final double k_turnTicksToMetersPosition = 1; // to be tuned
+
+  // Swerve Module Drive PID
+  public static final double k_driveP = 1;
+  public static final double k_driveI = 1;
+  public static final double k_driveD = 1;
+
+  // Swerve Module Turn PID
+  public static final double k_turnP = 1;
+  public static final double k_turnI = 1;
+  public static final double k_turnD = 1;
 
   // Swerve Chassis
   public final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
