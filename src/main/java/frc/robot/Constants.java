@@ -1,0 +1,54 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
+/**
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
+ * globally (i.e. public static). Do not put anything functional in this class.
+ *
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
+ * constants are needed, to reduce verbosity.
+ */
+public final class Constants {
+  
+  // public static class OperatorConstants {
+  // public static final int kDriverControllerPort = 0;
+  // }
+
+  // DRIVETRAIN SPARK MAX IDs
+  // Front of robot is opposite battery
+  public static final int k_FLDriveMotor = 1; // Front Left
+  public static final int k_FRDriveMotor = 3; // Front Right
+  public static final int k_BLDriveMotor = 5; // Back Left
+  public static final int k_BRDriveMotor = 7; // Back Right
+
+  public static final int k_FLTurningMotor = 2;
+  public static final int k_FRTurningMotor = 4;
+  public static final int k_BLTurningMotor = 6;
+  public static final int k_BRTurningMotor = 8;
+
+  public final double k_driveWidth = Units.inchesToMeters(26.5);
+  public final double k_driveLength = Units.inchesToMeters(26.5);
+
+  public static final double k_driveTicksToMeters = 1;
+  public static final double k_turnTicksToMeters = 1;
+
+  // Swerve Chassis
+  public final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+      new Translation2d(k_driveLength / 2, k_driveWidth / 2),
+      new Translation2d(k_driveLength / 2, -k_driveWidth / 2),
+      new Translation2d(-k_driveLength / 2, k_driveWidth / 2),
+      new Translation2d(-k_driveLength / 2, -k_driveWidth / 2));
+
+}
