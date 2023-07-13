@@ -38,7 +38,7 @@ public final class Constants {
   public static final int k_BLTurningMotor = 6;
   public static final int k_BRTurningMotor = 8;
 
-  public static final boolean kGyroReversed = false;
+  public static final boolean k_isGyroReversed = false;
 
   public static final double k_driveWidth = Units.inchesToMeters(26.5);
   public static final double k_driveLength = Units.inchesToMeters(26.5);
@@ -57,13 +57,6 @@ public final class Constants {
   public static final double k_turnP = 1;
   public static final double k_turnI = 1;
   public static final double k_turnD = 1;
-
-  // Swerve Chassis
-  public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-      new Translation2d(k_driveLength / 2, k_driveWidth / 2),
-      new Translation2d(k_driveLength / 2, -k_driveWidth / 2),
-      new Translation2d(-k_driveLength / 2, k_driveWidth / 2),
-      new Translation2d(-k_driveLength / 2, -k_driveWidth / 2));
 
   // Driving Constants 
   public static final double kMaxSpeedMetersPerSecond = 4.8;

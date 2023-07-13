@@ -4,7 +4,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.MaxSwerveModule;
@@ -12,55 +16,52 @@ import frc.robot.subsystems.MaxSwerveModule;
 public class ArcadeDrive extends CommandBase {
      /** Creates a new ArcadeDrive. */
 
-  private MaxSwerveModule m_swerveModule;
-  private XboxController m_xbox; 
+  private DriveSubsystem m_subsystem;
+  private DoubleSupplier m_getX;
+  private DoubleSupplier m_getY;
+  private DoubleSupplier m_getRot;
+  private BooleanSupplier m_isFieldRelative;
 
-  private final boolean k_fieldRelative = true; 
-  private final static double k_deadZone = 0.02; 
+  private final SwerveModuleState[] m_defaultState = {
+    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(45))
+  };
 
-  public ArcadeDrive(XboxController xbox, DriveSubsystem driveSubsystem) {
+  public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {
+    m_subsystem = driveSubsystem;
+    m_getX = getX;
+    m_getY = getY;
+    m_getRot = getRot;
+    m_isFieldRelative = isFieldRelative;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_xbox = xbox;
-    // m_swerveModule = driveSubsystem.getSwerve();
-    addRequirements(driveSubsystem);
-  }
-  
-  private void driveWithXbox(boolean fieldRelative) { /* 
-    final var xSpeed = -m_xspeedLimiter.calculate(MathUtil.applyDeadband(m_xbox.getLeftY(), k_deadZone))
-    * MaxSwerveModule.kMaxSpeed;
-
-    final var ySpeed = -m_yspeedLimiter.calculate(MathUtil.applyDeadband(m_xbox.getLeftX(), k_deadZone))
-    * Drivetrain.kMaxSpeed;
-
-    final var rot = -m_rotLimiter.calculate(MathUtil.applyDeadband(m_xbox.getRightX(), k_deadZone))
-    * Drivetrain.kMaxAngularSpeed;
-
-    // System.out.println(String.format("xspeed=%f, yspeed=%f, rot=%f, fieldRelative=%b", xSpeed, ySpeed, rot, fieldRelative)); 
-
-    m_swerve.drive(xSpeed, ySpeed, rot, fieldRelative);
-    */
+    addRequirements(m_subsystem);
   }
   
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_xbox != null){   
-      driveWithXbox(k_fieldRelative);
-    }
-    else {
-      driveWithXbox(k_fieldRelative); 
+    double x = m_getX.getAsDouble();
+    double y = m_getY.getAsDouble();
+    double rot = m_getRot.getAsDouble();
+    boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
+
+    if (x == 0 && y == 0 && rot == 0) {
+      m_subsystem.setModuleStates(m_defaultState);
+    } else {
+      m_subsystem.drive(x, y, rot, isFieldRelative, true);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // m_swerveModule.drive(0, 0, 0, false);
+    m_subsystem.setModuleStates(m_defaultState);
   }
 
   // Returns true when the command should end.

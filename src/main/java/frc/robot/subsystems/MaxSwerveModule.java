@@ -87,7 +87,7 @@ public class MaxSwerveModule extends SubsystemBase {
     return new SwerveModuleState(m_driveEncoder.getVelocity(), new Rotation2d(m_turnEncoder.getPosition() - m_chassisRotationOffset));
   }
 
-  // look through and understand later
+  // Set the swerve module to their desired states (Velocity at which the wheel is moving and the angle it is turned)
   public void setDesiredState(SwerveModuleState desiredState) {
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
@@ -95,10 +95,9 @@ public class MaxSwerveModule extends SubsystemBase {
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisRotationOffset));
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
-    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
-        new Rotation2d(m_turnEncoder.getPosition()));
+    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, new Rotation2d(m_turnEncoder.getPosition()));
 
-    // Command driving and turning SPARKS MAX towards their respective setpoints.
+    // Change the state of the module
     m_drivePID.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     m_turnPID.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 

@@ -8,7 +8,7 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArcadeDrive;
@@ -26,12 +26,10 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final XboxController m_driverController =
-      new XboxController(0);
+  private final CommandXboxController m_xbox = new CommandXboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_driveSubsystem.setDefaultCommand(new ArcadeDrive(m_driverController, m_driveSubsystem));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -46,6 +44,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    Trigger m_isFieldRelative = m_xbox.rightBumper();
+    m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
+      m_driveSubsystem, 
+      () -> m_xbox.getLeftX(), 
+      () -> m_xbox.getLeftY(),
+      () -> m_xbox.getRightX(),
+      new ToggleTrigger(m_isFieldRelative.debounce(.1))
+    ));
   }
 
   /**

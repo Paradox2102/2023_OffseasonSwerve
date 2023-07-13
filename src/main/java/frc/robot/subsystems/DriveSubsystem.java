@@ -9,6 +9,7 @@ import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -28,6 +29,14 @@ public class DriveSubsystem extends SubsystemBase {
   MaxSwerveModule m_backRight = new MaxSwerveModule(Constants.k_BRDriveMotor, Constants.k_BRTurningMotor, 0);
   MaxSwerveModule m_backLeft = new MaxSwerveModule(Constants.k_BLDriveMotor, Constants.k_BLTurningMotor, 0);
 
+  // Create the swerve chassis
+  private final SwerveDriveKinematics m_driveKinematics = new SwerveDriveKinematics(
+      new Translation2d(Constants.k_driveLength / 2, Constants.k_driveWidth / 2),
+      new Translation2d(Constants.k_driveLength / 2, -Constants.k_driveWidth / 2),
+      new Translation2d(-Constants.k_driveLength / 2, Constants.k_driveWidth / 2),
+      new Translation2d(-Constants.k_driveLength / 2, -Constants.k_driveWidth / 2)
+    );
+
   // Slew rate limiter variables for lateral acceleration
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
@@ -39,7 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Tracking robot position
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-    Constants.kDriveKinematics, Rotation2d.fromDegrees(m_gyro.getAngle()),
+    m_driveKinematics, Rotation2d.fromDegrees(m_gyro.getAngle()),
     new SwerveModulePosition[] {
       m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
@@ -47,8 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_backRight.getPosition()
     });
 
-  public DriveSubsystem() {
-  }
+  public DriveSubsystem() {}
 
   @Override
   public void periodic() {
@@ -69,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   // Reset odometry to specified pose 
-  public void resetOdometry(Pose2d pose) {
+  public void resetOdometry(Pose2d pose) { 
     m_odometry.resetPosition(
       Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
@@ -149,7 +157,7 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeedCommanded * Constants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * Constants.kMaxAngularSpeed;
 
-    var swerveModuleStates = Constants.kDriveKinematics.toSwerveModuleStates(
+    var swerveModuleStates = m_driveKinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(m_gyro.getAngle()))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
@@ -159,6 +167,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_backLeft.setDesiredState(swerveModuleStates[2]);
     m_backRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  // Accessor method for the chassis
+  public SwerveDriveKinematics getDriveKinematics() {
+    return m_driveKinematics;
   }
 
   public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -190,7 +203,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Returns robot turn rate in degrees per second 
   public double getTurnRate() {
-    return m_gyro.getRate() * (Constants.kGyroReversed ? -1.0 : 1.0);
+    return m_gyro.getRate() * (Constants.k_isGyroReversed ? -1.0 : 1.0);
   }
   
 }
