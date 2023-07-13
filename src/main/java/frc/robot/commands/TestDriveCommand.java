@@ -15,7 +15,6 @@ public class TestDriveCommand extends CommandBase {
     // Command to power driving motor
 
     private DriveSubsystem m_driveSubsystem;
-    private CANSparkMax m_driveMotor = new CANSparkMax(3, MotorType.kBrushless);
 
     public TestDriveCommand(DriveSubsystem driveSubsystem) {
         m_driveSubsystem = driveSubsystem;
@@ -25,7 +24,7 @@ public class TestDriveCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_driveMotor.set(0.2); 
+      m_driveSubsystem.drive4(1); 
     }
 
     @Override 
@@ -35,6 +34,6 @@ public class TestDriveCommand extends CommandBase {
 
     // Called once the command ends or is interrupted.
   public void end() {
-    m_driveMotor.set(0); 
+    m_driveSubsystem.drive4(0); 
   }
 }
