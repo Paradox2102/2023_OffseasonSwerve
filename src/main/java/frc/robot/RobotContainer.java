@@ -5,9 +5,13 @@
 package frc.robot;
 
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.ArcadeDrive;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.MaxSwerveModule;
 
@@ -22,11 +26,12 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(0);
+  private final XboxController m_driverController =
+      new XboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_driveSubsystem.setDefaultCommand(new ArcadeDrive(m_driverController, m_driveSubsystem));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -40,7 +45,8 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

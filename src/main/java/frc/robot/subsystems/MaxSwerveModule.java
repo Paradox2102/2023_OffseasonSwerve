@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -108,6 +109,13 @@ public class MaxSwerveModule extends SubsystemBase {
     m_driveEncoder.setPosition(0);
   }
 
+  public SwerveModulePosition getPosition() {
+    // Apply chassis angular offset to the encoder position to get the position
+    // relative to the chassis.
+    return new SwerveModulePosition(
+        m_driveEncoder.getPosition(),
+        new Rotation2d(m_turnEncoder.getPosition() - m_chassisRotationOffset));
+  }
 
   @Override
   public void periodic() {
