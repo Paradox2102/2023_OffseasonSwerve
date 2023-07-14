@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveUtils;
@@ -61,6 +62,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Angle In Ticks", m_backLeft.getAngle());
     m_odometry.update(
       Rotation2d.fromDegrees(m_gyro.getAngle()), 
       new SwerveModulePosition[] {
@@ -87,6 +89,14 @@ public class DriveSubsystem extends SubsystemBase {
             m_backRight.getPosition()
         },
         pose);
+  }
+
+  public void drive4(double s) {
+    m_backRight.drive1(s);
+  }
+
+  public void turn3(double s) {
+    m_backRight.turn1(s);
   }
 
   /**

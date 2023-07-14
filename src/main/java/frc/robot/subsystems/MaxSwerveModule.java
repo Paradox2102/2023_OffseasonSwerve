@@ -39,7 +39,7 @@ public class MaxSwerveModule extends SubsystemBase {
   public MaxSwerveModule(int driveID, int turnID, double chassisRotationOffset) {
     // Initialize the motors
     m_driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
-    m_turnMotor = new CANSparkMax(turnID, MotorType.kBrushed);
+    m_turnMotor = new CANSparkMax(turnID, MotorType.kBrushless);
 
     // Reset Motors
     m_driveMotor.restoreFactoryDefaults();
@@ -57,8 +57,8 @@ public class MaxSwerveModule extends SubsystemBase {
     m_driveEncoder.setVelocityConversionFactor(Constants.k_driveTicksToMetersVelocity);
     m_turnEncoder.setPositionConversionFactor(Constants.k_turnTicksToMetersPosition);
     m_turnEncoder.setVelocityConversionFactor(Constants.k_turnTicksToMetersVelocity);
-    m_driveEncoder.setInverted(false);
-    m_turnEncoder.setInverted(true);
+    // m_driveEncoder.setInverted(false);
+    // m_turnEncoder.setInverted(true);
 
     // Allow turn motor to go from 359 degrees to 0 degrees directly and not rotate 359 degrees the other direction
     m_turnPID.setPositionPIDWrappingEnabled(true);
@@ -106,6 +106,18 @@ public class MaxSwerveModule extends SubsystemBase {
 
   public void resetEncoders() {
     m_driveEncoder.setPosition(0);
+  }
+
+  public void drive1(double s) {
+    m_driveMotor.set(s);
+  }
+
+  public void turn1(double s) {
+    m_turnMotor.set(s);
+  }
+
+  public double getAngle() {
+    return m_turnEncoder.getPosition();
   }
 
   public SwerveModulePosition getPosition() {
