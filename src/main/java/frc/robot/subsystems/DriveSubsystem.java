@@ -92,11 +92,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive4(double s) {
-    m_backRight.drive1(s);
+    m_frontRight.drive1(s);
   }
 
   public void turn3(double s) {
-    m_backRight.turn1(s);
+    m_frontRight.turn1(s);
   }
 
   /**

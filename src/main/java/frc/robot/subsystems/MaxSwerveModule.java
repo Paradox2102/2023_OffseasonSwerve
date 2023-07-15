@@ -67,12 +67,12 @@ public class MaxSwerveModule extends SubsystemBase {
 
     // Set the PIDs
     m_drivePID.setP(Constants.k_driveP);
-    m_drivePID.setI(Constants.k_driveI);
-    m_drivePID.setD(Constants.k_driveD);
+    // m_drivePID.setI(Constants.k_driveI);
+    // m_drivePID.setD(Constants.k_driveD);
 
     m_turnPID.setP(Constants.k_turnP);
-    m_turnPID.setI(Constants.k_turnI);
-    m_turnPID.setD(Constants.k_turnD);
+    // m_turnPID.setI(Constants.k_turnI);
+    // m_turnPID.setD(Constants.k_turnD);
 
     // Save the config onto the motors
     m_driveMotor.burnFlash();

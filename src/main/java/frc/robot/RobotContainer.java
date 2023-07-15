@@ -41,16 +41,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Trigger m_isFieldRelative = m_xbox.rightBumper();
-    // m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
-    //   m_driveSubsystem, 
-    //   () -> m_xbox.getLeftX(), 
-    //   () -> m_xbox.getLeftY(),
-    //   () -> m_xbox.getRightX(),
-    //   new ToggleTrigger(m_isFieldRelative.debounce(.1))
-    // ));
-    m_xbox.a().toggleOnTrue(new TestTurnCommand(m_driveSubsystem));
-    m_xbox.b().toggleOnTrue(new TestDriveCommand(m_driveSubsystem)); 
+    Trigger m_isFieldRelative = m_xbox.rightBumper();
+    m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
+      m_driveSubsystem, 
+      () -> m_xbox.getLeftX(), 
+      () -> m_xbox.getLeftY(),
+      () -> m_xbox.getRightX(),
+      new ToggleTrigger(m_isFieldRelative.debounce(.1))
+    ));
+    // m_xbox.a().toggleOnTrue(new TestTurnCommand(m_driveSubsystem));
+    // m_xbox.b().toggleOnTrue(new TestDriveCommand(m_driveSubsystem)); 
   }
 
   /**
