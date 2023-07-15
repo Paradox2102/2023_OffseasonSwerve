@@ -48,13 +48,13 @@ public final class Constants {
 
   // Swerve Module Drive PID
   public static final double k_driveP = 0.001;
-  // public static final double k_driveI = 1;
-  // public static final double k_driveD = 1;
+  public static final double k_driveI = 1;
+  public static final double k_driveD = 1;
 
   // Swerve Module Turn PID
   public static final double k_turnP = 0.001;
-  // public static final double k_turnI = 1;
-  // public static final double k_turnD = 1;
+  public static final double k_turnI = 1;
+  public static final double k_turnD = 1;
 
   // Driving Constants 
   public static final double k_maxSpeedMetersPerSecond = 4.8;
