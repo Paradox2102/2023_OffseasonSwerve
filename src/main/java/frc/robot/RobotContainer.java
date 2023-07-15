@@ -35,13 +35,15 @@ public class RobotContainer {
     configureBindings();
 
     Trigger m_isFieldRelative = m_xbox.rightBumper();
+    
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
       () -> m_xbox.getLeftX(), 
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
-      new ToggleTrigger(m_isFieldRelative.debounce(.1))
-    ));
+      new ToggleTrigger(m_isFieldRelative.debounce(.1))));
+      // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
+      // System.out.println("Working"); 
 
     // m_driveSubsystem.setDefaultCommand(
     //   // Left stick controls translation of robot 
@@ -67,6 +69,9 @@ public class RobotContainer {
   private void configureBindings() {
     m_xbox.a().toggleOnTrue(new TestTurnCommand(m_driveSubsystem));
     m_xbox.b().toggleOnTrue(new TestDriveCommand(m_driveSubsystem)); 
+    // System.out.println("Working"); 
+    // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
+
   }
 
   /**

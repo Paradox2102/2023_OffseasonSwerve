@@ -178,7 +178,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_backLeft.setDesiredState(swerveModuleStates[2]);
     m_backRight.setDesiredState(swerveModuleStates[3]);
 
-    System.out.println(String.format("xspeed=%f, yspeed=%f, rot=%f, fieldRelative=%b, rateLimit=%b", xSpeed, ySpeed, rot, fieldRelative, rateLimit)); 
+    // System.out.println(String.format("xspeed=%f, yspeed=%f, rot=%f, fieldRelative=%b, rateLimit=%b", xSpeed, ySpeed, rot, fieldRelative, rateLimit)); 
   }
 
   // Accessor method for the chassis

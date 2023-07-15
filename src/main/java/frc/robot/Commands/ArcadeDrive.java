@@ -54,6 +54,7 @@ public class ArcadeDrive extends CommandBase {
       m_subsystem.setModuleStates(m_defaultState);
     } else {
       m_subsystem.drive(x, y, rot, isFieldRelative, true);
+      // System.out.println(String.format("x=%f, y=%f, rot=%f, isFieldRelative=%b", x, y, rot, isFieldRelative)); 
     }
   }
 
