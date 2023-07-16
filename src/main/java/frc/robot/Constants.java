@@ -41,10 +41,13 @@ public final class Constants {
   public static final double k_driveWidth = Units.inchesToMeters(26.5);
   public static final double k_driveLength = Units.inchesToMeters(26.5);
 
-  public static final double k_driveTicksToMetersVelocity = 1; // to be tuned
-  public static final double k_driveTicksToMetersPosition = 1; // to be tuned
-  public static final double k_turnTicksToDegreesVelocity = 360; // to be tuned
-  public static final double k_turnTicksToMetersPosition = 986; // 362.2
+  public static final double k_driveTicksToMetersVelocity = .2394; // meters per rotation which I think is a tick for neos
+  public static final double k_driveTicksToMetersPosition = .2394; // meters per rotation which I think is a tick for neos
+  public static final double k_turnTicksToDegreesVelocity = 360; // degrees per rotation which I think is a tick for neos
+  public static final double k_turnTicksToMetersPosition = 360; // 986
+  // THE ABOVE IS ASSUMING ONE MOTOR ROTATION IS ONE ROTATION FOR THE TURN AND THE DRIVE WHEEL
+  // IF IT ISN'T PLEASE USE THE GEAR RATIOS TO ADJUST THE CONVERSION FACTORS ABOVE
+
 
   // Swerve Module Drive PID
   public static final double k_driveP = 0.001;
