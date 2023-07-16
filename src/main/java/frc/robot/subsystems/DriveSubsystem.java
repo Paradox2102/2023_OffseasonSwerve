@@ -32,10 +32,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Create the swerve chassis
   private final SwerveDriveKinematics m_driveKinematics = new SwerveDriveKinematics(
-      new Translation2d(Constants.k_driveLength / 2, Constants.k_driveWidth / 2),
-      new Translation2d(Constants.k_driveLength / 2, -Constants.k_driveWidth / 2),
-      new Translation2d(-Constants.k_driveLength / 2, Constants.k_driveWidth / 2),
-      new Translation2d(-Constants.k_driveLength / 2, -Constants.k_driveWidth / 2)
+      new Translation2d(Constants.k_driveLength / 2, Constants.k_driveWidth / 2), // front right
+      new Translation2d(-Constants.k_driveLength / 2, Constants.k_driveWidth / 2), // front left
+      new Translation2d(Constants.k_driveLength / 2, -Constants.k_driveWidth / 2), // back right
+      new Translation2d(-Constants.k_driveLength / 2, -Constants.k_driveWidth / 2) // back left
     );
 
   // Slew rate limiter variables for lateral acceleration
