@@ -43,8 +43,8 @@ public final class Constants {
 
   public static final double k_driveTicksToMetersVelocity = 1; // to be tuned
   public static final double k_driveTicksToMetersPosition = 1; // to be tuned
-  public static final double k_turnTicksToMetersVelocity = 1; // to be tuned
-  public static final double k_turnTicksToMetersPosition = 986; //362.2
+  public static final double k_turnTicksToDegreesVelocity = 360; // to be tuned
+  public static final double k_turnTicksToMetersPosition = 986; // 362.2
 
   // Swerve Module Drive PID
   public static final double k_driveP = 0.001;

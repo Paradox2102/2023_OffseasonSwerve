@@ -56,7 +56,7 @@ public class MaxSwerveModule extends SubsystemBase {
     m_driveEncoder.setPositionConversionFactor(Constants.k_driveTicksToMetersPosition);
     m_driveEncoder.setVelocityConversionFactor(Constants.k_driveTicksToMetersVelocity);
     m_turnEncoder.setPositionConversionFactor(Constants.k_turnTicksToMetersPosition);
-    m_turnEncoder.setVelocityConversionFactor(Constants.k_turnTicksToMetersVelocity);
+    m_turnEncoder.setVelocityConversionFactor(Constants.k_turnTicksToDegreesVelocity);
     // m_driveEncoder.setInverted(false);
     // m_turnEncoder.setInverted(true);
 
