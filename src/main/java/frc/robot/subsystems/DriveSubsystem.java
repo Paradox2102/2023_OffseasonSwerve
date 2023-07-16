@@ -57,7 +57,10 @@ public class DriveSubsystem extends SubsystemBase {
       m_backRight.getPosition()
     });
 
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+    zeroHeading();
+    resetEncoders();
+  }
 
   @Override
   public void periodic() {
