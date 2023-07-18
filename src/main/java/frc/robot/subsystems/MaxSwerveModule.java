@@ -120,6 +120,10 @@ public class MaxSwerveModule extends SubsystemBase {
     return m_turnEncoder.getPosition();
   }
 
+  public double getDriveEncoderTicks() {
+    return m_driveEncoder.getPosition(); 
+  }
+
   public SwerveModulePosition getPosition() {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
@@ -131,6 +135,5 @@ public class MaxSwerveModule extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // System.out.println("MAXSwerveModule Reading"); 
   }
 }

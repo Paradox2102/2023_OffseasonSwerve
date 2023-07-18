@@ -66,6 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Angle In Ticks", m_backLeft.getAngle());
+    SmartDashboard.putNumber("Drive In Ticks", m_frontLeft.getDriveEncoderTicks()); 
     m_odometry.update(
       Rotation2d.fromDegrees(m_gyro.getAngle()), 
       new SwerveModulePosition[] {
