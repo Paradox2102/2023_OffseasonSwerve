@@ -15,6 +15,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -68,12 +69,12 @@ public class MaxSwerveModule extends SubsystemBase {
 
     // Set the PIDs
     m_drivePID.setP(Constants.k_driveP);
-    // m_drivePID.setI(Constants.k_driveI);
-    // m_drivePID.setD(Constants.k_driveD);
+    m_drivePID.setI(Constants.k_driveI);
+    m_drivePID.setD(Constants.k_driveD);
 
     m_turnPID.setP(Constants.k_turnP);
-    // m_turnPID.setI(Constants.k_turnI);
-    // m_turnPID.setD(Constants.k_turnD);
+    m_turnPID.setI(Constants.k_turnI);
+    m_turnPID.setD(Constants.k_turnD);
 
     // Save the config onto the motors
     m_driveMotor.burnFlash();
@@ -99,8 +100,10 @@ public class MaxSwerveModule extends SubsystemBase {
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, new Rotation2d(m_turnEncoder.getPosition()));
 
     // Change the state of the module
-    m_drivePID.setReference(optimizedDesiredState.speedMetersPerSecond * Constants.k_maxSpeedPercent, CANSparkMax.ControlType.kVelocity);
-    m_turnPID.setReference(optimizedDesiredState.angle.getRadians() * Constants.k_maxSpeedPercent, CANSparkMax.ControlType.kPosition);
+    SmartDashboard.putNumber("Speed Meter Per Second", optimizedDesiredState.speedMetersPerSecond);
+    SmartDashboard.putNumber("angle in radians", optimizedDesiredState.angle.getRadians());
+    m_drivePID.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+    m_turnPID.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     m_desiredState = desiredState;
   }

@@ -49,9 +49,6 @@ public class ArcadeDrive extends CommandBase {
     double x = m_getX.getAsDouble();
     double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
-    SmartDashboard.putNumber("Left X", x);
-    SmartDashboard.putNumber("Left Y", y);
-    SmartDashboard.putNumber("Right X (Rot)", rot);
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
 
     if (x == 0 && y == 0 && rot == 0) {

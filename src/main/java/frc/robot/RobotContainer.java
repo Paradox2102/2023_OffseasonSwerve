@@ -41,7 +41,9 @@ public class RobotContainer {
       () -> m_xbox.getLeftX(), 
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
-      new ToggleTrigger(m_isFieldRelative.debounce(.1))));
+      () -> false
+      // new ToggleTrigger(m_isFieldRelative.debounce(.1))
+    ));
       // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
       // System.out.println("Working"); 
 

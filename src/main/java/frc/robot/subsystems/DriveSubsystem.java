@@ -32,10 +32,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Create the swerve chassis
   private final SwerveDriveKinematics m_driveKinematics = new SwerveDriveKinematics(
-      new Translation2d(Constants.k_driveLength / 2, Constants.k_driveWidth / 2), // front right
-      new Translation2d(-Constants.k_driveLength / 2, Constants.k_driveWidth / 2), // front left
-      new Translation2d(Constants.k_driveLength / 2, -Constants.k_driveWidth / 2), // back right
-      new Translation2d(-Constants.k_driveLength / 2, -Constants.k_driveWidth / 2) // back left
+    new Translation2d(Constants.k_driveLength / 2, -Constants.k_driveWidth / 2), // front right
+      new Translation2d(Constants.k_driveLength / 2, Constants.k_driveWidth / 2), // front left
+      new Translation2d(-Constants.k_driveLength / 2, -Constants.k_driveWidth / 2), // back right
+      new Translation2d(Constants.k_driveLength / 2, Constants.k_driveWidth / 2) // back left
     );
 
   // Slew rate limiter variables for lateral acceleration
@@ -51,27 +51,30 @@ public class DriveSubsystem extends SubsystemBase {
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
     m_driveKinematics, Rotation2d.fromDegrees(m_gyro.getAngle()), // ask about Constants.k_driveKinematics 
     new SwerveModulePosition[] {
-      m_frontLeft.getPosition(),
       m_frontRight.getPosition(),
-      m_backLeft.getPosition(),
-      m_backRight.getPosition()
+      m_frontLeft.getPosition(),
+      m_backRight.getPosition(),
+      m_backLeft.getPosition()
     });
 
   public DriveSubsystem() {
     zeroHeading();
     resetEncoders();
-    m_frontLeft.setBrakeMode(true);
-    m_frontRight.setBrakeMode(true);
-    m_backLeft.setBrakeMode(true);
-    m_backRight.setBrakeMode(true);
+    m_frontRight.setBrakeMode(false);
+    m_frontLeft.setBrakeMode(false);
+    m_backRight.setBrakeMode(false);
+    m_backLeft.setBrakeMode(false);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Angle In Ticks", m_backRight.getAngle());
-    SmartDashboard.putNumber("Drive In Ticks", m_backRight.getDriveEncoderTicks()); 
-    SmartDashboard.putNumber("Drive Speed", m_backRight.getDriveMotor());
+    SmartDashboard.putNumber("Angle In Ticks", m_backLeft.getAngle());
+    SmartDashboard.putNumber("Drive In Ticks", m_backLeft.getDriveEncoderTicks()); 
+    SmartDashboard.putNumber("Drive Speed", m_backLeft.getDriveMotor());
+    // SmartDashboard.putNumber("Left X", x);
+    // SmartDashboard.putNumber("Left Y", y);
+    // SmartDashboard.putNumber("Right X (Rot)", rot);
     m_odometry.update(
       Rotation2d.fromDegrees(m_gyro.getAngle()), 
       new SwerveModulePosition[] {
@@ -179,6 +182,7 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * Constants.k_maxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * Constants.k_maxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * Constants.k_maxAngularSpeed;
+    System.out.println(rotDelivered);
 
     var swerveModuleStates = m_driveKinematics.toSwerveModuleStates(
         fieldRelative

@@ -53,15 +53,14 @@ public final class Constants {
   public static final double k_driveP = 0.05;
   public static final double k_driveI = 0;
   public static final double k_driveD = 0;
-  public static final double k_maxSpeedPercent = .25;
 
   // Swerve Module Turn PID
-  public static final double k_turnP = 0.05;
+  public static final double k_turnP = 0.01;
   public static final double k_turnI = 0;
   public static final double k_turnD = 0;
 
   // Driving Constants 
-  public static final double k_maxSpeedMetersPerSecond = 4.8;
+  public static final double k_maxSpeedMetersPerSecond = 1;
   public static final double k_maxAngularSpeed = 2 * Math.PI; // radians per second
   
   public static final double k_directionSlewRate = 1.2; // radians per second
