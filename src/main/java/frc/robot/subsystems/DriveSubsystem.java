@@ -116,6 +116,8 @@ public class DriveSubsystem extends SubsystemBase {
     
     double xSpeedCommanded;
     double ySpeedCommanded;
+    SmartDashboard.putNumber("xSpeed", xSpeed);
+    SmartDashboard.putNumber("ySpeed", ySpeed);
      
     if (rateLimit) {
       // Convert XY to polar for rate limiting
@@ -156,6 +158,8 @@ public class DriveSubsystem extends SubsystemBase {
       
       xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
       ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
+      SmartDashboard.putNumber("xSpeedCommanded", xSpeedCommanded);
+      SmartDashboard.putNumber("ySpeedCommanded", ySpeedCommanded);
       m_currentRotation = m_rotLimiter.calculate(rot);
 
 
