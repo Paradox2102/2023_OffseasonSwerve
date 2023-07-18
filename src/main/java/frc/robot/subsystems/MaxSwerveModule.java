@@ -98,8 +98,8 @@ public class MaxSwerveModule extends SubsystemBase {
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, new Rotation2d(m_turnEncoder.getPosition()));
 
     // Change the state of the module
-    m_drivePID.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    m_turnPID.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+    m_drivePID.setReference(optimizedDesiredState.speedMetersPerSecond * Constants.k_maxSpeedPercent, CANSparkMax.ControlType.kVelocity);
+    m_turnPID.setReference(optimizedDesiredState.angle.getRadians() * Constants.k_maxSpeedPercent, CANSparkMax.ControlType.kPosition);
 
     m_desiredState = desiredState;
   }
@@ -122,6 +122,10 @@ public class MaxSwerveModule extends SubsystemBase {
 
   public double getDriveEncoderTicks() {
     return m_driveEncoder.getPosition(); 
+  }
+
+  public double getDriveMotor() {
+    return m_driveEncoder.getVelocity();
   }
 
   public SwerveModulePosition getPosition() {

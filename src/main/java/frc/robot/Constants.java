@@ -43,8 +43,8 @@ public final class Constants {
 
   public static final double k_driveTicksToMetersVelocity = .2394; // meters per rotation which I think is a tick for neos
   public static final double k_driveTicksToMetersPosition = .2394; // meters per rotation which I think is a tick for neos
-  public static final double k_turnTicksToDegreesVelocity = 360; // degrees per rotation which I think is a tick for neos
-  public static final double k_turnTicksToMetersPosition = 360; // 986 | WE MIGHT NEED ZERO POSITION FOR THIS
+  public static final double k_turnTicksToDegreesVelocity = 2 * Math.PI; // degrees per rotation which I think is a tick for neos
+  public static final double k_turnTicksToMetersPosition = 2 * Math.PI; // 986 | WE MIGHT NEED ZERO POSITION FOR THIS
   // THE ABOVE IS ASSUMING ONE MOTOR ROTATION IS ONE ROTATION FOR THE TURN AND THE DRIVE WHEEL
   // IF IT ISN'T PLEASE USE THE GEAR RATIOS TO ADJUST THE CONVERSION FACTORS ABOVE
 

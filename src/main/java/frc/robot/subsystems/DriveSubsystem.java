@@ -67,6 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Angle In Ticks", m_backLeft.getAngle());
     SmartDashboard.putNumber("Drive In Ticks", m_frontLeft.getDriveEncoderTicks()); 
+    SmartDashboard.putNumber("Drive Speed", m_frontRight.getDriveMotor());
     m_odometry.update(
       Rotation2d.fromDegrees(m_gyro.getAngle()), 
       new SwerveModulePosition[] {
@@ -181,10 +182,10 @@ public class DriveSubsystem extends SubsystemBase {
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.k_maxSpeedMetersPerSecond);
-    m_frontRight.setDesiredState(swerveModuleStates[0]);
-    m_frontLeft.setDesiredState(swerveModuleStates[1]);
-    m_backRight.setDesiredState(swerveModuleStates[2]);
-    m_backLeft.setDesiredState(swerveModuleStates[3]);
+    // m_frontRight.setDesiredState(swerveModuleStates[0]);
+    // m_frontLeft.setDesiredState(swerveModuleStates[1]);
+    // m_backRight.setDesiredState(swerveModuleStates[2]);
+    // m_backLeft.setDesiredState(swerveModuleStates[3]);
 
     // System.out.println(String.format("xspeed=%f, yspeed=%f, rot=%f, fieldRelative=%b, rateLimit=%b", xSpeed, ySpeed, rot, fieldRelative, rateLimit)); 
   }
