@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -48,6 +49,9 @@ public class ArcadeDrive extends CommandBase {
     double x = m_getX.getAsDouble();
     double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
+    SmartDashboard.putNumber("Left X", x);
+    SmartDashboard.putNumber("Left Y", y);
+    SmartDashboard.putNumber("Right X (Rot)", rot);
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
 
     if (x == 0 && y == 0 && rot == 0) {
