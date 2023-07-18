@@ -56,7 +56,7 @@ public final class Constants {
   public static final double k_maxSpeedPercent = .25;
 
   // Swerve Module Turn PID
-  public static final double k_turnP = 0.1;
+  public static final double k_turnP = 0.05;
   public static final double k_turnI = 0;
   public static final double k_turnD = 0;
 

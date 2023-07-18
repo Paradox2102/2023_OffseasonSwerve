@@ -23,10 +23,10 @@ public class ArcadeDrive extends CommandBase {
   private BooleanSupplier m_isFieldRelative;
 
   private final SwerveModuleState[] m_defaultState = {
-    new SwerveModuleState(0, new Rotation2d(45)),
-    new SwerveModuleState(0, new Rotation2d(45)),
-    new SwerveModuleState(0, new Rotation2d(45)),
-    new SwerveModuleState(0, new Rotation2d(45))
+    new SwerveModuleState(0, new Rotation2d(315)),
+    new SwerveModuleState(0, new Rotation2d(315)),
+    new SwerveModuleState(0, new Rotation2d(315)),
+    new SwerveModuleState(0, new Rotation2d(315))
   };
 
   public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {
@@ -55,9 +55,10 @@ public class ArcadeDrive extends CommandBase {
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
 
     if (x == 0 && y == 0 && rot == 0) {
-      m_subsystem.setModuleStates(m_defaultState);
+      // m_subsystem.setModuleStates(m_defaultState);
+      m_subsystem.drive(x, y, rot, isFieldRelative, false);
     } else {
-      m_subsystem.drive(x, y, rot, isFieldRelative, true);
+      m_subsystem.drive(x, y, rot, isFieldRelative, false);
       // System.out.println(String.format("x=%f, y=%f, rot=%f, isFieldRelative=%b", x, y, rot, isFieldRelative)); 
     }
   }

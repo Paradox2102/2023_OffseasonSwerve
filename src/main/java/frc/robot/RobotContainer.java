@@ -35,20 +35,13 @@ public class RobotContainer {
     configureBindings();
 
     Trigger m_isFieldRelative = m_xbox.rightBumper();
-    m_xbox.leftBumper().toggleOnTrue(new ArcadeDrive(
+    
+    m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
       () -> m_xbox.getLeftX(), 
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
-      new ToggleTrigger(m_isFieldRelative.debounce(.1))
-    ));
-    
-    // m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
-    //   m_driveSubsystem, 
-    //   () -> m_xbox.getLeftX(), 
-    //   () -> m_xbox.getLeftY(),
-    //   () -> m_xbox.getRightX(),
-    //   new ToggleTrigger(m_isFieldRelative.debounce(.1))));
+      new ToggleTrigger(m_isFieldRelative.debounce(.1))));
       // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
       // System.out.println("Working"); 
 
