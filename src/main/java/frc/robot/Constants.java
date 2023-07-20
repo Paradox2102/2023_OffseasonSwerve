@@ -50,12 +50,14 @@ public final class Constants {
 
 
   // Swerve Module Drive PID
-  public static final double k_driveP = 0.05;
+  public static final double k_driveP = 0.0;
   public static final double k_driveI = 0;
   public static final double k_driveD = 0;
+  public static final double k_driveF = 0;
+  public static final double k_driveIZone = 0;
 
   // Swerve Module Turn PID
-  public static final double k_turnP = 0.01;
+  public static final double k_turnP = 0.02;
   public static final double k_turnI = 0;
   public static final double k_turnD = 0;
 

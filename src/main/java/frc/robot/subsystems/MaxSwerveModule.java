@@ -33,6 +33,7 @@ public class MaxSwerveModule extends SubsystemBase {
   // Create encoder objects
   private final RelativeEncoder m_driveEncoder;
   private final AbsoluteEncoder m_turnEncoder;
+  private final RelativeEncoder m_turnRelative;
 
   private double m_chassisRotationOffset;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
@@ -50,6 +51,8 @@ public class MaxSwerveModule extends SubsystemBase {
     // Initializing other variables
     m_driveEncoder = m_driveMotor.getEncoder();
     m_turnEncoder = m_turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    m_turnRelative = m_turnMotor.getEncoder();
+    m_turnEncoder.setInverted(true);
 
     m_drivePID = m_driveMotor.getPIDController();
     m_turnPID = m_turnMotor.getPIDController();
@@ -127,6 +130,10 @@ public class MaxSwerveModule extends SubsystemBase {
 
   public double getAngle() {
     return m_turnEncoder.getPosition();
+  }
+
+  public double RgetAngle() {
+    return m_turnRelative.getPosition();
   }
 
   public double getDriveEncoderTicks() {

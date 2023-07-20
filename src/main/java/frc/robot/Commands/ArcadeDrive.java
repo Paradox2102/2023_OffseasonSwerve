@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Drivetrain;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class ArcadeDrive extends CommandBase {
@@ -21,12 +22,13 @@ public class ArcadeDrive extends CommandBase {
   private DoubleSupplier m_getY;
   private DoubleSupplier m_getRot;
   private BooleanSupplier m_isFieldRelative;
+  private Drivetrain m_swerve;
 
   private final SwerveModuleState[] m_defaultState = {
-    new SwerveModuleState(0, new Rotation2d(315)),
-    new SwerveModuleState(0, new Rotation2d(315)),
-    new SwerveModuleState(0, new Rotation2d(315)),
-    new SwerveModuleState(0, new Rotation2d(315))
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0))
   };
 
   public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {
@@ -35,6 +37,7 @@ public class ArcadeDrive extends CommandBase {
     m_getY = getY;
     m_getRot = getRot;
     m_isFieldRelative = isFieldRelative;
+    m_swerve = m_subsystem.getSwerve();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -47,18 +50,15 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     double x = m_getX.getAsDouble();
-    double y = m_getY.getAsDouble();
+    double y = -m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
 
-    if (x == 0 && y == 0 && rot == 0) {
-      // m_subsystem.setModuleStates(m_defaultState);
-      m_subsystem.drive(x, y, rot, isFieldRelative, false);
-    } else {
-      m_subsystem.drive(x, y, rot, isFieldRelative, false);
-      // System.out.println(String.format("x=%f, y=%f, rot=%f, isFieldRelative=%b", x, y, rot, isFieldRelative)); 
-    }
+    m_swerve.drive(y, x, rot, isFieldRelative);
+    // m_swerve.setModuleStates(m_defaultState);
+    // System.out.println(String.format("x=%f, y=%f, rot=%f, isFieldRelative=%b", x, y, rot, isFieldRelative)); 
   }
+  
 
   // Called once the command ends or is interrupted.
   public void end() {
