@@ -57,13 +57,16 @@ public class MaxSwerveModule extends SubsystemBase {
     m_drivePID = m_driveMotor.getPIDController();
     m_turnPID = m_turnMotor.getPIDController();
     m_drivePID.setFeedbackDevice(m_driveEncoder);
-    m_turnPID.setFeedbackDevice(m_turnEncoder);
+    m_turnPID.setFeedbackDevice(m_turnRelative);
     m_driveEncoder.setPositionConversionFactor(Constants.k_driveTicksToMetersPosition);
     m_driveEncoder.setVelocityConversionFactor(Constants.k_driveTicksToMetersVelocity);
     m_turnEncoder.setPositionConversionFactor(Constants.k_turnTicksToMetersPosition);
     m_turnEncoder.setVelocityConversionFactor(Constants.k_turnTicksToDegreesVelocity);
+    m_turnRelative.setPositionConversionFactor(Constants.k_turnRelativeTickstoDegrees * 360); 
+    m_turnRelative.setPositionConversionFactor(Constants.k_turnRelativeTickstoDegrees * 360); 
     // m_driveEncoder.setInverted(false);
     // m_turnEncoder.setInverted(true);
+    m_turnRelative.setPosition(m_turnEncoder.getPosition()); 
 
     // Allow turn motor to go from 359 degrees to 0 degrees directly and not rotate 359 degrees the other direction
     m_turnPID.setPositionPIDWrappingEnabled(true);
@@ -133,7 +136,7 @@ public class MaxSwerveModule extends SubsystemBase {
   }
 
   public double RgetAngle() {
-    return m_turnRelative.getPosition();
+    return m_turnEncoder.getPosition();
   }
 
   public double getDriveEncoderTicks() {

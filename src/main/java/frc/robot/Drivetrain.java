@@ -44,7 +44,7 @@ public class Drivetrain {
   public static Translation2d m_backRightLocation = new Translation2d(-13.25, -13.25);
   public static Translation2d m_backLeftLocation = new Translation2d(-13.25, 13.25);
   
-  public MaxSwerveModule m_frontRight = new MaxSwerveModule(Constants.k_FRDriveMotor, Constants.k_FRTurningMotor, 0);
+  public MaxSwerveModule m_frontRight = new MaxSwerveModule(Constants.k_FRDriveMotor, Constants.k_FRTurningMotor, 22.33);
   public MaxSwerveModule m_frontLeft = new MaxSwerveModule(Constants.k_FLDriveMotor, Constants.k_FLTurningMotor, 0);
   public MaxSwerveModule m_backRight = new MaxSwerveModule(Constants.k_BRDriveMotor, Constants.k_BRTurningMotor, 0);
   public MaxSwerveModule m_backLeft = new MaxSwerveModule(Constants.k_BLDriveMotor, Constants.k_BLTurningMotor, 0);
