@@ -36,31 +36,58 @@ public final class Constants {
   public static final int k_BRTurningMotor = 6;   // 8
   public static final int k_BLTurningMotor = 8;  // 6
 
+  public static final boolean k_gyroReversed = false;
+
+    // Angular offsets of the modules relative to the chassis in radians
+    public static final double kFrontLeftChassisAngularOffset = 5.425 - (Math.PI / 2);
+    public static final double k_FROffset = 1.183;
+    public static final double k_BLOffset = 6.161 + (Math.PI);
+    public static final double k_BROffset = 3.248 + (Math.PI / 2);
+
   public static final boolean k_isGyroReversed = false;
+
+  public static final int k_drivingMotorPinionTeeth = 14;
 
   public static final double k_driveWidth = Units.inchesToMeters(26.5);
   public static final double k_driveLength = Units.inchesToMeters(26.5);
+  public static final double k_wheelDiameterMeters = .0762;
+  public static final double k_drivingMotorReduction = (45.0 * 22) / (k_drivingMotorPinionTeeth * 15);
 
-  public static final double k_driveTicksToMetersVelocity = .2394; // meters per rotation which I think is a tick for neos
-  public static final double k_driveTicksToMetersPosition = .2394; // meters per rotation which I think is a tick for neos
-  public static final double k_turnTicksToDegreesVelocity = 360;  //46.67 // degrees per rotation which I think is a tick for neos
-  public static final double k_turnTicksToMetersPosition = 360; // 986 | WE MIGHT NEED ZERO POSITION FOR THIS
-  // THE ABOVE IS ASSUMING ONE MOTOR ROTATION IS ONE ROTATION FOR THE TURN AND THE DRIVE WHEEL
-  // IF IT ISN'T PLEASE USE THE GEAR RATIOS TO ADJUST THE CONVERSION FACTORS ABOVE
-  public static final double k_turnRelativeTickstoDegrees = 0.0245; // 7.767; 
+  public static final double k_driveTicksToMetersVelocity = .2394;
+  public static final double k_driveTicksToMetersPosition = ((k_wheelDiameterMeters * Math.PI)
+  / k_drivingMotorReduction) / 60.0;;
+  public static final double k_turnTicksToDegreesVelocity = (2 * Math.PI) / 60.0;
+  public static final double k_turnTicksToMetersPosition = (2 * Math.PI); 
 
+  public static final double k_turningEncoderPositionPIDMinInput = 0; // radians
+  public static final double k_turningEncoderPositionPIDMaxInput = k_turnTicksToMetersPosition; // radians
+  
+  public static final boolean k_turningEncoderInverted = true;
+
+
+  public static final double k_freeSpeedRPM = 5676;
+  public static final double k_drivingMotorFreeSpeedRps = k_freeSpeedRPM / 60.0;
+  public static final double k_wheelCircumferenceMeters = k_wheelDiameterMeters * Math.PI;
+  public static final double k_driveWheelFreeSpeedRps = (k_drivingMotorFreeSpeedRps * k_wheelCircumferenceMeters) / k_drivingMotorReduction;
 
   // Swerve Module Drive PID
-  public static final double k_driveP = 0.0;
+  public static final double k_driveP = 0.04;
   public static final double k_driveI = 0;
   public static final double k_driveD = 0;
-  public static final double k_driveF = 0;
-  public static final double k_driveIZone = 0;
+  public static final double k_driveFF = 1 / k_driveWheelFreeSpeedRps;
+  public static final double k_drivingMinOutput = -1;
+  public static final double k_drivingMaxOutput = 1;
 
   // Swerve Module Turn PID
-  public static final double k_turnP = 0.02;
+  public static final double k_turnP = 1;
   public static final double k_turnI = 0;
   public static final double k_turnD = 0;
+  public static final double k_turnFF = 0;
+  public static final double k_turningMinOutput = -1;
+  public static final double k_turningMaxOutput = 1;
+
+  public static final int k_driveMotorCurrentLimit = 50; // amps
+  public static final int k_turnMotorCurrentLimit = 20; // amps
 
   // Driving Constants 
   public static final double k_maxSpeedMetersPerSecond = 1;
