@@ -58,7 +58,7 @@ public final class Constants {
   public static final double k_driveIZone = 0;
 
   // Swerve Module Turn PID
-  public static final double k_turnP = 0.04;
+  public static final double k_turnP = 0.02;
   public static final double k_turnI = 0;
   public static final double k_turnD = 0;
 

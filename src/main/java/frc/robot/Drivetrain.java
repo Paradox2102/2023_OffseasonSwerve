@@ -79,6 +79,7 @@ public class Drivetrain {
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
+    System.out.println(xSpeed);
     m_frontRight.setDesiredState(swerveModuleStates[0]);
     m_frontLeft.setDesiredState(swerveModuleStates[1]);
     m_backRight.setDesiredState(swerveModuleStates[2]);

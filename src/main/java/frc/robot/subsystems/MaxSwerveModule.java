@@ -70,7 +70,7 @@ public class MaxSwerveModule extends SubsystemBase {
 
     // Allow turn motor to go from 359 degrees to 0 degrees directly and not rotate 359 degrees the other direction
     m_turnPID.setPositionPIDWrappingEnabled(true);
-    m_turnPID.setPositionPIDWrappingMaxInput(2 * Math.PI);
+    m_turnPID.setPositionPIDWrappingMaxInput(360);
     m_turnPID.setPositionPIDWrappingMinInput(0);
 
     // Set the PIDs
@@ -79,8 +79,8 @@ public class MaxSwerveModule extends SubsystemBase {
     m_drivePID.setD(Constants.k_driveD);
 
     m_turnPID.setP(Constants.k_turnP);
-    m_turnPID.setI(Constants.k_turnI);
-    m_turnPID.setD(Constants.k_turnD);
+    // m_turnPID.setI(Constants.k_turnI);
+    // m_turnPID.setD(Constants.k_turnD);
 
     // Save the config onto the motors
     m_driveMotor.burnFlash();
@@ -107,9 +107,9 @@ public class MaxSwerveModule extends SubsystemBase {
 
     // Change the state of the module
     SmartDashboard.putNumber("Speed Meter Per Second", optimizedDesiredState.speedMetersPerSecond);
-    SmartDashboard.putNumber("angle in radians", optimizedDesiredState.angle.getRadians());
+    SmartDashboard.putNumber("angle in radians", optimizedDesiredState.angle.getDegrees());
     m_drivePID.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    m_turnPID.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+    m_turnPID.setReference(optimizedDesiredState.angle.getDegrees(), CANSparkMax.ControlType.kPosition);
 
     m_desiredState = desiredState;
   }

@@ -25,10 +25,10 @@ public class ArcadeDrive extends CommandBase {
   private Drivetrain m_swerve;
 
   private final SwerveModuleState[] m_defaultState = {
-    new SwerveModuleState(0, new Rotation2d(0)),
-    new SwerveModuleState(0, new Rotation2d(0)),
-    new SwerveModuleState(0, new Rotation2d(0)),
-    new SwerveModuleState(0, new Rotation2d(0))
+    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(45))
   };
 
   public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {
@@ -58,6 +58,7 @@ public class ArcadeDrive extends CommandBase {
     // m_swerve.setModuleStates(m_defaultState);
     // System.out.println(String.format("x=%f, y=%f, rot=%f, isFieldRelative=%b", x, y, rot, isFieldRelative)); 
   }
+  
   
 
   // Called once the command ends or is interrupted.
