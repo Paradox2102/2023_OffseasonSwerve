@@ -90,7 +90,7 @@ public final class Constants {
   public static final int k_turnMotorCurrentLimit = 20; // amps
 
   // Driving Constants 
-  public static final double k_maxSpeedMetersPerSecond = 1;
+  public static final double k_maxSpeedMetersPerSecond = 4.8;
   public static final double k_maxAngularSpeed = 2 * Math.PI; // radians per second
   
   public static final double k_directionSlewRate = 1.2; // radians per second
@@ -99,4 +99,4 @@ public final class Constants {
 
   public static final double k_driveDeadband = 0.05;
 
-}
+} 
