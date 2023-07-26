@@ -53,9 +53,8 @@ public final class Constants {
   public static final double k_wheelDiameterMeters = .0762;
   public static final double k_drivingMotorReduction = (45.0 * 22) / (k_drivingMotorPinionTeeth * 15);
 
-  public static final double k_driveTicksToMetersVelocity = .2394;
-  public static final double k_driveTicksToMetersPosition = ((k_wheelDiameterMeters * Math.PI)
-  / k_drivingMotorReduction) / 60.0;;
+  public static final double k_driveTicksToMetersVelocity = (k_wheelDiameterMeters * Math.PI) / k_drivingMotorReduction / 60.0;
+  public static final double k_driveTicksToMetersPosition = (k_wheelDiameterMeters * Math.PI) / k_drivingMotorReduction;
   public static final double k_turnTicksToDegreesVelocity = (2 * Math.PI) / 60.0;
   public static final double k_turnTicksToMetersPosition = (2 * Math.PI); 
 
