@@ -26,8 +26,8 @@ public class ArcadeDrive extends CommandBase {
 
   private final SwerveModuleState[] m_defaultState = {
     new SwerveModuleState(0, new Rotation2d(45)),
-    new SwerveModuleState(0, new Rotation2d(45)),
-    new SwerveModuleState(0, new Rotation2d(45)),
+    new SwerveModuleState(0, new Rotation2d(-45)),
+    new SwerveModuleState(0, new Rotation2d(-45)),
     new SwerveModuleState(0, new Rotation2d(45))
   };
 

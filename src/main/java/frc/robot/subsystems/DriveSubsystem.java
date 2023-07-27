@@ -26,7 +26,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final MaxSwerveModule m_frontLeft = new MaxSwerveModule(
       Constants.k_FLDriveMotor,
       Constants.k_FLTurningMotor,
-      Constants.kFrontLeftChassisAngularOffset);
+      Constants.k_FLOffset);
 
   private final MaxSwerveModule m_frontRight = new MaxSwerveModule(
       Constants.k_FRDriveMotor,
