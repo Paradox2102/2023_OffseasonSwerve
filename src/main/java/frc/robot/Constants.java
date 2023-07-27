@@ -40,11 +40,11 @@ public final class Constants {
 
     // Angular offsets of the modules relative to the chassis in radians
     public static final double k_FLOffset = 5.425 - (Math.PI / 2);
-    public static final double k_FROffset = 1.183;
-    public static final double k_BLOffset = 6.161 + (Math.PI);
-    public static final double k_BROffset = 3.248 + (Math.PI / 2);
+    public static final double k_FROffset = 1.171;
+    public static final double k_BLOffset = 6.173 + (Math.PI);
+    public static final double k_BROffset = 3.243 + (Math.PI / 2);
 
-  public static final boolean k_isGyroReversed = false;
+  public static final boolean k_isGyroReversed = true;
 
   public static final int k_drivingMotorPinionTeeth = 14;
 

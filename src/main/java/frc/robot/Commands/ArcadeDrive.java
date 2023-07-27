@@ -25,10 +25,10 @@ public class ArcadeDrive extends CommandBase {
   private BooleanSupplier m_isFieldRelative;
 
   private final SwerveModuleState[] m_defaultState = {
-    new SwerveModuleState(0, new Rotation2d(45)),
-    new SwerveModuleState(0, new Rotation2d(-45)),
-    new SwerveModuleState(0, new Rotation2d(-45)),
-    new SwerveModuleState(0, new Rotation2d(45))
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0))
   };
 
   public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {

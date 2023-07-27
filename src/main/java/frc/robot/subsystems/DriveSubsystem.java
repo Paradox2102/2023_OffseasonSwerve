@@ -56,15 +56,15 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   private final SwerveDriveKinematics m_swerve = new SwerveDriveKinematics(
-        new Translation2d(13.25, 13.25),
-        new Translation2d(13.25, -13.25),
-        new Translation2d(-13.25, 13.255),
-        new Translation2d(-13.25, -13.25));
+        new Translation2d(.6731, .6731),
+        new Translation2d(.6731, -.6731),
+        new Translation2d(-.6731, .6731),
+        new Translation2d(-.6731, -.6731));
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       m_swerve,
-      Rotation2d.fromDegrees(m_gyro.getAngle()),
+      m_gyro.getRotation2d(),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -92,10 +92,10 @@ public class DriveSubsystem extends SubsystemBase {
             m_backLeft.getPosition(),
             m_backRight.getPosition()
         });
-    SmartDashboard.putNumber("ATurn FR", m_frontRight.getAngle());
-    SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());
-    SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());
-    SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());
+    SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle())/Math.PI);
+    SmartDashboard.putNumber("ATurn FL", (m_frontLeft.getAngle() - (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BR", (m_backRight.getAngle() + (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BL", (m_backLeft.getAngle() + (Math.PI)) / Math.PI);
     SmartDashboard.putData("Gyro Angle", m_gyro);
   }
 
@@ -195,7 +195,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = m_swerve.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(m_gyro.getAngle()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, m_gyro.getRotation2d())
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.k_maxSpeedMetersPerSecond);
