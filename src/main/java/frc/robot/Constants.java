@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -36,7 +37,7 @@ public final class Constants {
   public static final int k_BRTurningMotor = 6;   // 8
   public static final int k_BLTurningMotor = 8;  // 6
 
-  public static final boolean k_gyroReversed = false;
+  public static final boolean k_gyroReversed = true;
 
     // Angular offsets of the modules relative to the chassis in radians
     public static final double k_FLOffset = 5.425 - (Math.PI / 2);
@@ -99,5 +100,6 @@ public final class Constants {
   public static final double k_rotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
   public static final double k_driveDeadband = 0.05;
+  public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);
 
 } 
