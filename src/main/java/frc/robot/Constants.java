@@ -44,7 +44,7 @@ public final class Constants {
     public static final double k_BLOffset = 6.161 + (Math.PI);
     public static final double k_BROffset = 3.248 + (Math.PI / 2);
 
-  public static final boolean k_isGyroReversed = false;
+  public static final boolean k_isGyroReversed = true;
 
   public static final int k_drivingMotorPinionTeeth = 14;
 

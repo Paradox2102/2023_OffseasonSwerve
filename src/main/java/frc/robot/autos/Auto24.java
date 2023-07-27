@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -27,7 +28,7 @@ public class Auto24 extends SequentialCommandGroup {
   /** Creates a new Auto24. */
   public Auto24(DriveSubsystem m_subsystem) {
     SwerveDriveKinematics swerve = m_subsystem.getSwerve();
-    TrajectoryConfig config = new TrajectoryConfig(1, 2).setKinematics(swerve);
+    TrajectoryConfig config = new TrajectoryConfig(Constants.k_maxSpeedMetersPerSecond, Constants.k_maxAngularAcceleration).setKinematics(swerve);
     
     Trajectory path = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)),
