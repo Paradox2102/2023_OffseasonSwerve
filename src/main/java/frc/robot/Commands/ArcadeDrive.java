@@ -49,7 +49,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     double x = m_getX.getAsDouble();
-    double y = -m_getY.getAsDouble();
+    double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
 
