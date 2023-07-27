@@ -77,6 +77,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyro.reset();
   }
 
+  public SwerveDriveKinematics getSwerve() {
+    return m_swerve;
+  }
+
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
