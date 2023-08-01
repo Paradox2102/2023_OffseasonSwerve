@@ -16,12 +16,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
+  private final Field2d m_field = new Field2d();
   // Create MaxSwerveModules
   private final MaxSwerveModule m_frontLeft = new MaxSwerveModule(
       Constants.k_FLDriveMotor,
@@ -75,6 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     m_gyro.reset();
+    SmartDashboard.putData("Field", m_field);
   }
 
   public SwerveDriveKinematics getSwerve() {
@@ -85,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -97,6 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ATurn BR", (m_backRight.getAngle() + (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BL", (m_backLeft.getAngle() + (Math.PI)) / Math.PI);
     SmartDashboard.putData("Gyro Angle", m_gyro);
+   m_field.setRobotPose(m_odometry.getPoseMeters());
   }
 
   /**

@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
@@ -27,32 +28,44 @@ import frc.robot.subsystems.DriveSubsystem;
 public class Auto24 extends SequentialCommandGroup {
   /** Creates a new Auto24. */
   public Auto24(DriveSubsystem m_subsystem) {
-    SwerveDriveKinematics swerve = m_subsystem.getSwerve();
-    TrajectoryConfig config = new TrajectoryConfig(Constants.k_maxSpeedMetersPerSecond, Constants.k_maxAngularAcceleration).setKinematics(swerve);
-    
+    TrajectoryConfig config = new TrajectoryConfig(
+        Constants.k_maxSpeedMetersPerSecond,
+        Constants.k_maxDriveAcceleration)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(m_subsystem.getSwerve());
+
     Trajectory path = TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
       new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(new Translation2d(0, 1)),// new Translation2d(1, 1), new Translation2d(0, 1)),
-      new Pose2d(0, 2, new Rotation2d(0)),
-      config
-    );
+      // Pass through these two interior waypoints, making an 's' curve path
+      List.of(new Translation2d(1, 0), new Translation2d(1, -1), new Translation2d(0, -1)),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(0, 0, Rotation2d.fromDegrees(181)),
+      config);
+
     var thetaController = new ProfiledPIDController(
         1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
     m_subsystem.resetOdometry(path.getInitialPose());
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    SwerveControllerCommand command = new SwerveControllerCommand(
+      path,
+      m_subsystem::getPose, // Functional interface to feed supplier
+      m_subsystem.getSwerve(),
+
+      // Position controllers
+      new PIDController(1, 0, 0),
+      new PIDController(1, 0, 0),
+      thetaController,
+      m_subsystem::setModuleStates,
+      m_subsystem);
+
+      m_subsystem.resetOdometry(path.getInitialPose());
+    
     addCommands(
-      new SwerveControllerCommand(
-        path, 
-        m_subsystem::getPose, 
-        swerve, 
-        new PIDController(1, 0, 0),
-        new PIDController(1, 0, 0),
-        thetaController,
-        m_subsystem::setModuleStates, 
-        m_subsystem
-      )
+      command,
+      new RunCommand(() -> m_subsystem.drive(0, 0, 0, false, false), m_subsystem)
     );
 
   }
