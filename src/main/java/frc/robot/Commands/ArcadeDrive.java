@@ -24,13 +24,6 @@ public class ArcadeDrive extends CommandBase {
   private DoubleSupplier m_getRot;
   private BooleanSupplier m_isFieldRelative;
 
-  private final SwerveModuleState[] m_defaultState = {
-    new SwerveModuleState(0, new Rotation2d(Math.PI / 4)),
-    new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
-    new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
-    new SwerveModuleState(0, new Rotation2d(Math.PI / 4))
-  };
-
   public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {
     m_subsystem = driveSubsystem;
     m_getX = getX;
@@ -54,7 +47,7 @@ public class ArcadeDrive extends CommandBase {
     boolean isFieldRelative = true;//m_isFieldRelative.getAsBoolean();
 
     if (x == 0 && y == 0 && rot == 0) {
-      m_subsystem.setModuleStates(m_defaultState);
+      m_subsystem.setModuleStates(Constants.k_defaultState);
     } else {
       m_subsystem.drive(
         -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
@@ -74,7 +67,7 @@ public class ArcadeDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   public void end() {
-    m_subsystem.setModuleStates(m_defaultState);
+    m_subsystem.setModuleStates(Constants.k_defaultState);
   }
 
   // Returns true when the command should end.

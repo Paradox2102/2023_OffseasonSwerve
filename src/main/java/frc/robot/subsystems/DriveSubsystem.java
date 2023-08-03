@@ -44,6 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
       Constants.k_BRDriveMotor,
       Constants.k_BRTurningMotor,
       Constants.k_BROffset);
+      
 
   // The gyro sensor
   private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
@@ -84,6 +85,14 @@ public class DriveSubsystem extends SubsystemBase {
     return m_swerve;
   }
 
+  public double getPitch() {
+    return m_gyro.getPitch();
+  }
+
+  public double getRoll() {
+    return m_gyro.getRoll();
+  }
+
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
@@ -100,6 +109,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ATurn BR", (m_backRight.getAngle() + (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BL", (m_backLeft.getAngle() + (Math.PI)) / Math.PI);
     SmartDashboard.putData("Gyro Angle", m_gyro);
+    SmartDashboard.putNumber("Roll", getRoll());
+    SmartDashboard.putNumber("Pitch", getPitch());
    m_field.setRobotPose(m_odometry.getPoseMeters());
   }
 

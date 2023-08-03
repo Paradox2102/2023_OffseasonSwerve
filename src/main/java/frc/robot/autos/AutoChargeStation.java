@@ -15,41 +15,48 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto24 extends SequentialCommandGroup {
-  /** Creates a new Auto24. */
-  public Auto24(DriveSubsystem m_subsystem) {
-    TrajectoryConfig config = new TrajectoryConfig(
-        Constants.k_maxSpeedMetersPerSecond,
+public class AutoChargeStation extends SequentialCommandGroup {
+  /** Creates a new AutoChargeStation. */
+  public AutoChargeStation(DriveSubsystem m_subsystem) {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    TrajectoryConfig configF = new TrajectoryConfig(
+        1,
         Constants.k_maxDriveAcceleration)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(m_subsystem.getSwerve());
 
-    Trajectory path1 = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      List.of(new Translation2d(1, 0)),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(1, -1, Rotation2d.fromDegrees(181)),
-      config);
+      TrajectoryConfig configB = new TrajectoryConfig(
+        1,
+        Constants.k_maxDriveAcceleration
+      )
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(m_subsystem.getSwerve());
 
-      Trajectory path2 = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(1, -1, new Rotation2d(181)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(0, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-        config);
+      configB.setReversed(true);
+
+
+    Trajectory path1 = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)),
+      List.of(new Translation2d(2, 0)),
+      new Pose2d(4, 0, Rotation2d.fromDegrees(0)),
+      configF);
+
+    Trajectory path2 = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(4, 0, new Rotation2d(0)),
+      List.of(new Translation2d(3, 0)),
+      new Pose2d(
+        2, 0, Rotation2d.fromDegrees(0)),
+      configB);
 
     var thetaController = new ProfiledPIDController(
         1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
@@ -57,8 +64,7 @@ public class Auto24 extends SequentialCommandGroup {
 
     m_subsystem.resetOdometry(path1.getInitialPose());
 
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    // Commands
     SwerveControllerCommand command1 = new SwerveControllerCommand(
       path1,
       m_subsystem::getPose, // Functional interface to feed supplier
@@ -71,7 +77,7 @@ public class Auto24 extends SequentialCommandGroup {
       m_subsystem::setModuleStates,
       m_subsystem);
 
-      SwerveControllerCommand command2 = new SwerveControllerCommand(
+    SwerveControllerCommand command2 = new SwerveControllerCommand(
       path2,
       m_subsystem::getPose, // Functional interface to feed supplier
       m_subsystem.getSwerve(),
@@ -83,11 +89,11 @@ public class Auto24 extends SequentialCommandGroup {
       m_subsystem::setModuleStates,
       m_subsystem);
     
-    addCommands(
-      command1,
-      command2,
-      new RunCommand(() -> m_subsystem.drive(0, 0, 0, false, false), m_subsystem)
-    );
 
+    addCommands(
+      command1, 
+      command2,
+      new AutoBalanceCommand(m_subsystem)
+    );
   }
 }

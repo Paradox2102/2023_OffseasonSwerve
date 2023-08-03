@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -98,6 +100,13 @@ public final class Constants {
   public static final double k_directionSlewRate = 1.2; // radians per second
   public static final double k_magnitudeSlewRate = 1.8; // percent per second (1 = 100%)
   public static final double k_rotationalSlewRate = 2.0; // percent per second (1 = 100%)
+
+  public static final SwerveModuleState[] k_defaultState = {
+    new SwerveModuleState(0, new Rotation2d(Math.PI / 4)),
+    new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
+    new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
+    new SwerveModuleState(0, new Rotation2d(Math.PI / 4))
+  };
 
   public static final double k_driveDeadband = 0.05;
   public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);
