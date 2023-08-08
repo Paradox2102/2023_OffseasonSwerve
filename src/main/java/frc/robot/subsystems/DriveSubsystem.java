@@ -96,6 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
+    System.out.println(getHeading());
     m_odometry.update(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
@@ -267,7 +268,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
+    double angle =  Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
+    angle %= 360;
+    angle = (angle + 360) % 360;
+    if (angle > 180) {
+      angle -= 360;
+    }
+    return angle;
   }
 
   /**

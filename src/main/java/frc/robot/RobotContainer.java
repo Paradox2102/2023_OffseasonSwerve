@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.autos.Auto24;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -36,6 +36,7 @@ public class RobotContainer {
     configureBindings();
 
     Trigger m_isFieldRelative = m_xbox.rightBumper();
+    Trigger m_isBalancing = m_xbox.leftBumper();
     
     
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
@@ -43,9 +44,11 @@ public class RobotContainer {
       () -> m_xbox.getLeftX(), 
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
-      new ToggleTrigger(m_isFieldRelative.debounce(.1))
+      new ToggleTrigger(m_isFieldRelative.debounce(.1)),
+      new HoldTrigger(m_isBalancing)
     ));
-    m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem));
+    m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
+    m_xbox.a().onTrue(new ResetGyro(m_driveSubsystem));
       // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
       // System.out.println("Working"); 
 

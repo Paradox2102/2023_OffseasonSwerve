@@ -23,13 +23,15 @@ public class ArcadeDrive extends CommandBase {
   private DoubleSupplier m_getY;
   private DoubleSupplier m_getRot;
   private BooleanSupplier m_isFieldRelative;
+  private BooleanSupplier m_leftBumper;
 
-  public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative) {
+  public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative, BooleanSupplier leftBumper) {
     m_subsystem = driveSubsystem;
     m_getX = getX;
     m_getY = getY;
     m_getRot = getRot;
     m_isFieldRelative = isFieldRelative;
+    m_leftBumper = leftBumper;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -45,17 +47,19 @@ public class ArcadeDrive extends CommandBase {
     double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
     boolean isFieldRelative = true;//m_isFieldRelative.getAsBoolean();
-
-    if (x == 0 && y == 0 && rot == 0) {
-      m_subsystem.setModuleStates(Constants.k_defaultState);
-    } else {
-      m_subsystem.drive(
-        -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
-        -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
-        -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
-        isFieldRelative, 
-        false
-      );
+    
+    if (!m_leftBumper.getAsBoolean()) {
+      if (x == 0 && y == 0 && rot == 0) {
+        m_subsystem.setModuleStates(Constants.k_defaultState);
+      } else {
+        m_subsystem.drive(
+          -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
+          -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
+          -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
+          isFieldRelative, 
+          false
+        );
+      }
     }
 
     

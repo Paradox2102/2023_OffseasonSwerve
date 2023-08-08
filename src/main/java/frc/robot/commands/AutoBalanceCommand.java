@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -12,27 +14,63 @@ public class AutoBalanceCommand extends CommandBase {
   /** Creates a new AutoBalanceCommand. */
   DriveSubsystem m_subsystem;
   boolean m_isFinished = false;
-  double k_p = .01;
+  double k_p = .015;
+  double m_previousPitch = 0;
+  double m_futureRoll = 0;
+  double m_previousTime = 0;
+  DoubleSupplier m_power = () -> 1;
+
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
 
+  public AutoBalanceCommand(DriveSubsystem driveSubsystem, DoubleSupplier power) {
+    m_subsystem = driveSubsystem;
+    m_power = power;
+  }
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_isFinished = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double roll = m_subsystem.getRoll();
-    if (Math.abs(roll) < 5) {
+    double heading = m_subsystem.getHeading();
+    double currentPitch = m_subsystem.getRoll();
+    double futurePitch = (currentPitch - m_previousPitch) + currentPitch;
+    double power = Math.abs(m_power.getAsDouble());
+
+    // Facing forward
+    if (Math.abs(heading) <= 50) {
+      currentPitch = m_subsystem.getRoll();
+    } 
+    // Facing backward
+    else if (Math.abs(heading) >= 130) {
+      currentPitch = -m_subsystem.getRoll();
+    }
+    // Facing right
+    else if (heading < 130 && heading > 50) {
+      currentPitch = -m_subsystem.getPitch();
+    }
+    // Facing left
+    else if (heading < -50 && heading > -130) {
+      currentPitch = m_subsystem.getPitch();
+    }
+
+    futurePitch = (currentPitch - m_previousPitch) + currentPitch;
+
+    if (Math.abs(futurePitch) < 2) {
       m_subsystem.setModuleStates(Constants.k_defaultState);
       m_isFinished = true;
     } else {
-      m_subsystem.drive(k_p * roll, 0, 0, true, false);
+      m_subsystem.drive(k_p * futurePitch * power, 0, 0, true, false);
     }
+    m_previousPitch = currentPitch;
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +80,6 @@ public class AutoBalanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_isFinished;
   }
 }
