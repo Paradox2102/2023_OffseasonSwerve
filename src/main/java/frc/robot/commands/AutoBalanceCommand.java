@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -17,7 +18,6 @@ public class AutoBalanceCommand extends CommandBase {
   double k_p = .015;
   double m_previousPitch = 0;
   double m_futureRoll = 0;
-  double m_previousTime = 0;
   DoubleSupplier m_power = () -> 1;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
@@ -42,8 +42,10 @@ public class AutoBalanceCommand extends CommandBase {
   public void execute() {
     double heading = m_subsystem.getHeading();
     double currentPitch = m_subsystem.getRoll();
-    double futurePitch = (currentPitch - m_previousPitch) + currentPitch;
     double power = Math.abs(m_power.getAsDouble());
+
+    // Robot's predicted pitch in half a second
+    double futurePitch = 25 * (currentPitch - m_previousPitch) + currentPitch;
 
     // Facing forward
     if (Math.abs(heading) <= 50) {
@@ -70,6 +72,8 @@ public class AutoBalanceCommand extends CommandBase {
     } else {
       m_subsystem.drive(k_p * futurePitch * power, 0, 0, true, false);
     }
+
+    // Update previous to use on next call of execute
     m_previousPitch = currentPitch;
   }
 
