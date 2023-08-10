@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.ApriltagsCamera.ApriltagsCamera;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
@@ -24,19 +29,31 @@ import frc.robot.subsystems.DriveSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  public final ApriltagsCamera m_camera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, Constants.k_yFrontCameraOffsetInches, Constants.k_frontCameraAngle);
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
 
   public final PositionTrackerPose m_tracker = new PositionTrackerPose(0, 0, m_driveSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_xbox = new CommandXboxController(0);
 
+  private AprilTagFieldLayout m_tags;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     m_driveSubsystem.setTracker(m_tracker);
+    m_camera.connect("10.21.2.10", 5800);
+
+    try {
+      // change this later
+      AprilTagFieldLayout tags = new AprilTagFieldLayout("/home/lvuser/deploy/2023-chargedup.json");
+      m_tags = tags;
+    } catch (IOException e) {
+      Logger.log("RobotContainer", 1, "Field didn't load");
+    }
 
     Trigger m_isFieldRelative = m_xbox.rightBumper();
     Trigger m_isBalancing = m_xbox.leftBumper();

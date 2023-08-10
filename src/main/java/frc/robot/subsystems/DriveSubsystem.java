@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.robot.Constants;
 import frc.robot.PositionTrackerPose;
 import frc.utils.SwerveUtils;
@@ -70,14 +71,17 @@ public class DriveSubsystem extends SubsystemBase {
       m_swerve,
       Rotation2d.fromDegrees(m_gyro.getAngle()),
       getModulePosition()
-    );  
+    );
 
     PositionTrackerPose m_tracker = null;
+    ApriltagsCamera m_camera;
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
+  public DriveSubsystem(ApriltagsCamera camera) {
     m_gyro.reset();
     SmartDashboard.putData("Field", m_field);
+
+    m_camera = camera;
   }
 
   public SwerveDriveKinematics getSwerve() {
@@ -108,7 +112,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    System.out.println(getHeading());
     m_odometry.update(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
@@ -125,6 +128,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Roll", getRoll());
     SmartDashboard.putNumber("Pitch", getPitch());
    m_field.setRobotPose(m_odometry.getPoseMeters());
+
+   m_tracker.update(m_camera);
   }
 
   /**

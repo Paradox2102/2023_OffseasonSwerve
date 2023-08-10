@@ -24,6 +24,10 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final double k_startAngleDegrees = 90;
+
+  public static final double k_xFrontCameraOffsetInches = 0;
+  public static final double k_yFrontCameraOffsetInches = 13.25;
+  public static final double k_frontCameraAngle = 0;
   
   // public static class OperatorConstants {
   // public static final int kDriverControllerPort = 0;
