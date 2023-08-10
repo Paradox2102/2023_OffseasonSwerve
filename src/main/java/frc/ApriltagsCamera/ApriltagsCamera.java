@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -146,7 +146,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 		 *
 		 */
 		private void updatePosition(
-				DifferentialDrivePoseEstimator poseEstimator,
+				SwerveDrivePoseEstimator poseEstimator,
 				long captureTime,
 				Pose2d currentPose,
 				int frameNo) {
@@ -701,7 +701,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 	int m_lastFrame = -1;
 	boolean m_logTags = false;
 
-	public void processRegions(DifferentialDrivePoseEstimator poseEstimator) {
+	public void processRegions(SwerveDrivePoseEstimator poseEstimator) {
 		ApriltagsCameraRegions regions = getRegions();
 
 		if ((regions != null) && (regions.m_frameNo != m_lastFrame)) {

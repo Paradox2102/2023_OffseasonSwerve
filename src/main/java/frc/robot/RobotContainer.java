@@ -27,6 +27,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
+  public final PositionTrackerPose m_tracker = new PositionTrackerPose(0, 0, m_driveSubsystem);
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_xbox = new CommandXboxController(0);
 
@@ -34,6 +36,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    m_driveSubsystem.setTracker(m_tracker);
 
     Trigger m_isFieldRelative = m_xbox.rightBumper();
     Trigger m_isBalancing = m_xbox.leftBumper();

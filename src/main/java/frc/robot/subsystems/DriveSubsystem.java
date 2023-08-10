@@ -19,6 +19,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.PositionTrackerPose;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -68,12 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       m_swerve,
       Rotation2d.fromDegrees(m_gyro.getAngle()),
-      new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_backLeft.getPosition(),
-          m_backRight.getPosition()
-      });
+      getModulePosition()
+    );  
+
+    PositionTrackerPose m_tracker = null;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -87,6 +86,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getPitch() {
     return m_gyro.getPitch();
+  }
+
+  public void setTracker(PositionTrackerPose tracker) {
+    m_tracker = tracker;
+  }
+
+  public SwerveModulePosition[] getModulePosition() {
+    return new SwerveModulePosition[] {
+      m_frontLeft.getPosition(),
+      m_frontRight.getPosition(),
+      m_backLeft.getPosition(),
+      m_backRight.getPosition()
+    };
   }
 
   public double getRoll() {
@@ -221,8 +233,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  public Rotation2d getGyro() {
+  public Rotation2d getGyroRotation2d() {
     return m_gyro.getRotation2d();
+  }
+
+  public WPI_PigeonIMU getGyro() {
+    return m_gyro;
   }
 
   /**
