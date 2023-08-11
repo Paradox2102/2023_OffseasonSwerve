@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -35,7 +36,9 @@ public class ArcadeDrive extends CommandBase {
   //
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Logger.log("ArcadeDrive", 0, "initialize");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

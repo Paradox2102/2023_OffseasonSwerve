@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeType;
 
@@ -23,6 +24,7 @@ public class IntakeCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("IntakeCommand", 0, "initialize");
     switch(m_intakeType) {
       case INTAKE:
         m_subsystem.intake();
