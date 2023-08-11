@@ -14,10 +14,10 @@ import frc.robot.subsystems.DriveSubsystem;
 // import frc.lib.CSVWriter;
 // import frc.lib.CSVWriter.Field;
 
-public class PositionTrackerPose extends PositionTracker {
+public class PositionTrackerPose {
 	private SwerveDrivePoseEstimator m_poseEstimator;
 	private DriveSubsystem m_driveSubsystem;
-	// public PositionServer m_posServer;
+	public PositionServer m_posServer;
 
 	public PositionTrackerPose(double x, double y, DriveSubsystem driveSubsystem) {
 		super();
@@ -40,14 +40,11 @@ public class PositionTrackerPose extends PositionTracker {
 			m_driveSubsystem.getModulePosition(),
 			ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees)
 		);
-	}
-		
-	public PositionTracker.PositionContainer getPos() {
-		Pose2d pose = ParadoxField.pose2dFromFRC(m_poseEstimator.getEstimatedPosition());
-		return new PositionTracker.PositionContainer(pose.getX(), pose.getY());
+
+		m_posServer = new PositionServer();
+		m_posServer.start();
 	}
 
-	@Override
 	public Pose2d getPose2d() {
 		return ParadoxField.pose2dFromFRC(m_poseEstimator.getEstimatedPosition());
 	}
@@ -73,7 +70,6 @@ public class PositionTrackerPose extends PositionTracker {
 
 	ApriltagLocation tags[] = { new ApriltagLocation(1, 0, 0, -90) }; 
 	
-	@Override
 	public void update(ApriltagsCamera frontCamera, ApriltagsCamera rearCamera){
 		m_poseEstimator.updateWithTime(
 			ApriltagsCamera.getTime(),
@@ -104,7 +100,6 @@ public class PositionTrackerPose extends PositionTracker {
 		}
 	} 
 
-	@Override
 	public void update(ApriltagsCamera camera){
 		m_poseEstimator.updateWithTime(
 			ApriltagsCamera.getTime(),
