@@ -28,6 +28,26 @@ public final class Constants {
   public static final double k_xFrontCameraOffsetInches = 0;
   public static final double k_yFrontCameraOffsetInches = 13.25;
   public static final double k_frontCameraAngle = 0;
+
+  public static boolean k_isCubeMode = true;
+  public static boolean k_hasGamePiece = false;
+
+  public static final int k_intakeMotor = 0;
+  public static final int k_elevatorMotor = 0;
+  public static final int k_elevatorFollower = 0;
+  public static final int k_wristMotor = 0;
+
+  public static final class CubeConstants {
+    public static final double k_intakePower = .5;
+    public static final double k_outtakePower = -.5;
+    public static final double k_intakeF = 0;
+  }
+
+  public static final class ConeConstants {
+    public static final double k_intakePower = -CubeConstants.k_intakePower;
+    public static final double k_outtakePower = -CubeConstants.k_outtakePower;
+    public static final double k_intakeF = -CubeConstants.k_intakeF;
+  }
   
   // public static class OperatorConstants {
   // public static final int kDriverControllerPort = 0;
