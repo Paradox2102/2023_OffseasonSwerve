@@ -32,26 +32,31 @@ public final class Constants {
   public static boolean k_isCubeMode = true;
   public static boolean k_hasGamePiece = false;
 
+  // Non-Drive motors
   public static final int k_intakeMotor = 0;
   public static final int k_elevatorMotor = 0;
   public static final int k_elevatorFollower = 0;
   public static final int k_wristMotor = 0;
 
+  // Neutral Pose
+  public static final double k_neutralPosExtentInches = 0;
+  public static final double k_neutralPosWristAngleDegrees = 0;
+
+  // Cube presets
   public static final class CubeConstants {
+    // Intake
     public static final double k_intakePower = .5;
     public static final double k_outtakePower = -.5;
     public static final double k_intakeF = 0;
   }
 
+  // Cone presets
   public static final class ConeConstants {
+    // Intake
     public static final double k_intakePower = -CubeConstants.k_intakePower;
     public static final double k_outtakePower = -CubeConstants.k_outtakePower;
     public static final double k_intakeF = -CubeConstants.k_intakeF;
   }
-  
-  // public static class OperatorConstants {
-  // public static final int kDriverControllerPort = 0;
-  // }
 
   // DRIVETRAIN SPARK MAX IDs
   // Front of robot is opposite battery

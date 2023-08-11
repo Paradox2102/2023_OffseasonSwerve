@@ -21,6 +21,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ResetGyro;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,6 +33,7 @@ public class RobotContainer {
   public final ApriltagsCamera m_camera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, Constants.k_yFrontCameraOffsetInches, Constants.k_frontCameraAngle);
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
+  public final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
 
   public final PositionTrackerPose m_tracker = new PositionTrackerPose(0, 0, m_driveSubsystem);
 
@@ -48,7 +50,6 @@ public class RobotContainer {
     m_camera.connect("10.21.2.10", 5800);
 
     try {
-      // change this later
       AprilTagFieldLayout tags = new AprilTagFieldLayout("/home/lvuser/deploy/2023-chargedup.json");
       m_tags = tags;
     } catch (IOException e) {

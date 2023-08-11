@@ -18,6 +18,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double k_intakeMinPower = 0;
   private Timer m_stallTimer = new Timer();
 
+  public enum IntakeType {INTAKE, OUTTAKE, STOP}
+
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
