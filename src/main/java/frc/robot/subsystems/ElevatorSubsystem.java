@@ -33,13 +33,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_targetExtentInches = targetExtentInches;
   }
 
-  public void incrementExtent(boolean goingUp) {
-    double extentInches = getExtentInches();
-    if (goingUp && extentInches < Constants.k_maxExtentInches) {
-      m_targetExtentInches++;
-    } else if (!goingUp && extentInches > Constants.k_minExtentInches) {
-      m_targetExtentInches--;
-    }
+  public void manualExtent(double power) {
+    m_power = power;
+    m_targetExtentInches = getExtentInches();
   }
 
   private double getExtentInches() {
