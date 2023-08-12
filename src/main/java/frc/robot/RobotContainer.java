@@ -19,6 +19,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -74,19 +75,7 @@ public class RobotContainer {
     m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.a().onTrue(new ResetGyro(m_driveSubsystem));
     m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
-      // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
-      // System.out.println("Working"); 
-
-    // m_driveSubsystem.setDefaultCommand(
-    //   // Left stick controls translation of robot 
-    //   // Right stick's x-axis controls turning 
-    //   new RunCommand(
-    //     () -> m_driveSubsystem.drive(
-    //       -MathUtil.applyDeadband(m_xbox.getLeftY(), Constants.k_driveDeadband), 
-    //       -MathUtil.applyDeadband(m_xbox.getLeftX(), Constants.k_driveDeadband), 
-    //       -MathUtil.applyDeadband(m_xbox.getRightX(), Constants.k_driveDeadband),
-    //       true, true), 
-    //       m_driveSubsystem)); 
+    m_xbox.y().whileTrue(new PartyMode(m_driveSubsystem, m_LEDSubsystem));
   }
 
   /**

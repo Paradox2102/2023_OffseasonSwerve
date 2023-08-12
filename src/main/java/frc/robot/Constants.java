@@ -37,6 +37,13 @@ public final class Constants {
   public static final int k_elevatorMotor = 0;
   public static final int k_elevatorFollower = 0;
   public static final int k_wristMotor = 0;
+  public static final int k_topSwitch = 0;
+  public static final int k_bottomSwitch = 0;
+
+  // Reach Constants
+  public static final double k_minExtentInches = 0;
+  public static final double k_maxExtentInches = 55;
+  public static final double k_elevatorTicksToInches = 1;
 
   // Neutral Pose
   public static final double k_neutralPosExtentInches = 0;

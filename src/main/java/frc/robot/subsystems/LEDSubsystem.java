@@ -16,7 +16,8 @@ public class LEDSubsystem extends SubsystemBase {
     RAINBOW,
     READY,
     CONE,
-    CUBE
+    CUBE,
+    PARTY
 
   }
   private AddressableLED m_led = new AddressableLED(0);
@@ -46,6 +47,16 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue += 3;
     // Check bounds
     m_rainbowFirstPixelHue %= 180;
+  }
+
+  private void partyMode() {
+    if (m_flashCounter < 50) {
+      turnOn();
+      rainbow();
+    } else {
+      m_led.stop();
+    }
+    m_flashCounter = m_flashCounter >= 100 ? 0 : m_flashCounter + 1;
   }
 
   private void ready() {
@@ -109,6 +120,9 @@ public class LEDSubsystem extends SubsystemBase {
         break;
       case CUBE:
         cube();
+        break;
+      case PARTY:
+        partyMode();
         break;
     }
 
