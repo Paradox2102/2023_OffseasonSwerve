@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.SignalLEDCommand;
+import frc.robot.subsystems.LEDSubsystem.LEDMode;
 
 public class IntakeSubsystem extends SubsystemBase {
   private double m_power = 0;
@@ -17,14 +19,16 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double k_stallSpeed = 0;
   private final double k_intakeMinPower = 0;
   private Timer m_stallTimer = new Timer();
+  private LEDSubsystem m_LEDSubsytem;
 
   public enum IntakeType {INTAKE, OUTTAKE, STOP}
 
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
+  public IntakeSubsystem(LEDSubsystem ledSubsystem) {
     m_stallTimer.reset();
     m_stallTimer.start();
+    m_LEDSubsytem = ledSubsystem;
   }
 
   public void setPower() {
@@ -37,6 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void outtake() {
     m_power = Constants.k_isCubeMode ? Constants.CubeConstants.k_outtakePower : Constants.ConeConstants.k_outtakePower;
+    new SignalLEDCommand(m_LEDSubsytem, LEDMode.READY);
   }
 
   public void stop() {
@@ -50,6 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
       if (m_stallTimer.get() > .1) {
         m_power = k_intakeMinPower * Math.signum(m_power);
         Constants.k_hasGamePiece = true;
+        new SignalLEDCommand(m_LEDSubsytem, LEDMode.READY);
       }
     } else {
       m_stallTimer.reset();

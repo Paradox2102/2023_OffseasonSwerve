@@ -20,8 +20,11 @@ import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ResetGyro;
+import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.triggers.HoldTrigger;
+import frc.robot.triggers.ToggleTrigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -70,6 +73,7 @@ public class RobotContainer {
     ));
     m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.a().onTrue(new ResetGyro(m_driveSubsystem));
+    m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
       // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
       // System.out.println("Working"); 
 
