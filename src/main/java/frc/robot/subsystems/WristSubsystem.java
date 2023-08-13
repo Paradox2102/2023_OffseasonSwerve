@@ -44,10 +44,6 @@ public class WristSubsystem extends SubsystemBase {
     }
   }
 
-  private void setPower(double power) {
-    m_power = power;
-  }
-
   private void runPID() {}
 
   @Override
