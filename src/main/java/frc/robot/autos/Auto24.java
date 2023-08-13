@@ -17,7 +17,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.AutoUtils.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
