@@ -33,7 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_targetExtentInches = targetExtentInches;
   }
 
-  public void manualExtent(double power) {
+  public void manualControl(double power) {
     m_power = power;
     m_targetExtentInches = getExtentInches();
   }

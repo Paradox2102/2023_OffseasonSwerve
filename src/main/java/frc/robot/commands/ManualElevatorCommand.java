@@ -21,7 +21,7 @@ public class ManualElevatorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.manualExtent(m_power);
+    m_subsystem.manualControl(m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +31,7 @@ public class ManualElevatorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.manualExtent(0);
+    m_subsystem.manualControl(0);
   }
 
   // Returns true when the command should end.

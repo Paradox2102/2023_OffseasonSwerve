@@ -40,10 +40,15 @@ public final class Constants {
   public static final int k_topSwitch = 0;
   public static final int k_bottomSwitch = 0;
 
-  // Reach Constants
+  // Elevator Constants
   public static final double k_minExtentInches = 0;
   public static final double k_maxExtentInches = 55;
   public static final double k_elevatorTicksToInches = 1;
+
+  // Wrist Constants
+  public static final double k_wristAngleTicksToDegrees = 1;
+  public static final double k_minAngleDegrees = 0;
+  public static final double k_maxAngleDegrees = 180;
 
   // Neutral Pose
   public static final double k_neutralPosExtentInches = 0;
