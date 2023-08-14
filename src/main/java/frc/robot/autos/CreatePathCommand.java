@@ -62,7 +62,7 @@ public class CreatePathCommand extends SequentialCommandGroup {
       var thetaController = new ProfiledPIDController(
         1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
       thetaController.enableContinuousInput(-Math.PI, Math.PI);
-  
+    
       Trajectory path = TrajectoryGenerator.generateTrajectory(start, interiorWaypoints, end, config);
       m_subsystem.resetOdometry(path.getInitialPose());
     

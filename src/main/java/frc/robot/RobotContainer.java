@@ -76,12 +76,12 @@ public class RobotContainer {
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
       new ToggleTrigger(m_isFieldRelative.debounce(.1)),
-      new HoldTrigger(m_isBalancing)
+      new HoldTrigger(m_isBalancing.debounce(.1))
     ));
     m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.a().onTrue(new ResetGyro(m_driveSubsystem));
     m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
-    m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, m_brakeMode));
+    m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
     m_xbox.y().whileTrue(new PartyMode(m_driveSubsystem, m_LEDSubsystem));
   }
 

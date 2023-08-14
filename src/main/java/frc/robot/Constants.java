@@ -51,8 +51,17 @@ public final class Constants {
   public static final double k_maxAngleDegrees = 180;
 
   // Neutral Pose
-  public static final double k_neutralPosExtentInches = 0;
-  public static final double k_neutralPosWristAngleDegrees = 0;
+  public static final double k_neutralElevatorInches = 0;
+  public static final double k_neutralWristDegrees = 0;
+
+  public enum ArmPosition {
+    HIGH,
+    MID,
+    SINGLE,
+    DOUBLE,
+    GROUND,
+    NEUTRAL
+  }
 
   // Cube presets
   public static final class CubeConstants {
@@ -60,6 +69,20 @@ public final class Constants {
     public static final double k_intakePower = .5;
     public static final double k_outtakePower = -.5;
     public static final double k_intakeF = 0;
+
+    // Elevator
+    public static final double k_highElevatorInches = 0;
+    public static final double k_midElevatorInches = 0;
+    public static final double k_singleElevatorInches = 0;
+    public static final double k_doubleElevatorInches = 0;
+    public static final double k_groundElevatorInches = 0;
+
+    // Wrist
+    public static final double k_highWristDegrees = 0;
+    public static final double k_midWristDegrees = 0;
+    public static final double k_singleWristDegrees = 0;
+    public static final double k_doubleWristDegrees = 0;
+    public static final double k_groundWristDegrees = 0;
   }
 
   // Cone presets
@@ -68,27 +91,41 @@ public final class Constants {
     public static final double k_intakePower = -CubeConstants.k_intakePower;
     public static final double k_outtakePower = -CubeConstants.k_outtakePower;
     public static final double k_intakeF = -CubeConstants.k_intakeF;
+
+    // Elevator
+    public static final double k_highElevatorInches = 0;
+    public static final double k_midElevatorInches = 0;
+    public static final double k_singleElevatorInches = 0;
+    public static final double k_doubleElevatorInches = 0;
+    public static final double k_groundElevatorInches = 0;
+
+    // Wrist
+    public static final double k_highWristDegrees = 0;
+    public static final double k_midWristDegrees = 0;
+    public static final double k_singleWristDegrees = 0;
+    public static final double k_doubleWristDegrees = 0;
+    public static final double k_groundWristDegrees = 0;
   }
 
   // DRIVETRAIN SPARK MAX IDs
   // Front of robot is opposite battery
-  public static final int k_FRDriveMotor = 1; // Front Right   // 3
-  public static final int k_FLDriveMotor = 3; // Front Left   // 1
-  public static final int k_BRDriveMotor = 5; // Back Right  // 7
-  public static final int k_BLDriveMotor = 7; // Back Left  // 5
+  public static final int k_FRDriveMotor = 1; // Front Right // 3
+  public static final int k_FLDriveMotor = 3; // Front Left // 1
+  public static final int k_BRDriveMotor = 5; // Back Right // 7
+  public static final int k_BLDriveMotor = 7; // Back Left // 5
 
-  public static final int k_FRTurningMotor = 2;     // 4
-  public static final int k_FLTurningMotor = 4;    // 2
-  public static final int k_BRTurningMotor = 6;   // 8
-  public static final int k_BLTurningMotor = 8;  // 6
+  public static final int k_FRTurningMotor = 2; // 4
+  public static final int k_FLTurningMotor = 4; // 2
+  public static final int k_BRTurningMotor = 6; // 8
+  public static final int k_BLTurningMotor = 8; // 6
 
   public static final boolean k_gyroReversed = true;
 
-    // Angular offsets of the modules relative to the chassis in radians
-    public static final double k_FLOffset = 5.425 - (Math.PI / 2);
-    public static final double k_FROffset = 1.171;
-    public static final double k_BLOffset = 6.173 + (Math.PI);
-    public static final double k_BROffset = 3.243 + (Math.PI / 2);
+  // Angular offsets of the modules relative to the chassis in radians
+  public static final double k_FLOffset = 5.425 - (Math.PI / 2);
+  public static final double k_FROffset = 1.171;
+  public static final double k_BLOffset = 6.173 + (Math.PI);
+  public static final double k_BROffset = 3.243 + (Math.PI / 2);
 
   public static final boolean k_isGyroReversed = true;
 
@@ -99,21 +136,22 @@ public final class Constants {
   public static final double k_wheelDiameterMeters = .0762;
   public static final double k_drivingMotorReduction = (45.0 * 22) / (k_drivingMotorPinionTeeth * 15);
 
-  public static final double k_driveTicksToMetersVelocity = ((k_wheelDiameterMeters * Math.PI) / k_drivingMotorReduction) / 60.0;
+  public static final double k_driveTicksToMetersVelocity = ((k_wheelDiameterMeters * Math.PI)
+      / k_drivingMotorReduction) / 60.0;
   public static final double k_driveTicksToMetersPosition = (k_wheelDiameterMeters * Math.PI) / k_drivingMotorReduction;
   public static final double k_turnTicksToDegreesVelocity = (2 * Math.PI) / 60.0;
-  public static final double k_turnTicksToMetersPosition = (2 * Math.PI); 
+  public static final double k_turnTicksToMetersPosition = (2 * Math.PI);
 
   public static final double k_turningEncoderPositionPIDMinInput = 0; // radians
   public static final double k_turningEncoderPositionPIDMaxInput = k_turnTicksToMetersPosition; // radians
-  
-  public static final boolean k_turningEncoderInverted = true;
 
+  public static final boolean k_turningEncoderInverted = true;
 
   public static final double k_freeSpeedRPM = 5676;
   public static final double k_drivingMotorFreeSpeedRps = k_freeSpeedRPM / 60.0;
   public static final double k_wheelCircumferenceMeters = k_wheelDiameterMeters * Math.PI;
-  public static final double k_driveWheelFreeSpeedRps = (k_drivingMotorFreeSpeedRps * k_wheelCircumferenceMeters) / k_drivingMotorReduction;
+  public static final double k_driveWheelFreeSpeedRps = (k_drivingMotorFreeSpeedRps * k_wheelCircumferenceMeters)
+      / k_drivingMotorReduction;
 
   // Swerve Module Drive PID
   public static final double k_driveP = 0.04;
@@ -134,24 +172,25 @@ public final class Constants {
   public static final int k_driveMotorCurrentLimit = 50; // amps
   public static final int k_turnMotorCurrentLimit = 20; // amps
 
-  // Driving Constants 
-  public static final double k_maxSpeedMetersPerSecond = 3; //4.8
-  public static final double k_maxDriveAcceleration = 3; 
+  // Driving Constants
+  public static final double k_maxSpeedMetersPerSecond = 3; // 4.8
+  public static final double k_maxDriveAcceleration = 3;
   public static final double k_maxAngularSpeed = Math.PI; // radians per second
-  public static final double k_maxAngularAcceleration = Math.PI; 
-  
+  public static final double k_maxAngularAcceleration = Math.PI;
+
   public static final double k_directionSlewRate = 1.2; // radians per second
   public static final double k_magnitudeSlewRate = 1.8; // percent per second (1 = 100%)
   public static final double k_rotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
   public static final SwerveModuleState[] k_defaultState = {
-    new SwerveModuleState(0, new Rotation2d(Math.PI / 4)),
-    new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
-    new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
-    new SwerveModuleState(0, new Rotation2d(Math.PI / 4))
+      new SwerveModuleState(0, new Rotation2d(Math.PI / 4)),
+      new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
+      new SwerveModuleState(0, new Rotation2d(3 * Math.PI / 4)),
+      new SwerveModuleState(0, new Rotation2d(Math.PI / 4))
   };
 
   public static final double k_driveDeadband = 0.05;
-  public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);
+  public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(
+      k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);
 
-} 
+}
