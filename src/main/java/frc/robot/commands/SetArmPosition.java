@@ -33,7 +33,7 @@ public class SetArmPosition extends InstantCommand {
       case NEUTRAL:
         elevator = Constants.k_neutralElevatorInches;
         wrist = Constants.k_neutralWristDegrees;
-      break;
+        break;
       case HIGH:
         wrist = Constants.k_isCubeMode ? Constants.CubeConstants.k_highWristDegrees : Constants.ConeConstants.k_highWristDegrees;
         elevator = Constants.k_isCubeMode ? Constants.CubeConstants.k_highElevatorInches : Constants.ConeConstants.k_highElevatorInches;
