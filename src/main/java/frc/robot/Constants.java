@@ -31,6 +31,7 @@ public final class Constants {
 
   public static boolean k_isCubeMode = true;
   public static boolean k_hasGamePiece = false;
+  public static ArmPosition k_armPosition = ArmPosition.NEUTRAL;
 
   // Non-Drive motors
   public static final int k_intakeMotor = 0;

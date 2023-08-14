@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -29,7 +28,7 @@ public class OuttakeCommand extends SequentialCommandGroup {
       new IntakeCommand(intakeSubsystem, IntakeType.OUTTAKE),
       new WaitCommand(.5),
       new IntakeCommand(intakeSubsystem, IntakeType.STOP),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, Constants.ArmPosition.NEUTRAL),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
       new SignalLEDCommand(ledSubsystem, LEDMode.READY)
     );
   }
