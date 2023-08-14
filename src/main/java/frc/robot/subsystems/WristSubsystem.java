@@ -13,9 +13,9 @@ import frc.robot.Constants;
 public class WristSubsystem extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(Constants.k_wristMotor);
   private final double k_P = .01;
-  private final double k_I = 0;
-  private final double k_D = 0;
-  private final double k_F = 0;
+  private final double k_F = .1;
+  private final double k_deadzone = 2;
+  private final double k_minPower = .1;
   private double m_targetAngleDegrees = 0;
   private double m_power = 0;
 
@@ -44,11 +44,20 @@ public class WristSubsystem extends SubsystemBase {
     }
   }
 
-  private void runPID() {}
+  private void runP() {
+    double distance = m_targetAngleDegrees - getAngleDegrees();
+    m_power = k_P * distance;
+    if (distance < k_deadzone) {
+      m_power = k_F;
+    } else if (m_power < k_minPower) {
+      m_power = k_minPower * Math.signum(distance);
+    }
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    runP();
     checkLimits();
     m_motor.set(ControlMode.PercentOutput, m_power);
   }
