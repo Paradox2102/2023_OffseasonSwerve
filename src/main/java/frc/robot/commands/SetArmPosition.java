@@ -29,7 +29,7 @@ public class SetArmPosition extends InstantCommand {
   public void initialize() {
     double elevator = 0;
     double wrist = 0;
-    switch (Constants.k_armPosition) {
+    switch (m_pose) {
       case NEUTRAL:
         elevator = Constants.k_neutralElevatorInches;
         wrist = Constants.k_neutralWristDegrees;
