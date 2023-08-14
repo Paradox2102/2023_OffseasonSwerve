@@ -21,9 +21,12 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
+import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import frc.robot.triggers.HoldTrigger;
 import frc.robot.triggers.ToggleTrigger;
 
@@ -38,6 +41,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
   public final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
+  private final WristSubsystem m_wristSubsystem = new WristSubsystem();
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
 
   public final PositionTrackerPose m_tracker = new PositionTrackerPose(0, 0, m_driveSubsystem);
 
@@ -62,6 +67,7 @@ public class RobotContainer {
 
     Trigger m_isFieldRelative = m_xbox.rightBumper();
     Trigger m_isBalancing = m_xbox.leftBumper();
+    Trigger m_brakeMode = m_xbox.x();
     
     
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
@@ -75,6 +81,7 @@ public class RobotContainer {
     m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.a().onTrue(new ResetGyro(m_driveSubsystem));
     m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
+    m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, m_brakeMode));
     m_xbox.y().whileTrue(new PartyMode(m_driveSubsystem, m_LEDSubsystem));
   }
 

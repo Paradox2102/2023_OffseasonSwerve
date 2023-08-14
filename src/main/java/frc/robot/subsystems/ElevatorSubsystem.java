@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -27,6 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_follower.follow(m_motor);
     m_follower.setInverted(true);
     m_motor.setInverted(false);
+    setBrakeMode(true);
   }
 
   public void setExtentInches(double targetExtentInches) {
@@ -36,6 +38,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void manualControl(double power) {
     m_power = power;
     m_targetExtentInches = getExtentInches();
+  }
+
+  public void setBrakeMode(boolean brake) {
+    m_motor.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
   }
 
   private double getExtentInches() {

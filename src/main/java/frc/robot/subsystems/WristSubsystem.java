@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,7 +21,9 @@ public class WristSubsystem extends SubsystemBase {
   private double m_power = 0;
 
   /** Creates a new WristSubsystem. */
-  public WristSubsystem() {}
+  public WristSubsystem() {
+    setBrakeMode(true);
+  }
 
   public void setAngleDegrees(double degree) {
     m_targetAngleDegrees = degree;
@@ -29,6 +32,10 @@ public class WristSubsystem extends SubsystemBase {
   public void manualControl(double power) {
     m_power = power;
     m_targetAngleDegrees = getAngleDegrees();
+  }
+
+  public void setBrakeMode(boolean brake) {
+    m_motor.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
   }
 
   private double getAngleDegrees() {

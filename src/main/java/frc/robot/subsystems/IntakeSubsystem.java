@@ -23,7 +23,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public enum IntakeType {INTAKE, OUTTAKE, STOP}
 
-
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(LEDSubsystem ledSubsystem) {
     m_stallTimer.reset();
