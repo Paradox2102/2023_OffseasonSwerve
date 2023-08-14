@@ -14,11 +14,11 @@ import frc.robot.subsystems.WristSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SetArmPosition extends InstantCommand {
-  ArmPosition m_neutralPose;
+  ArmPosition m_pose;
   WristSubsystem m_wristSubsystem;
   ElevatorSubsystem m_elevatorSubsystem;
   public SetArmPosition(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, boolean neutralPose) {
-    m_neutralPose = neutralPose ? ArmPosition.NEUTRAL : Constants.k_armPosition;
+    m_pose = neutralPose ? ArmPosition.NEUTRAL : Constants.k_armPosition;
     m_wristSubsystem = wristSubsystem;
     m_elevatorSubsystem = elevatorSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
