@@ -25,7 +25,8 @@ import frc.robot.subsystems.DriveSubsystem;
 public class CreatePathCommand extends SequentialCommandGroup {
   DriveSubsystem m_subsystem;
 
-  public CreatePathCommand(Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed) {
+  public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed) {
+    m_subsystem = driveSubsystem;
     var thetaController = new ProfiledPIDController(
       1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -53,7 +54,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
     );
   }
 
-  public CreatePathCommand(Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, double maxSpeed, double maxAccel) {
+  public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, double maxSpeed, double maxAccel) {
+    m_subsystem = driveSubsystem;
     TrajectoryConfig config = new TrajectoryConfig(
       maxSpeed,
       maxAccel)

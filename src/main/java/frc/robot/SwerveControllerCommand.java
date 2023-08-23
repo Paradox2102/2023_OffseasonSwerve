@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.AutoUtils;
+package frc.robot;
 
 import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 
@@ -13,7 +13,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.Trajectory;
+import frc.robot.Trajectory.State;
+import frc.robot.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -216,10 +217,13 @@ public class SwerveControllerCommand extends CommandBase {
     m_timer.restart();
   }
 
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj2.command.Command#execute()
+   */
   @Override
   public void execute() {
     double curTime = m_timer.get();
-    var desiredState = m_trajectory.sample(curTime);
+    State desiredState = m_trajectory.sample(curTime);
 
     var targetChassisSpeeds =
         m_controller.calculate(m_pose.get(), desiredState, m_desiredRotation.get());

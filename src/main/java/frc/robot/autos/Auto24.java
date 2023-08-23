@@ -17,8 +17,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.AutoUtils.SwerveControllerCommand;
 import frc.robot.Constants;
+import frc.robot.SwerveControllerCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -39,17 +39,8 @@ public class Auto24 extends SequentialCommandGroup {
       // Pass through these two interior waypoints, making an 's' curve path
       List.of(new Translation2d(1, 0)),
       // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(1, -1, Rotation2d.fromDegrees(181)),
+      new Pose2d(2, 0, Rotation2d.fromDegrees(0)),
       config);
-
-      Trajectory path2 = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(1, -1, new Rotation2d(181)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(0, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-        config);
 
     var thetaController = new ProfiledPIDController(
         1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
@@ -70,22 +61,9 @@ public class Auto24 extends SequentialCommandGroup {
       thetaController,
       m_subsystem::setModuleStates,
       m_subsystem);
-
-      SwerveControllerCommand command2 = new SwerveControllerCommand(
-      path2,
-      m_subsystem::getPose, // Functional interface to feed supplier
-      m_subsystem.getSwerve(),
-
-      // Position controllers
-      new PIDController(1, 0, 0),
-      new PIDController(1, 0, 0),
-      thetaController,
-      m_subsystem::setModuleStates,
-      m_subsystem);
     
     addCommands(
       command1,
-      command2,
       new RunCommand(() -> m_subsystem.drive(0, 0, 0, false, false), m_subsystem)
     );
 

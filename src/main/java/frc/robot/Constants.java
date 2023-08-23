@@ -34,12 +34,12 @@ public final class Constants {
   public static ArmPosition k_armPosition = ArmPosition.NEUTRAL;
 
   // Non-Drive motors
-  public static final int k_intakeMotor = 0;
-  public static final int k_elevatorMotor = 0;
-  public static final int k_elevatorFollower = 0;
-  public static final int k_wristMotor = 0;
-  public static final int k_topSwitch = 0;
-  public static final int k_bottomSwitch = 0;
+  public static final int k_intakeMotor = 31;
+  public static final int k_elevatorMotor = 30;
+  public static final int k_elevatorFollower = 29;
+  public static final int k_wristMotor = 28;
+  public static final int k_topSwitch = 27;
+  public static final int k_bottomSwitch = 26;
 
   // Elevator Constants
   public static final double k_minExtentInches = 0;
