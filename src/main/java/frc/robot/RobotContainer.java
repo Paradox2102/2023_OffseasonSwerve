@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
-import frc.robot.autos.Auto24;
 import frc.robot.autos.Auto344;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
