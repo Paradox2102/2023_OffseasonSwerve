@@ -270,6 +270,15 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRight.setDesiredState(desiredStates[3]);
   }
 
+  public void setModuleStatesWithSpeed(SwerveModuleState[] desiredStates, double speed) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        desiredStates, Constants.k_maxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredStateWithSpeed(desiredStates[0], speed);
+    m_frontRight.setDesiredStateWithSpeed(desiredStates[1], speed);
+    m_backLeft.setDesiredStateWithSpeed(desiredStates[2], speed);
+    m_backRight.setDesiredStateWithSpeed(desiredStates[3], speed);
+  }
+
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();

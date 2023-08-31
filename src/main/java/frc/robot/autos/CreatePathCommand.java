@@ -36,6 +36,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
       Constants.k_maxDriveAcceleration)
       .setKinematics(m_subsystem.getSwerve());
 
+    config.setReversed(isReversed);
+
     Trajectory path = TrajectoryGenerator.generateTrajectory(start, interiorWaypoints, end, config);
     m_subsystem.resetOdometry(path.getInitialPose());
   
@@ -60,6 +62,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
       maxSpeed,
       maxAccel)
       .setKinematics(m_subsystem.getSwerve());
+
+    config.setReversed(isReversed);
 
       var thetaController = new ProfiledPIDController(
         1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
