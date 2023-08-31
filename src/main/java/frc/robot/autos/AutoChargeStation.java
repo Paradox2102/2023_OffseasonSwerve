@@ -27,7 +27,8 @@ public class AutoChargeStation extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     // Commands
-    addCommands(
+      new CreatePathCommand(m_subsystem, new Pose2d(4, 0, new Rotation2d(0)), List.of(new Translation2d(3, 0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0)), true);
+      addCommands(
       new InstantCommand(() -> Logger.log("AutoChargeStation", 0, "1")),
       new CreatePathCommand(m_subsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(2, 0)), new Pose2d(4, 0, new Rotation2d(0)), false),
       new InstantCommand(() -> Logger.log("AutoChargeStation", 0, "2")),
@@ -35,7 +36,7 @@ public class AutoChargeStation extends SequentialCommandGroup {
       new InstantCommand(() -> Logger.log("AutoChargeStation", 0, "3")),
       new WaitCommand(3),
       new InstantCommand(() -> Logger.log("AutoChargeStation", 0, "4")),
-      new CreatePathCommand(m_subsystem, new Pose2d(4, 0, new Rotation2d(0)), List.of(new Translation2d(3, 0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0)), true),
+      // new CreatePathCommand(m_subsystem, new Pose2d(4, 0, new Rotation2d(0)), List.of(new Translation2d(3, 0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0)), true),
       new InstantCommand(() -> Logger.log("AutoChargeStation", 0, "5"))
       // new AutoBalanceCommand(m_subsystem)
     );
