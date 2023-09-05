@@ -5,8 +5,12 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.util.List;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,8 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
-import frc.robot.autos.Auto344;
 import frc.robot.autos.AutoChargeStation;
+import frc.robot.autos.CreatePathCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.PartyMode;
@@ -84,6 +88,7 @@ public class RobotContainer {
     m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
     m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
     m_xbox.y().whileTrue(new PartyMode(m_driveSubsystem, m_LEDSubsystem));
+    m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));
   }
 
   /**
