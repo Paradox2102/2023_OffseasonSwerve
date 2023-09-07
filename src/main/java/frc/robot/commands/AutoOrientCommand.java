@@ -15,7 +15,7 @@ public class AutoOrientCommand extends CommandBase {
   DoubleSupplier m_y;
   DoubleSupplier m_x;
   double m_angle;
-  double k_deadzone = 5;
+  double k_deadzone = 2.5;
   double k_minPower = .15;
   public AutoOrientCommand(DriveSubsystem driveSubsystem, double angle, DoubleSupplier y, DoubleSupplier x) {
     m_subsystem = driveSubsystem;
@@ -36,7 +36,7 @@ public class AutoOrientCommand extends CommandBase {
     double x = m_x.getAsDouble();
     double y = m_y.getAsDouble();
     double rot = (m_subsystem.getHeading() - m_angle) / 120.0;
-    rot = rot < k_minPower ? k_minPower : rot;
+    rot = Math.abs(rot) < k_minPower ? k_minPower * Math.signum(rot): rot;
     m_subsystem.drive(y, -x, rot, true, false);
   }
 

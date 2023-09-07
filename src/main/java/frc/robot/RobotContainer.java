@@ -92,7 +92,7 @@ public class RobotContainer {
 
     m_xbox.povDown().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
-      0, 
+      180, 
       () -> -m_xbox.getLeftY(), 
       () -> m_xbox.getLeftX()
     ));
