@@ -21,15 +21,15 @@ public class ArcadeDrive extends CommandBase {
   private DoubleSupplier m_getY;
   private DoubleSupplier m_getRot;
   private BooleanSupplier m_isFieldRelative;
-  private BooleanSupplier m_leftBumper;
+  private BooleanSupplier m_isBalancing;
 
-  public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative, BooleanSupplier leftBumper) {
+  public ArcadeDrive(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, DoubleSupplier getRot, BooleanSupplier isFieldRelative, BooleanSupplier isBalancing) {
     m_subsystem = driveSubsystem;
     m_getX = getX;
     m_getY = getY;
     m_getRot = getRot;
     m_isFieldRelative = isFieldRelative;
-    m_leftBumper = leftBumper;
+    m_isBalancing = isBalancing;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -47,18 +47,20 @@ public class ArcadeDrive extends CommandBase {
     double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
     boolean isFieldRelative = true;//m_isFieldRelative.getAsBoolean();
+    boolean isBalancing = m_isBalancing.getAsBoolean();
     
-    if (!m_leftBumper.getAsBoolean()) {
+    if (!isBalancing) {
       if (x == 0 && y == 0 && rot == 0) {
         m_subsystem.setModuleStates(Constants.k_defaultState);
       } else {
-        m_subsystem.drive(
-          -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
-          -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
-          -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
-          isFieldRelative, 
-          false
-        );
+          m_subsystem.drive(
+            -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
+            -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
+            -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
+            isFieldRelative, 
+            false
+          );
+        
       }
     }
 

@@ -24,6 +24,7 @@ import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.CreatePathCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetCoastModeCommand;
@@ -81,13 +82,22 @@ public class RobotContainer {
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
       new ToggleTrigger(m_isFieldRelative.debounce(.1)),
-      new HoldTrigger(m_isBalancing.debounce(.1))
+      new HoldTrigger(m_isBalancing)
     ));
     m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.a().onTrue(new ResetGyro(m_driveSubsystem));
     m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
     m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
     m_xbox.y().whileTrue(new PartyMode(m_driveSubsystem, m_LEDSubsystem));
+
+    m_xbox.povDown().onTrue(new AutoOrientCommand(
+      m_driveSubsystem, 
+      0, 
+      () -> -m_xbox.getLeftY(), 
+      () -> m_xbox.getLeftX()
+    ));
+
+
     m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));
   }
 
