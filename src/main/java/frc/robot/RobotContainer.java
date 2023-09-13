@@ -31,6 +31,7 @@ import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetGamePieceCommand;
+import frc.robot.commands.yay;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -93,7 +94,7 @@ public class RobotContainer {
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem));
     // m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
     m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
-    m_xbox.b().whileTrue(new RunCommand(() -> m_driveSubsystem.setPower(), m_driveSubsystem));
+    m_xbox.b().whileTrue(new yay(m_driveSubsystem));
 
     m_xbox.y().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
