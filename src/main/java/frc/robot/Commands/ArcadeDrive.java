@@ -50,9 +50,9 @@ public class ArcadeDrive extends CommandBase {
     boolean isBalancing = m_isBalancing.getAsBoolean();
     
     if (!isBalancing) {
-      if (x == 0 && y == 0 && rot == 0) {
-        m_subsystem.setModuleStates(Constants.k_defaultState);
-      } else {
+      //if (x == 0 && y == 0 && rot == 0) {
+       // m_subsystem.setModuleStates(Constants.k_defaultState);
+     // } else {
           m_subsystem.drive(
             -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
             -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
@@ -61,7 +61,7 @@ public class ArcadeDrive extends CommandBase {
             false
           );
         
-      }
+     // }
     }
 
     
