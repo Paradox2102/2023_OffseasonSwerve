@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
@@ -54,6 +54,9 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_xbox = new CommandXboxController(0);
+  private final Joystick m_stick = new Joystick(1); 
+
+  JoystickButton m_runOneMotor = new JoystickButton(m_stick, 1); 
 
   private AprilTagFieldLayout m_tags;
 
@@ -105,6 +108,8 @@ public class RobotContainer {
 
 
     m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));
+
+    m_runOneMotor.whileHeld(new SetPowerCommand(m_driveSubsystem, 0.75)); 
   }
 
   /**
