@@ -11,9 +11,11 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -89,8 +91,9 @@ public class RobotContainer {
     ));
     m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem));
-    m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
+    // m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
     m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
+    m_xbox.b().whileTrue(new RunCommand(() -> m_driveSubsystem.setPower(), m_driveSubsystem));
 
     m_xbox.y().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
@@ -108,8 +111,6 @@ public class RobotContainer {
 
 
     m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));
-
-    m_runOneMotor.whileHeld(new SetPowerCommand(m_driveSubsystem, 0.75)); 
   }
 
   /**

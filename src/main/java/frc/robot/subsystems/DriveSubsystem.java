@@ -84,6 +84,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_camera = camera;
   }
 
+  public void setPower() {
+    drive(0, 1, 0, true, false);
+  }
+
   public SwerveDriveKinematics getSwerve() {
     return m_swerve;
   }
