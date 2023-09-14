@@ -120,13 +120,13 @@ public final class Constants {
   public static final int k_BRTurningMotor = 6; // 8
   public static final int k_BLTurningMotor = 8; // 6
 
-  public static final boolean k_gyroReversed = true;
+  public static final boolean k_gyroReversed = false;
 
   // Angular offsets of the modules relative to the chassis in radians
-  public static final double k_FLOffset = 1.19;// - (Math.PI / 2);//5.425 - (Math.PI / 2);
-  public static final double k_FROffset = 6.09;//1.171;
-  public static final double k_BLOffset = 4.77;// + (Math.PI);//6.173 + (Math.PI);
-  public static final double k_BROffset = .03;// + (Math.PI / 2);//3.243 + (Math.PI / 2);
+  public static final double k_FLOffset = 5.425 - (Math.PI / 2);//1.19 - (Math.PI / 2);
+  public static final double k_FROffset = 1.171;//6.09;
+  public static final double k_BLOffset = 6.173 + (Math.PI);//4.77 + (Math.PI);
+  public static final double k_BROffset = 3.243 + (Math.PI / 2);// .03 + (Math.PI / 2)
 
   public static final boolean k_isGyroReversed = true;
 
@@ -174,7 +174,7 @@ public final class Constants {
   public static final int k_turnMotorCurrentLimit = 20; // amps
 
   // Driving Constants
-  public static final double k_maxSpeedMetersPerSecond = 3; // 4.8
+  public static final double k_maxSpeedMetersPerSecond = 3;
   public static final double k_maxDriveAcceleration = 3;
   public static final double k_maxAngularSpeed = Math.PI; // radians per second
   public static final double k_maxAngularAcceleration = Math.PI;

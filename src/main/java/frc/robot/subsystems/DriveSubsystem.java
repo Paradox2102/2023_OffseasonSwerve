@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.robot.Constants;
+import frc.robot.ParadoxField;
 import frc.robot.PositionTrackerPose;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -124,14 +125,15 @@ public class DriveSubsystem extends SubsystemBase {
             m_backLeft.getPosition(),
             m_backRight.getPosition()
         });
-    SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
-    SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
-    SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
-    SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
+    // SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
+    // SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
+    // SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
+    // SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
     // SmartDashboard.putData("Gyro Angle", m_gyro);
     // SmartDashboard.putNumber("Roll", getRoll());
     // SmartDashboard.putNumber("Pitch", getPitch());
     SmartDashboard.putNumber("Heading Degrees", getHeading());
+    SmartDashboard.putNumber("Pose Est Degrees", ParadoxField.rotation2dFromFRC(m_tracker.getPose2d().getRotation()).getDegrees());
     m_field.setRobotPose(m_odometry.getPoseMeters());
 
     m_tracker.update(m_camera);
@@ -233,7 +235,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = m_swerve.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, m_gyro.getRotation2d())
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, ParadoxField.rotation2dFromFRC(m_tracker.getPose2d().getRotation()))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.k_maxSpeedMetersPerSecond);
@@ -249,6 +251,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public WPI_PigeonIMU getGyro() {
     return m_gyro;
+  }
+
+  public PositionTrackerPose getTracker() {
+    return m_tracker;
   }
 
   /**
@@ -303,7 +309,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    double angle =  Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
+    double angle =  -Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     angle %= 360;
     angle = (angle + 360) % 360;
     if (angle > 180) {

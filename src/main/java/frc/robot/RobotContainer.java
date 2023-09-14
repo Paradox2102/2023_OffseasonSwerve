@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
+import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.CreatePathCommand;
 import frc.robot.commands.ArcadeDrive;
@@ -96,19 +98,21 @@ public class RobotContainer {
     m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
     m_xbox.b().whileTrue(new yay(m_driveSubsystem));
 
-    m_xbox.y().onTrue(new AutoOrientCommand(
+    m_xbox.a().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
       0, 
       () -> -m_xbox.getLeftY(), 
       () -> m_xbox.getLeftX()
     ));
 
-    m_xbox.a().onTrue(new AutoOrientCommand(
+    m_xbox.y().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
       180, 
       () -> -m_xbox.getLeftY(), 
       () -> m_xbox.getLeftX()
     ));
+
+    SmartDashboard.putData("yay", new yay(m_driveSubsystem));
 
 
     m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));
@@ -135,7 +139,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoChargeStation(m_driveSubsystem);
-    // return new Auto344(m_driveSubsystem);
+    return new Auto2GamePiece(m_driveSubsystem);
   }
 }

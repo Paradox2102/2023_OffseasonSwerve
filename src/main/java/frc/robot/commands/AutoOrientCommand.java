@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.ParadoxField;
 import frc.robot.subsystems.DriveSubsystem;
@@ -37,10 +36,10 @@ public class AutoOrientCommand extends CommandBase {
   public void execute() {
     double x = m_x.getAsDouble();
     double y = m_y.getAsDouble();
-    double heading = m_subsystem.getHeading();
-    double rot = (ParadoxField.normalizeAngle(heading - m_angle)) / 120.0;
+    double heading = ParadoxField.rotation2dFromFRC(m_subsystem.getTracker().getPose2d().getRotation()).getDegrees();
+    double rot = -(ParadoxField.normalizeAngle(heading - m_angle)) / 120.0;
     rot = Math.abs(rot) < k_minPower ? k_minPower * Math.signum(rot): rot;
-    m_subsystem.drive(y, -x, rot, true, false);
+    m_subsystem.drive(-y, x, rot, true, false);
   }
 
   // Called once the command ends or is interrupted.
@@ -50,6 +49,6 @@ public class AutoOrientCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_subsystem.getHeading() - m_angle) <= k_deadzone;
+    return Math.abs(ParadoxField.rotation2dFromFRC(m_subsystem.getTracker().getPose2d().getRotation()).getDegrees() - m_angle) <= k_deadzone;
   }
 }

@@ -19,7 +19,7 @@ public class yay extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setPower();
+    m_subsystem.drive(0, 1, 0, true, false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
