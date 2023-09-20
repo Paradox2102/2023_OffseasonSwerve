@@ -16,9 +16,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.ApriltagsCamera.ApriltagsCamera;
+import frc.ApriltagsCamera.Logger;
+import frc.ApriltagsCamera.PositionServer;
 import frc.robot.Constants;
 import frc.robot.ParadoxField;
 import frc.robot.PositionTrackerPose;
@@ -125,10 +128,10 @@ public class DriveSubsystem extends SubsystemBase {
             m_backLeft.getPosition(),
             m_backRight.getPosition()
         });
-    // SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
-    // SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
-    // SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
-    // SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
+    SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
+    SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
     // SmartDashboard.putData("Gyro Angle", m_gyro);
     // SmartDashboard.putNumber("Roll", getRoll());
     // SmartDashboard.putNumber("Pitch", getPitch());
@@ -163,7 +166,8 @@ public class DriveSubsystem extends SubsystemBase {
             m_backRight.getPosition()
         },
         pose);
-  }
+      Logger.log("Pose Reset X", 1, String.format("x=%f, y=%f, theta=%f", pose.getX(), pose.getY(), pose.getRotation().getDegrees()));
+}
 
   /**
    * Method to drive the robot using joystick info.
