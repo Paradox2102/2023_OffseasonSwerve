@@ -33,9 +33,9 @@ import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetGamePieceCommand;
-import frc.robot.commands.yay;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.triggers.HoldTrigger;
@@ -96,7 +96,6 @@ public class RobotContainer {
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem));
     // m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
     m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
-    m_xbox.b().whileTrue(new yay(m_driveSubsystem));
 
     m_xbox.a().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
@@ -111,8 +110,6 @@ public class RobotContainer {
       () -> -m_xbox.getLeftY(), 
       () -> m_xbox.getLeftX()
     ));
-
-    SmartDashboard.putData("yay", new yay(m_driveSubsystem));
 
 
     m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));

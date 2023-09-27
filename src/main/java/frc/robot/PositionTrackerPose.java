@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.ApriltagsCamera.ApriltagLocation;
@@ -49,6 +49,10 @@ public class PositionTrackerPose {
 		return ParadoxField.pose2dFromFRC(m_poseEstimator.getEstimatedPosition());
 	}
 
+	public Pose2d getPose2dFRC() {
+		return m_poseEstimator.getEstimatedPosition();
+	}
+
 	public void setXYAngle(double x, double y, double angleInDegrees) {
 		Logger.log("PositionTracker", 1, String.format("x=%f, y=%f, angle=%f", x, y, angleInDegrees));
 		m_driveSubsystem.getGyro().setYaw(angleInDegrees);
@@ -56,6 +60,16 @@ public class PositionTrackerPose {
 			ParadoxField.rotation2dFromParadoxAngle(angleInDegrees), 
 			m_driveSubsystem.getModulePosition(), 
 			ParadoxField.pose2dFromParadox(x, y, angleInDegrees)
+		);
+	}
+
+	public void setXYAngleFRC(double x, double y, double angleInDegrees) {
+		Logger.log("PositionTracker", 1, String.format("x=%f, y=%f, angle=%f", x, y, angleInDegrees));
+		m_driveSubsystem.getGyro().setYaw(angleInDegrees);
+		m_poseEstimator.resetPosition(
+			Rotation2d.fromDegrees(angleInDegrees), 
+			m_driveSubsystem.getModulePosition(), 
+			new Pose2d(x, y, Rotation2d.fromDegrees(angleInDegrees))
 		);
 	}
 

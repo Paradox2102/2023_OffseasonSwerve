@@ -17,7 +17,7 @@ public class AutoOrientCommand extends CommandBase {
   DoubleSupplier m_x;
   double m_angle;
   double k_deadzone = 2.5;
-  double k_minPower = .15;
+  double k_minPower = .05;
   public AutoOrientCommand(DriveSubsystem driveSubsystem, double angle, DoubleSupplier y, DoubleSupplier x) {
     m_subsystem = driveSubsystem;
     m_y = y;

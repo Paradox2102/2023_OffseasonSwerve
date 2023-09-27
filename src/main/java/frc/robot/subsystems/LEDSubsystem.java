@@ -20,8 +20,8 @@ public class LEDSubsystem extends SubsystemBase {
     PARTY
 
   }
-  private AddressableLED m_led = new AddressableLED(0);
-  private AddressableLEDBuffer m_buffer = new AddressableLEDBuffer(0);
+  private AddressableLED m_led = new AddressableLED(8);
+  private AddressableLEDBuffer m_buffer = new AddressableLEDBuffer(30); // 62
   private int m_rainbowFirstPixelHue = 0;
   private int m_flashCounter = 0;
   private LEDMode m_mode = LEDMode.NULL;
@@ -31,6 +31,7 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setLength(m_buffer.getLength());
     m_led.setData(m_buffer);
     turnOn();
+    ready();
   }
 
   private void rainbow() {
