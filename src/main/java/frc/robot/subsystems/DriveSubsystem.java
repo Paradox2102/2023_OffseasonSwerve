@@ -128,9 +128,9 @@ public class DriveSubsystem extends SubsystemBase {
             m_backLeft.getPosition(),
             m_backRight.getPosition()
         });
-    // SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
-    // SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
-    // SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
+    SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
     // SmartDashboard.putData("Gyro Angle", m_gyro);
     // SmartDashboard.putNumber("Roll", getRoll());

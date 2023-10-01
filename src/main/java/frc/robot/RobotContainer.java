@@ -33,10 +33,12 @@ import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetGamePieceCommand;
+import frc.robot.commands.manual.ManualElevatorCommand;
+import frc.robot.commands.manual.ManualIntakeCommand;
+import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.triggers.HoldTrigger;
 import frc.robot.triggers.ToggleTrigger;
@@ -51,9 +53,9 @@ public class RobotContainer {
   public final ApriltagsCamera m_camera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, Constants.k_yFrontCameraOffsetInches, Constants.k_frontCameraAngle);
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
-  public final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   public final PositionTrackerPose m_tracker = new PositionTrackerPose(0, 0, m_driveSubsystem);
 
@@ -92,10 +94,9 @@ public class RobotContainer {
       new ToggleTrigger(m_isFieldRelative.debounce(.1)),
       new HoldTrigger(m_isBalancing)
     ));
-    m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
+    // m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem));
     // m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
-    m_xbox.x().onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode.debounce(.1))));
 
     m_xbox.a().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
@@ -111,8 +112,12 @@ public class RobotContainer {
       () -> m_xbox.getLeftX()
     ));
 
-
-    m_xbox.rightBumper().whileTrue(new CreatePathCommand(m_driveSubsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), false, true, () -> -m_xbox.getLeftY()));
+    m_xbox.rightBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, .5));
+    m_xbox.leftBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, -.5));
+    m_xbox.rightTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, .25));
+    m_xbox.leftTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, -.25));
+    m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, -.25));
+    m_xbox.b().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, .25));
   }
 
   /**

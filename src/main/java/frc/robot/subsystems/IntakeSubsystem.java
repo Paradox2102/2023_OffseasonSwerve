@@ -5,33 +5,34 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
-import frc.robot.commands.SignalLEDCommand;
-import frc.robot.subsystems.LEDSubsystem.LEDMode;
 
 public class IntakeSubsystem extends SubsystemBase {
   private double m_power = 0;
-  private TalonFX m_motor = new TalonFX(Constants.k_intakeMotor);
+  private TalonFX m_motor = new TalonFX(Constants.k_intakeMotor, "Default Name");
   private final double k_stallSpeed = 0;
   private final double k_intakeMinPower = 0;
   private Timer m_stallTimer = new Timer();
-  private LEDSubsystem m_LEDSubsytem;
 
   public enum IntakeType {INTAKE, OUTTAKE, STOP}
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem(LEDSubsystem ledSubsystem) {
+  public IntakeSubsystem() {
     m_stallTimer.reset();
     m_stallTimer.start();
-    m_LEDSubsytem = ledSubsystem;
+    setBrakeMode(true);
   }
 
-  public void setPower() {
-    m_power = 0;
+  public void setPower(double power) {
+    // m_power = power;
+    Logger.log("IntakeSubsystem", 1, String.format("setPower: %f", power));
+    m_motor.set(ControlMode.PercentOutput, power);
   }
 
   public void intake() {
@@ -40,11 +41,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void outtake() {
     m_power = Constants.k_isCubeMode ? Constants.CubeConstants.k_outtakePower : Constants.ConeConstants.k_outtakePower;
-    new SignalLEDCommand(m_LEDSubsytem, LEDMode.READY);
   }
 
   public void stop() {
     m_power = 0;
+  }
+
+  public void setBrakeMode(boolean brake) {
+    m_motor.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
   }
 
   // Lower power if game piece is acquired
@@ -54,7 +58,6 @@ public class IntakeSubsystem extends SubsystemBase {
       if (m_stallTimer.get() > .1) {
         m_power = k_intakeMinPower * Math.signum(m_power);
         Constants.k_hasGamePiece = true;
-        new SignalLEDCommand(m_LEDSubsytem, LEDMode.READY);
       }
     } else {
       m_stallTimer.reset();
@@ -65,7 +68,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    isIntakeStalled();
-    m_motor.set(ControlMode.PercentOutput, m_power);
+    // isIntakeStalled();
+    // m_motor.set(ControlMode.PercentOutput, m_power);
   }
 }

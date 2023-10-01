@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class WristSubsystem extends SubsystemBase {
-  private TalonFX m_motor = new TalonFX(Constants.k_wristMotor);
+  private TalonFX m_motor = new TalonFX(Constants.k_wristMotor, "Default Name");
   private final double k_P = .01;
   private final double k_F = .1;
   private final double k_deadzone = 2;
@@ -32,6 +32,10 @@ public class WristSubsystem extends SubsystemBase {
   public void manualControl(double power) {
     m_power = power;
     m_targetAngleDegrees = getAngleDegrees();
+  }
+
+  public void setPower(double power) {
+    m_motor.set(ControlMode.PercentOutput, power);
   }
 
   public void setBrakeMode(boolean brake) {
@@ -64,8 +68,8 @@ public class WristSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    runP();
-    checkLimits();
-    m_motor.set(ControlMode.PercentOutput, m_power);
+    // runP();
+    // checkLimits();
+    // m_motor.set(ControlMode.PercentOutput, m_power);
   }
 }

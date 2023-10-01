@@ -2,25 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.manual;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
-public class PartyMode extends CommandBase {
-  DriveSubsystem m_driveSubsystem;
-  /** Creates a new PartyMode. */
-  public PartyMode(DriveSubsystem driveSubsystem) {
-    m_driveSubsystem = driveSubsystem;
+public class ManualWristCommand extends CommandBase {
+  /** Creates a new ManualWristCommand. */
+  WristSubsystem m_subsystem;
+  double m_power;
+  public ManualWristCommand(WristSubsystem wristSubsystem, double power) {
+    m_subsystem = wristSubsystem;
+    m_power = power;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveSubsystem);
+    addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_driveSubsystem.drive(0, 0, 1, true, false);
+    m_subsystem.setPower(m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,7 +31,7 @@ public class PartyMode extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_driveSubsystem.setModuleStates(Constants.k_defaultState);
+    m_subsystem.setPower(0);
   }
 
   // Returns true when the command should end.

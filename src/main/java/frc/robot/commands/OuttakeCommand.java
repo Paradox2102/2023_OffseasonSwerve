@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeType;
-import frc.robot.subsystems.LEDSubsystem.LEDMode;
+
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,15 +21,14 @@ import frc.robot.subsystems.LEDSubsystem.LEDMode;
 
 public class OuttakeCommand extends SequentialCommandGroup {
   /** Creates a new OuttakeCommand. */
-  public OuttakeCommand(IntakeSubsystem intakeSubsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, LEDSubsystem ledSubsystem) {
+  public OuttakeCommand(IntakeSubsystem intakeSubsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new IntakeCommand(intakeSubsystem, IntakeType.OUTTAKE),
       new WaitCommand(.5),
       new IntakeCommand(intakeSubsystem, IntakeType.STOP),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
-      new SignalLEDCommand(ledSubsystem, LEDMode.READY)
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
     );
   }
 }

@@ -6,16 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.LEDSubsystem.LEDMode;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SetGamePieceCommand extends InstantCommand {
-  LEDSubsystem m_subsystem;
-  public SetGamePieceCommand(LEDSubsystem ledSubsystem) {
-    m_subsystem = ledSubsystem;
+  public SetGamePieceCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,6 +19,5 @@ public class SetGamePieceCommand extends InstantCommand {
   @Override
   public void initialize() {
     Constants.k_isCubeMode = !Constants.k_isCubeMode;
-    new SignalLEDCommand(m_subsystem, Constants.k_isCubeMode ? LEDMode.CUBE : LEDMode.CONE);
   }
 }

@@ -34,17 +34,18 @@ public final class Constants {
   public static ArmPosition k_armPosition = ArmPosition.NEUTRAL;
 
   // Non-Drive motors
-  public static final int k_intakeMotor = 31;
-  public static final int k_elevatorMotor = 30;
-  public static final int k_elevatorFollower = 29;
-  public static final int k_wristMotor = 28;
-  public static final int k_topSwitch = 27;
-  public static final int k_bottomSwitch = 26;
+  public static final int k_intakeMotor = 10;
+  public static final int k_elevatorMotor = 8;
+  public static final int k_elevatorFollower = 14;
+  public static final int k_wristMotor = 9;
+  public static final int k_topSwitch = 8;
+  public static final int k_bottomSwitch = 9;
 
   // Elevator Constants
   public static final double k_minExtentInches = 0;
   public static final double k_maxExtentInches = 55;
-  public static final double k_elevatorTicksToInches = 1;
+  public static final double k_elevatorTicksToInches = 5.0/5010;
+  public static final double k_elevatorInchesToTicks = 5010.0/5;
 
   // Wrist Constants
   public static final double k_wristAngleTicksToDegrees = 1;
@@ -125,16 +126,16 @@ public final class Constants {
   // Angular offsets of the modules relative to the chassis in radians
 
   // Bolt
-  // public static final double k_FLOffset = 1.09 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
-  // public static final double k_FROffset = 6.06; // 1.171;
-  // public static final double k_BLOffset = 6.22 +(Math.PI); // 6.173 + (Math.PI);
-  // public static final double k_BROffset = 4.75 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
+  public static final double k_FLOffset = 1.19 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
+  public static final double k_FROffset = 6.03; // 1.171;
+  public static final double k_BLOffset = .07 +(Math.PI); // 6.173 + (Math.PI);
+  public static final double k_BROffset = 4.72 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
 
   // Byte
-  public static final double k_FLOffset = 5.425 - (Math.PI / 2);
-  public static final double k_FROffset = 1.171;
-  public static final double k_BLOffset = .937 + (Math.PI);
-  public static final double k_BROffset = 3.243 + (Math.PI / 2);
+  // public static final double k_FLOffset = 5.425 - (Math.PI / 2);
+  // public static final double k_FROffset = 1.171;
+  // public static final double k_BLOffset = .937 + (Math.PI);
+  // public static final double k_BROffset = 3.243 + (Math.PI / 2);
 
   public static final boolean k_isGyroReversed = true;
 
