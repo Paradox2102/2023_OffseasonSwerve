@@ -133,7 +133,7 @@ public final class Constants {
   // Byte
   public static final double k_FLOffset = 5.425 - (Math.PI / 2);
   public static final double k_FROffset = 1.171;
-  public static final double k_BLOffset = 6.173 + (Math.PI);
+  public static final double k_BLOffset = .937 + (Math.PI);
   public static final double k_BROffset = 3.243 + (Math.PI / 2);
 
   public static final boolean k_isGyroReversed = true;
@@ -182,7 +182,7 @@ public final class Constants {
   public static final int k_turnMotorCurrentLimit = 20; // amps
 
   // Driving Constants
-  public static final double k_maxSpeedMetersPerSecond = 4.8;
+  public static final double k_maxSpeedMetersPerSecond = 3; // 4.8
   public static final double k_maxDriveAcceleration = 3;
   public static final double k_maxAngularSpeed = Math.PI; // radians per second
   public static final double k_maxAngularAcceleration = Math.PI;

@@ -20,18 +20,17 @@ public class LEDSubsystem extends SubsystemBase {
     PARTY
 
   }
-  private AddressableLED m_led = new AddressableLED(8);
+  private AddressableLED m_led = new AddressableLED(0);
   private AddressableLEDBuffer m_buffer = new AddressableLEDBuffer(30); // 62
   private int m_rainbowFirstPixelHue = 0;
   private int m_flashCounter = 0;
-  private LEDMode m_mode = LEDMode.NULL;
+  private LEDMode m_mode = LEDMode.READY;
   private boolean m_isOff = true;
 
   public LEDSubsystem() {
     m_led.setLength(m_buffer.getLength());
     m_led.setData(m_buffer);
-    turnOn();
-    ready();
+    m_led.start();
   }
 
   private void rainbow() {
@@ -105,28 +104,35 @@ public class LEDSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    switch(m_mode) {
-      case NULL:
-        m_led.stop();
-        m_isOff = true;
-        break;
-      case RAINBOW:
-        rainbow();
-        break;
-      case READY:
-        ready();
-        break;
-      case CONE:
-        cone();
-        break;
-      case CUBE:
-        cube();
-        break;
-      case PARTY:
-        partyMode();
-        break;
-    }
+    // switch(m_mode) {
+    //   case NULL:
+    //     m_led.stop();
+    //     m_isOff = true;
+    //     break;
+    //   case RAINBOW:
+    //     rainbow();
+    //     break;
+    //   case READY:
+    //     ready();
+    //     break;
+    //   case CONE:
+    //     cone();
+    //     break;
+    //   case CUBE:
+    //     cube();
+    //     break;
+    //   case PARTY:
+    //     partyMode();
+    //     break;
+    // }
 
+    for (var i = 0; i < m_buffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_buffer.setRGB(i, 255, 0, 0);
+   }
+   
     m_led.setData(m_buffer);
+
+    // m_led.setData(m_buffer);
   }
 }

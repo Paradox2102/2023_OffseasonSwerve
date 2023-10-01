@@ -18,8 +18,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
+import frc.robot.SwerveControllerCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

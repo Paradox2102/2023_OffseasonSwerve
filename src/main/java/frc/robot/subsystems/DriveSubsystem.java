@@ -131,12 +131,13 @@ public class DriveSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
     // SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
     // SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
-    // SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
     // SmartDashboard.putData("Gyro Angle", m_gyro);
     // SmartDashboard.putNumber("Roll", getRoll());
     // SmartDashboard.putNumber("Pitch", getPitch());
     SmartDashboard.putNumber("Pose Est X", (m_tracker.getPose2dFRC().getTranslation().getX()));
     SmartDashboard.putNumber("Pose Est Y", (m_tracker.getPose2dFRC().getTranslation().getY()));
+    SmartDashboard.putNumber("Pose Est Rot", (m_tracker.getPose2dFRC().getRotation().getDegrees()));
     m_field.setRobotPose(m_odometry.getPoseMeters());
 
     m_tracker.update(m_camera);
@@ -167,7 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_backRight.getPosition()
         },
         pose);
-    m_tracker.setXYAngleFRC(pose.getX(), pose.getY(), pose.getRotation().getDegrees());
+    m_tracker.setXYAngle(pose.getX(), pose.getY(), pose.getRotation().getDegrees());
     System.out.println(pose.getX()+" "+ pose.getY()+ " "+pose.getRotation().getDegrees());
     System.out.println(m_odometry.getPoseMeters().getTranslation());
     System.out.println(m_tracker.getPose2dFRC().getTranslation());
