@@ -116,8 +116,8 @@ public class RobotContainer {
     m_xbox.leftBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, -.5));
     m_xbox.rightTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, .25));
     m_xbox.leftTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, -.25));
-    m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, -.25));
-    m_xbox.b().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, .25));
+    m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, false));
+    m_xbox.b().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, true));
   }
 
   /**

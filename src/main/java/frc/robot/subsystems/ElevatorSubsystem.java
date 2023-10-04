@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,9 +23,17 @@ public class ElevatorSubsystem extends SubsystemBase {
   private DigitalInput m_bottomSwitch = new DigitalInput(Constants.k_bottomSwitch);
   private double m_power = 0;
   private double m_targetExtentInches = 0;
-  private final double k_p = 1;
-  private final double k_f = .003;
-  private final double k_deadzone = .01;
+  private boolean m_manualControl = false;
+
+  private final double k_p = .05;
+  private final double k_i = .015;
+  private final double k_d = .005;
+  private PIDController m_PID = new PIDController(k_p, k_i, k_d);
+
+  private final double k_FLow = .074;
+  private final double k_FHigh = .081;
+  private final double k_deadzonePower = .015;
+  private final double k_midHeightInches = 11;
 
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
@@ -39,9 +50,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_targetExtentInches = targetExtentInches;
   }
 
-  public void manualControl(double power) {
-    m_power = power;
-    m_targetExtentInches = getExtentInches();
+  public void manualControl(boolean up, boolean manual) {
+    m_manualControl = manual;
+    m_targetExtentInches = getExtentInches() + 1 * (up ? 1 : -1);
+    m_power = .15 * (up ? 1 : -1);
   }
 
   public void setPower(double power) {
@@ -57,13 +69,14 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   private void checkLimitSwitches() {
+    double extent = getExtentInches();
     if (m_power > 0) {
-      if (m_topSwitch.get() || getExtentInches() >= Constants.k_maxExtentInches) {
-        m_power = k_f;
+      if (!m_topSwitch.get() || extent >= Constants.k_maxExtentInches) {
+        m_power = extent < k_midHeightInches ? k_FLow : k_FHigh;
         m_motor.setSelectedSensorPosition(Constants.k_maxExtentInches * Constants.k_elevatorInchesToTicks);
       } 
     } else if (m_power < 0) {
-      if (m_bottomSwitch.get() || getExtentInches() <= Constants.k_minExtentInches) {
+      if (!m_bottomSwitch.get() || extent <= Constants.k_minExtentInches) {
         m_power = 0;
         m_motor.setSelectedSensorPosition(Constants.k_minExtentInches * Constants.k_elevatorInchesToTicks);
       }
@@ -72,26 +85,25 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private void runP() {
     double extentInches = getExtentInches();
-    double distanceFromTarget = m_targetExtentInches - extentInches;
-    double power = distanceFromTarget * k_p;
-    // if (Math.abs(power) < .05) {
-    //   m_power = .05 * Math.signum(power);
-    // } else {
-    //   m_power = power;
-    // }
-    // m_power = power;
-    System.out.println(distanceFromTarget + " " +m_power);
-    if (Math.abs(m_power) < k_deadzone) {
-      m_power = k_f * extentInches;
+    if (!m_manualControl) {
+      m_power = m_PID.calculate(extentInches, m_targetExtentInches);
     }
+    if (Math.abs(m_power) < k_deadzonePower) {
+      m_power = extentInches < k_midHeightInches ? k_FLow : k_FHigh;
+    }
+    // } else if (Math.abs(m_power) < k_minPower) {
+    //   m_power = k_minPower * Math.signum(m_power);
+    // }
+    SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
+    SmartDashboard.putBoolean("Top Switch", m_topSwitch.get());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     runP();
-    // checkLimitSwitches();
-    SmartDashboard.putNumber("Elevator Extent", m_motor.getSelectedSensorPosition());
+    checkLimitSwitches();
+    SmartDashboard.putNumber("Elevator Extent", m_motor.getSelectedSensorPosition() * Constants.k_elevatorTicksToInches);
     m_motor.set(ControlMode.PercentOutput, m_power);
   }
 }

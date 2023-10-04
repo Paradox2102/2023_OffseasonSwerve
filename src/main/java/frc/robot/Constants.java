@@ -38,12 +38,12 @@ public final class Constants {
   public static final int k_elevatorMotor = 8;
   public static final int k_elevatorFollower = 14;
   public static final int k_wristMotor = 9;
-  public static final int k_topSwitch = 8;
-  public static final int k_bottomSwitch = 9;
+  public static final int k_topSwitch = 9;
+  public static final int k_bottomSwitch = 8;
 
   // Elevator Constants
   public static final double k_minExtentInches = 0;
-  public static final double k_maxExtentInches = 55;
+  public static final double k_maxExtentInches = 46;
   public static final double k_elevatorTicksToInches = 5.0/5010;
   public static final double k_elevatorInchesToTicks = 5010.0/5;
 

@@ -8,17 +8,22 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class WristSubsystem extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(Constants.k_wristMotor, "Default Name");
-  private final double k_P = .01;
-  private final double k_F = .1;
+  private final double k_f = 0;
   private final double k_deadzone = 2;
   private final double k_minPower = .1;
   private double m_targetAngleDegrees = 0;
   private double m_power = 0;
+
+  private final double k_p = .01;
+  private final double k_i = 0;
+  private final double k_d = 0;
+  private PIDController m_PID = new PIDController(k_p, k_i, k_d);
 
   /** Creates a new WristSubsystem. */
   public WristSubsystem() {
@@ -56,14 +61,9 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   private void runP() {
-    double distance = m_targetAngleDegrees - getAngleDegrees();
-    m_power = k_P * distance;
-    if (distance < k_deadzone) {
-      m_power = k_F;
-    } else if (m_power < k_minPower) {
-      m_power = k_minPower * Math.signum(distance);
-    }
+    m_power = m_PID.calculate(getAngleDegrees(), m_targetAngleDegrees);
   }
+  
 
   @Override
   public void periodic() {
