@@ -17,20 +17,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
+import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.CreatePathCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
+import frc.robot.commands.DecideArmPosCommand;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
+import frc.robot.commands.ResetWrist;
+import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
@@ -61,9 +66,7 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_xbox = new CommandXboxController(0);
-  private final Joystick m_stick = new Joystick(1); 
-
-  JoystickButton m_runOneMotor = new JoystickButton(m_stick, 1); 
+  private final CommandJoystick m_stick = new CommandJoystick(1); 
 
   private AprilTagFieldLayout m_tags;
 
@@ -86,14 +89,23 @@ public class RobotContainer {
     Trigger m_brakeMode = m_xbox.x();
     
     
+    // m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
+      // m_driveSubsystem, 
+      // () -> m_xbox.getLeftX(), 
+      // () -> m_xbox.getLeftY(),
+      // () -> m_xbox.getRightX(),
+      // new ToggleTrigger(m_isFieldRelative.debounce(.1)),
+      // new HoldTrigger(m_isBalancing)
+    // ));
+
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
       () -> m_xbox.getLeftX(), 
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
-      new ToggleTrigger(m_isFieldRelative.debounce(.1)),
-      new HoldTrigger(m_isBalancing)
-    ));
+      () -> false,
+      () -> false));
+
     // m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem));
     // m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
@@ -114,10 +126,17 @@ public class RobotContainer {
 
     m_xbox.rightBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, .5));
     m_xbox.leftBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, -.5));
-    m_xbox.rightTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, .25));
-    m_xbox.leftTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, -.25));
+    m_xbox.rightTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, true));
+    m_xbox.leftTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, false));
     m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, false));
     m_xbox.b().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, true));
+
+    m_stick.button(1).onTrue(new SetGamePieceCommand());
+    m_stick.button(2).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
+    m_stick.button(3).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
+    m_stick.button(4).onTrue(new ResetWrist(m_wristSubsystem));
+    m_stick.button(7).onTrue(new DecideArmPosCommand(ArmPosition.HIGH));
+    m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
   }
 
   /**

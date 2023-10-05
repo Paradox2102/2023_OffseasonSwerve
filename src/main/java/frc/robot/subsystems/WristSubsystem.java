@@ -9,34 +9,42 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class WristSubsystem extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(Constants.k_wristMotor, "Default Name");
-  private final double k_f = 0;
-  private final double k_deadzone = 2;
-  private final double k_minPower = .1;
+  private double k_deadzonePower = .015;
+  private double k_f = 0;
   private double m_targetAngleDegrees = 0;
   private double m_power = 0;
+  private boolean m_manualControl = false;
 
-  private final double k_p = .01;
+  private final double k_p = .025;
   private final double k_i = 0;
-  private final double k_d = 0;
+  private final double k_d = .00125;
   private PIDController m_PID = new PIDController(k_p, k_i, k_d);
 
   /** Creates a new WristSubsystem. */
   public WristSubsystem() {
     setBrakeMode(true);
+    m_motor.setInverted(true);
+    m_motor.setSelectedSensorPosition(0);
   }
 
   public void setAngleDegrees(double degree) {
     m_targetAngleDegrees = degree;
   }
 
-  public void manualControl(double power) {
-    m_power = power;
-    m_targetAngleDegrees = getAngleDegrees();
+  public void manualControl(boolean up, boolean manual) {
+    m_manualControl = manual;
+    m_targetAngleDegrees = getAngleDegrees() + 1 * (up ? -1 : 1);
+    m_power = .15 * (up ? -1 : 1);
+  }
+
+  public void resetEncoder() {
+    m_motor.setSelectedSensorPosition(0);
   }
 
   public void setPower(double power) {
@@ -48,28 +56,38 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   private double getAngleDegrees() {
-    return m_motor.getSelectedSensorPosition() * Constants.k_wristAngleTicksToDegrees;
+    return m_motor.getSelectedSensorPosition() * Constants.k_wristTicksToDegrees;
   }
 
   private void checkLimits() {
     double angle = getAngleDegrees();
     if (m_power > 0 && angle >= Constants.k_maxAngleDegrees) {
       m_power = 0;
+      setAngleDegrees(angle);
     } else if (m_power < 0 && angle <= Constants.k_minAngleDegrees) {
       m_power = 0;
+      setAngleDegrees(angle);
     }
   }
 
   private void runP() {
-    m_power = m_PID.calculate(getAngleDegrees(), m_targetAngleDegrees);
+    if (!m_manualControl) {
+      m_power = m_PID.calculate(getAngleDegrees(), m_targetAngleDegrees);
+    }
+    
+    if (Math.abs(m_power) < k_deadzonePower) {
+      m_power = k_f;
+    }
   }
   
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // runP();
+    runP();
     // checkLimits();
-    // m_motor.set(ControlMode.PercentOutput, m_power);
+    m_motor.set(ControlMode.PercentOutput, m_power);
+    SmartDashboard.putNumber("Wrist Pos", getAngleDegrees());
+    SmartDashboard.putBoolean("Is Cube", Constants.k_isCubeMode);
   }
 }

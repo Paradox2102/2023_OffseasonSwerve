@@ -19,19 +19,20 @@ import frc.robot.Constants;
 public class ElevatorSubsystem extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(Constants.k_elevatorMotor, "Default Name");
   private TalonFX m_follower = new TalonFX(Constants.k_elevatorFollower, "Default Name");
-  private DigitalInput m_topSwitch = new DigitalInput(Constants.k_topSwitch);
+  private DigitalInput m_midSwitch = new DigitalInput(Constants.k_midSwitch);
   private DigitalInput m_bottomSwitch = new DigitalInput(Constants.k_bottomSwitch);
+  private DigitalInput m_topSwitch = new DigitalInput(Constants.k_topSwitch);
   private double m_power = 0;
   private double m_targetExtentInches = 0;
   private boolean m_manualControl = false;
 
-  private final double k_p = .05;
+  private final double k_p = .03;
   private final double k_i = .015;
-  private final double k_d = .005;
+  private final double k_d = .004;
   private PIDController m_PID = new PIDController(k_p, k_i, k_d);
 
   private final double k_FLow = .074;
-  private final double k_FHigh = .081;
+  private final double k_FHigh = .1;
   private final double k_deadzonePower = .015;
   private final double k_midHeightInches = 11;
 
@@ -71,7 +72,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void checkLimitSwitches() {
     double extent = getExtentInches();
     if (m_power > 0) {
-      if (!m_topSwitch.get() || extent >= Constants.k_maxExtentInches) {
+      if ((!m_midSwitch.get() && !m_topSwitch.get()) || extent >= Constants.k_maxExtentInches) {
         m_power = extent < k_midHeightInches ? k_FLow : k_FHigh;
         m_motor.setSelectedSensorPosition(Constants.k_maxExtentInches * Constants.k_elevatorInchesToTicks);
       } 

@@ -10,10 +10,10 @@ import frc.robot.subsystems.WristSubsystem;
 public class ManualWristCommand extends CommandBase {
   /** Creates a new ManualWristCommand. */
   WristSubsystem m_subsystem;
-  double m_power;
-  public ManualWristCommand(WristSubsystem wristSubsystem, double power) {
+  boolean m_up;
+  public ManualWristCommand(WristSubsystem wristSubsystem, boolean up) {
     m_subsystem = wristSubsystem;
-    m_power = power;
+    m_up = up;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -21,7 +21,7 @@ public class ManualWristCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setPower(m_power);
+    m_subsystem.manualControl(m_up, true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +31,7 @@ public class ManualWristCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.setPower(0);
+    m_subsystem.manualControl(m_up, false);
   }
 
   // Returns true when the command should end.

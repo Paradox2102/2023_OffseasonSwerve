@@ -38,23 +38,25 @@ public final class Constants {
   public static final int k_elevatorMotor = 8;
   public static final int k_elevatorFollower = 14;
   public static final int k_wristMotor = 9;
-  public static final int k_topSwitch = 9;
+  public static final int k_topSwitch = 7;
+  public static final int k_midSwitch = 9;
   public static final int k_bottomSwitch = 8;
 
   // Elevator Constants
   public static final double k_minExtentInches = 0;
   public static final double k_maxExtentInches = 46;
   public static final double k_elevatorTicksToInches = 5.0/5010;
-  public static final double k_elevatorInchesToTicks = 5010.0/5;
+  public static final double k_elevatorInchesToTicks = 1.0/k_elevatorTicksToInches;
 
   // Wrist Constants
-  public static final double k_wristAngleTicksToDegrees = 1;
+  public static final double k_wristTicksToDegrees = 90.0/75948;
+  public static final double k_wristDegreestoTicks = 1.0/k_wristTicksToDegrees;
   public static final double k_minAngleDegrees = 0;
-  public static final double k_maxAngleDegrees = 180;
+  public static final double k_maxAngleDegrees = 165;
 
   // Neutral Pose
   public static final double k_neutralElevatorInches = 0;
-  public static final double k_neutralWristDegrees = 0;
+  public static final double k_neutralWristDegrees = 10;
 
   public enum ArmPosition {
     HIGH,
@@ -84,7 +86,7 @@ public final class Constants {
     public static final double k_midWristDegrees = 0;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 0;
-    public static final double k_groundWristDegrees = 0;
+    public static final double k_groundWristDegrees = 87;
   }
 
   // Cone presets
@@ -95,18 +97,18 @@ public final class Constants {
     public static final double k_intakeF = -CubeConstants.k_intakeF;
 
     // Elevator
-    public static final double k_highElevatorInches = 0;
+    public static final double k_highElevatorInches = 40;
     public static final double k_midElevatorInches = 0;
     public static final double k_singleElevatorInches = 0;
     public static final double k_doubleElevatorInches = 0;
     public static final double k_groundElevatorInches = 0;
 
     // Wrist
-    public static final double k_highWristDegrees = 0;
+    public static final double k_highWristDegrees = 52.2;
     public static final double k_midWristDegrees = 0;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 0;
-    public static final double k_groundWristDegrees = 0;
+    public static final double k_groundWristDegrees = 80;
   }
 
   // DRIVETRAIN SPARK MAX IDs
