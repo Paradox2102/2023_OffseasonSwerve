@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,6 +21,7 @@ public class WristSubsystem extends SubsystemBase {
   private double m_targetAngleDegrees = 0;
   private double m_power = 0;
   private boolean m_manualControl = false;
+  private DigitalInput m_switch = new DigitalInput(6);
 
   private final double k_p = .025;
   private final double k_i = 0;
@@ -61,22 +63,21 @@ public class WristSubsystem extends SubsystemBase {
 
   private void checkLimits() {
     double angle = getAngleDegrees();
+    boolean getSwitch = m_switch.get();
     if (m_power > 0 && angle >= Constants.k_maxAngleDegrees) {
       m_power = 0;
-      setAngleDegrees(angle);
-    } else if (m_power < 0 && angle <= Constants.k_minAngleDegrees) {
+      m_motor.setSelectedSensorPosition(Constants.k_maxAngleDegrees);
+    } else if (m_power < 0 && !getSwitch) {
       m_power = 0;
-      setAngleDegrees(angle);
+    }
+    if (!getSwitch) {
+      m_motor.setSelectedSensorPosition(Constants.k_minAngleDegrees);
     }
   }
 
   private void runP() {
     if (!m_manualControl) {
-      m_power = m_PID.calculate(getAngleDegrees(), m_targetAngleDegrees);
-    }
-    
-    if (Math.abs(m_power) < k_deadzonePower) {
-      m_power = k_f;
+      m_power = m_PID.calculate(getAngleDegrees(), m_targetAngleDegrees) + k_deadzonePower;
     }
   }
   
@@ -85,9 +86,11 @@ public class WristSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     runP();
-    // checkLimits();
+    checkLimits();
+    System.out.println(m_power);
     m_motor.set(ControlMode.PercentOutput, m_power);
     SmartDashboard.putNumber("Wrist Pos", getAngleDegrees());
     SmartDashboard.putBoolean("Is Cube", Constants.k_isCubeMode);
+    SmartDashboard.putBoolean("Wrist Switch", m_switch.get());
   }
 }

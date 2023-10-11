@@ -75,17 +75,17 @@ public final class Constants {
     public static final double k_intakeF = 0;
 
     // Elevator
-    public static final double k_highElevatorInches = 0;
-    public static final double k_midElevatorInches = 0;
+    public static final double k_highElevatorInches = 22;
+    public static final double k_midElevatorInches = 22;
     public static final double k_singleElevatorInches = 0;
-    public static final double k_doubleElevatorInches = 0;
+    public static final double k_doubleElevatorInches = 31.8;
     public static final double k_groundElevatorInches = 0;
 
     // Wrist
-    public static final double k_highWristDegrees = 0;
-    public static final double k_midWristDegrees = 0;
+    public static final double k_highWristDegrees = 46.1;
+    public static final double k_midWristDegrees = 46.1;
     public static final double k_singleWristDegrees = 0;
-    public static final double k_doubleWristDegrees = 0;
+    public static final double k_doubleWristDegrees = 36.6;
     public static final double k_groundWristDegrees = 87;
   }
 
@@ -100,14 +100,14 @@ public final class Constants {
     public static final double k_highElevatorInches = 40;
     public static final double k_midElevatorInches = 0;
     public static final double k_singleElevatorInches = 0;
-    public static final double k_doubleElevatorInches = 0;
+    public static final double k_doubleElevatorInches = 15;
     public static final double k_groundElevatorInches = 0;
 
     // Wrist
-    public static final double k_highWristDegrees = 52.2;
+    public static final double k_highWristDegrees = 52.5;
     public static final double k_midWristDegrees = 0;
     public static final double k_singleWristDegrees = 0;
-    public static final double k_doubleWristDegrees = 0;
+    public static final double k_doubleWristDegrees = 4;
     public static final double k_groundWristDegrees = 80;
   }
 
@@ -128,10 +128,10 @@ public final class Constants {
   // Angular offsets of the modules relative to the chassis in radians
 
   // Bolt
-  public static final double k_FLOffset = 1.19 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
-  public static final double k_FROffset = 6.03; // 1.171;
-  public static final double k_BLOffset = .07 +(Math.PI); // 6.173 + (Math.PI);
-  public static final double k_BROffset = 4.72 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
+  public static final double k_FLOffset = 3.26 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
+  public static final double k_FROffset = 6.05; // 1.171;
+  public static final double k_BLOffset = 2.17 +(Math.PI); // 6.173 + (Math.PI);
+  public static final double k_BROffset = 4.76 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
 
   // Byte
   // public static final double k_FLOffset = 5.425 - (Math.PI / 2);
@@ -191,8 +191,8 @@ public final class Constants {
   public static final double k_maxAngularAcceleration = Math.PI;
 
   public static final double k_directionSlewRate = 1.2; // radians per second
-  public static final double k_magnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-  public static final double k_rotationalSlewRate = 2.0; // percent per second (1 = 100%)
+  public static final double k_magnitudeSlewRate = 1.3; // percent per second (1 = 100%)
+  public static final double k_rotationalSlewRate = 1.0; // percent per second (1 = 100%)
 
   public static final SwerveModuleState[] k_defaultState = {
       new SwerveModuleState(0, new Rotation2d(Math.PI / 4)),

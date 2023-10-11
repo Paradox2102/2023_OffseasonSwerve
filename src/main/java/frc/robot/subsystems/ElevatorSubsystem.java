@@ -26,15 +26,15 @@ public class ElevatorSubsystem extends SubsystemBase {
   private double m_targetExtentInches = 0;
   private boolean m_manualControl = false;
 
-  private final double k_p = .03;
-  private final double k_i = .015;
+  private final double k_p = .04;
+  private final double k_i = 0;
   private final double k_d = .004;
   private PIDController m_PID = new PIDController(k_p, k_i, k_d);
 
-  private final double k_FLow = .074;
-  private final double k_FHigh = .1;
-  private final double k_deadzonePower = .015;
+  private final double k_FLow = .008;
+  private final double k_FHigh = .01;
   private final double k_midHeightInches = 11;
+  private final double k_maxDownPower = -.2;
 
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
@@ -54,10 +54,17 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void manualControl(boolean up, boolean manual) {
     m_manualControl = manual;
     m_targetExtentInches = getExtentInches() + 1 * (up ? 1 : -1);
-    m_power = .15 * (up ? 1 : -1);
+    m_power = .15 * (up ? 1 : -1) + getF();
   }
 
-  public void setPower(double power) {
+  private double getF() {
+    if (getExtentInches() <= 0) {
+      return 0;
+    }
+    return getExtentInches() > k_midHeightInches ? k_FHigh : k_FLow;
+  }
+
+  private void setPower(double power) {
     m_motor.set(ControlMode.PercentOutput, power);
   }
 
@@ -87,14 +94,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void runP() {
     double extentInches = getExtentInches();
     if (!m_manualControl) {
-      m_power = m_PID.calculate(extentInches, m_targetExtentInches);
+      m_power = m_PID.calculate(extentInches, m_targetExtentInches) + getF();
+      m_power = m_power < k_maxDownPower ? k_maxDownPower : m_power;
     }
-    if (Math.abs(m_power) < k_deadzonePower) {
-      m_power = extentInches < k_midHeightInches ? k_FLow : k_FHigh;
-    }
-    // } else if (Math.abs(m_power) < k_minPower) {
-    //   m_power = k_minPower * Math.signum(m_power);
-    // }
     SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
     SmartDashboard.putBoolean("Top Switch", m_topSwitch.get());
   }
@@ -105,6 +107,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     runP();
     checkLimitSwitches();
     SmartDashboard.putNumber("Elevator Extent", m_motor.getSelectedSensorPosition() * Constants.k_elevatorTicksToInches);
-    m_motor.set(ControlMode.PercentOutput, m_power);
+    setPower(m_power);
   }
 }

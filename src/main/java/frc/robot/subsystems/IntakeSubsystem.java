@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
@@ -70,5 +71,6 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // isIntakeStalled();
     // m_motor.set(ControlMode.PercentOutput, m_power);
+    SmartDashboard.putNumber("Intake Speed", m_motor.getSelectedSensorVelocity());
   }
 }
