@@ -27,8 +27,7 @@ public class OuttakeCommand extends SequentialCommandGroup {
     addCommands(
       new IntakeCommand(intakeSubsystem, IntakeType.OUTTAKE),
       new WaitCommand(.5),
-      new IntakeCommand(intakeSubsystem, IntakeType.STOP),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
+      new IntakeCommand(intakeSubsystem, IntakeType.STOP)
     );
   }
 }

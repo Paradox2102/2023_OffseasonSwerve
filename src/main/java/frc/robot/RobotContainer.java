@@ -37,7 +37,6 @@ import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
-import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualIntakeCommand;
 import frc.robot.commands.manual.ManualWristCommand;
@@ -131,14 +130,17 @@ public class RobotContainer {
     m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, false));
     m_xbox.b().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, true));
 
-    m_stick.button(1).onTrue(new SetGamePieceCommand());
-    m_stick.button(2).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_stick.button(3).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
+    m_stick.button(1).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_stick.button(4).onTrue(new ResetWrist(m_wristSubsystem));
     m_stick.button(7).onTrue(new DecideArmPosCommand(ArmPosition.HIGH));
-    m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
+    m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
     m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
-    m_stick.button(12).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
+    m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
+  }
+
+  public boolean getThrottle() {
+    return m_stick.getThrottle() < 0;
   }
 
   /**

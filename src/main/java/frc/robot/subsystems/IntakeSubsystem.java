@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -17,7 +19,7 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
   private double m_power = 0;
   private TalonFX m_motor = new TalonFX(Constants.k_intakeMotor, "Default Name");
-  private final double k_stallSpeed = 0;
+  private final double k_stallSpeed = .05;
   private final double k_intakeMinPower = 0;
   private Timer m_stallTimer = new Timer();
 
