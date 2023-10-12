@@ -17,10 +17,11 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.SwerveControllerCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystem; 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,7 +30,7 @@ public class CreatePathCommand extends SequentialCommandGroup {
   DriveSubsystem m_subsystem;
   private final double k_p = 1;
   private final double k_i = 0;
-  private final double k_d = 0.15;
+  private final double k_d = 0;
 
   public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, boolean resetPose) {
     m_subsystem = driveSubsystem;
@@ -62,7 +63,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
       new PIDController(k_p, k_i, k_d),
       thetaController,
       m_subsystem::setModuleStates,
-      m_subsystem)
+      m_subsystem), 
+      new RunCommand(() -> m_subsystem.setX(), driveSubsystem)
     );
   }
 
