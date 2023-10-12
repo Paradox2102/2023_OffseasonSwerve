@@ -27,6 +27,9 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CreatePathCommand extends SequentialCommandGroup {
   DriveSubsystem m_subsystem;
+  private final double k_p = 1;
+  private final double k_i = 0;
+  private final double k_d = 0.15;
 
   public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, boolean resetPose) {
     m_subsystem = driveSubsystem;
@@ -55,8 +58,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
       m_subsystem.getSwerve(),
 
       // Position controllers
-      new PIDController(1, 0, 0),
-      new PIDController(1, 0, 0),
+      new PIDController(k_p, k_i, k_d),
+      new PIDController(k_p, k_i, k_d),
       thetaController,
       m_subsystem::setModuleStates,
       m_subsystem)
@@ -90,8 +93,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
         m_subsystem.getSwerve(),
   
         // Position controllers
-        new PIDController(1, 0, 0),
-        new PIDController(1, 0, 0),
+        new PIDController(k_p, k_i, k_d),
+        new PIDController(k_p, k_i, k_d),
         thetaController,
         m_subsystem::setModuleStates,
         m_subsystem)

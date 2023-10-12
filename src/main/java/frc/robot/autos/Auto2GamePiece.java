@@ -21,9 +21,9 @@ public class Auto2GamePiece extends SequentialCommandGroup {
   public Auto2GamePiece(DriveSubsystem driveSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    Pose2d start = ParadoxField.pose2dFromFRC(new Pose2d(1.8, -.5, new Rotation2d(Math.PI)));
-    Pose2d mid = ParadoxField.pose2dFromFRC(new Pose2d(3.8, -.5, new Rotation2d(Math.PI)));
-    Pose2d end = ParadoxField.pose2dFromFRC(new Pose2d(6.8, -.5, new Rotation2d(Math.PI)));
+    Pose2d start = ParadoxField.pose2dFromFRC(new Pose2d(0, -.5, new Rotation2d(0)));
+    Pose2d mid = ParadoxField.pose2dFromFRC(new Pose2d(3.8, -.5, new Rotation2d(0)));
+    Pose2d end = ParadoxField.pose2dFromFRC(new Pose2d(6.8, -.5, new Rotation2d(0)));
     addCommands(
       // new CreatePathCommand(driveSubsystem, new Pose2d(1.8, -1, new Rotation2d(Math.PI)), List.of(new Translation2d(4, -.7)), new Pose2d(6.32, -.53, (new Rotation2d(Math.PI))), true, true)
       // new CreatePathCommand(driveSubsystem, new Pose2d(1.8, -1, (new Rotation2d(0))), List.of(new Translation2d(1.85, -1)), new Pose2d(1.9, -1, new Rotation2d(0)), true, true)

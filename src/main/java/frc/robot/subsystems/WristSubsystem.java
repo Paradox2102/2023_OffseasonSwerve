@@ -47,6 +47,7 @@ public class WristSubsystem extends SubsystemBase {
 
   public void resetEncoder() {
     m_motor.setSelectedSensorPosition(0);
+    setAngleDegrees(0);
   }
 
   public void setPower(double power) {

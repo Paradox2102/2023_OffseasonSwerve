@@ -58,7 +58,7 @@ public class ArcadeDrive extends CommandBase {
             -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
             -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
             isFieldRelative, 
-            false
+            true
           );
         
      // }

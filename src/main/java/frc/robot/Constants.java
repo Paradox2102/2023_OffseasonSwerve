@@ -190,9 +190,9 @@ public final class Constants {
   public static final double k_maxAngularSpeed = Math.PI; // radians per second
   public static final double k_maxAngularAcceleration = Math.PI;
 
-  public static final double k_directionSlewRate = 1.2; // radians per second
-  public static final double k_magnitudeSlewRate = 1.3; // percent per second (1 = 100%)
-  public static final double k_rotationalSlewRate = 1.0; // percent per second (1 = 100%)
+  public static final double k_directionSlewRate = 3; // radians per second
+  public static final double k_magnitudeSlewRate = 3.25; // percent per second (1 = 100%)
+  public static final double k_rotationalSlewRate = 3; // percent per second (1 = 100%)
 
   public static final SwerveModuleState[] k_defaultState = {
       new SwerveModuleState(0, new Rotation2d(Math.PI / 4)),
