@@ -149,7 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_tracker.getPose2d();
+    return m_tracker.getPose2dFRC();
   }
 
   /**
@@ -168,7 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_backRight.getPosition()
         },
         pose);
-    m_tracker.setXYAngle(pose.getX(), pose.getY(), pose.getRotation().getDegrees());
+    m_tracker.setXYAngleFRC(pose.getX(), pose.getY(), pose.getRotation().getDegrees());
     System.out.println(pose.getX()+" "+ pose.getY()+ " "+pose.getRotation().getDegrees());
     System.out.println(m_odometry.getPoseMeters().getTranslation());
     System.out.println(m_tracker.getPose2dFRC().getTranslation());
