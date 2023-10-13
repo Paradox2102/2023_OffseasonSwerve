@@ -49,6 +49,15 @@ public class SwerveControllerCommand extends CommandBase {
     new Field("Time", 'f'),
     new Field("Yaw", 'f'), 
     new Field("Vel", 'f'),
+    new Field("FR Drive", 'f'),
+    new Field("FL Drive", 'f'),
+    new Field("BR Drive", 'f'),
+    new Field("FL Drive", 'f'),
+    new Field("FR Turn", 'f'),
+    new Field("FL Turn", 'f'),
+    new Field("BR Turn", 'f'),
+    new Field("FL Turn", 'f'),
+
   }; 
 
   /**
@@ -237,13 +246,25 @@ public class SwerveControllerCommand extends CommandBase {
 
     m_outputModuleStates.accept(targetModuleStates);
     Pose2d pose = desiredState.poseMeters;
-    logData(curTime, pose.getRotation().getDegrees(), desiredState.velocityMetersPerSecond);
+    logData(
+      curTime, 
+      pose.getRotation().getDegrees(), 
+      desiredState.velocityMetersPerSecond, 
+      targetModuleStates[0].speedMetersPerSecond, 
+      targetModuleStates[1].speedMetersPerSecond, 
+      targetModuleStates[2].speedMetersPerSecond, 
+      targetModuleStates[3].speedMetersPerSecond, 
+      targetModuleStates[0].angle.getDegrees(), 
+      targetModuleStates[1].angle.getDegrees(), 
+      targetModuleStates[2].angle.getDegrees(), 
+      targetModuleStates[3].angle.getDegrees()
+    );
   }
 
   @Override
   public void end(boolean interrupted) {
     m_timer.stop();
-    finishLogging();;
+    finishLogging();
   }
 
   @Override

@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -25,9 +28,11 @@ public class OuttakeCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new IntakeCommand(intakeSubsystem, IntakeType.OUTTAKE),
-      new WaitCommand(.5),
-      new IntakeCommand(intakeSubsystem, IntakeType.STOP)
+      new ParallelDeadlineGroup(
+        new RunCommand(() -> intakeSubsystem.outtake()),
+        new WaitCommand(.5)
+      ),
+      new RunCommand(() -> intakeSubsystem.stop())
     );
   }
 }

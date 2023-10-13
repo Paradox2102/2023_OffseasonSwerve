@@ -70,8 +70,8 @@ public final class Constants {
   // Cube presets
   public static final class CubeConstants {
     // Intake
-    public static final double k_intakePower = .5;
-    public static final double k_outtakePower = -.5;
+    public static final double k_intakePower = -.5;
+    public static final double k_outtakePower = .5;
     public static final double k_intakeF = 0;
 
     // Elevator
@@ -92,7 +92,7 @@ public final class Constants {
   // Cone presets
   public static final class ConeConstants {
     // Intake
-    public static final double k_intakePower = -CubeConstants.k_intakePower;
+    public static final double k_intakePower = .25;
     public static final double k_outtakePower = -CubeConstants.k_outtakePower;
     public static final double k_intakeF = -CubeConstants.k_intakeF;
 

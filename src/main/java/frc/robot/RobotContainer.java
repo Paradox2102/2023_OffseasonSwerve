@@ -32,6 +32,8 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
@@ -123,8 +125,8 @@ public class RobotContainer {
       () -> m_xbox.getLeftX()
     ));
 
-    m_xbox.rightBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, .5));
-    m_xbox.leftBumper().whileTrue(new ManualIntakeCommand(m_intakeSubsystem, -.5));
+    m_xbox.rightBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    // m_xbox.leftBumper().toggleOnTrue(new OuttakeCommand(m_intakeSubsystem, m_wristSubsystem, m_elevatorSubsystem));
     m_xbox.rightTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, true));
     m_xbox.leftTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, false));
     m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, false));
