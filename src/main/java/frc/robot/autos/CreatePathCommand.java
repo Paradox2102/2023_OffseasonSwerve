@@ -19,8 +19,10 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
 import frc.robot.SwerveControllerCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem; 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -49,7 +51,7 @@ public class CreatePathCommand extends SequentialCommandGroup {
   
     if (resetPose) {
       addCommands(
-        new InstantCommand(() -> {m_subsystem.resetOdometry(path.getInitialPose());})
+        new InstantCommand(() -> {m_subsystem.resetOdometry(path.getInitialPose()); Logger.log("ResetOdometry", 1, "initialize");})
       );   
     }
     addCommands(

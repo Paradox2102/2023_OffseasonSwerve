@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.CSVWriter.Field;
 
 import java.util.function.Consumer;
@@ -230,6 +231,7 @@ public class SwerveControllerCommand extends CommandBase {
 
   @Override
   public void initialize() {
+    Logger.log("SwerveControllerCommand", 1, "initialize");
     m_timer.restart();
     enableLogging("/home/lvuser/logs");
     startLogging();
@@ -263,6 +265,7 @@ public class SwerveControllerCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    Logger.log("SwerveControllerCommand", 1, "end");
     m_timer.stop();
     finishLogging();
   }
