@@ -12,15 +12,17 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ResetGyro extends InstantCommand {
   DriveSubsystem m_subsystem;
-  public ResetGyro(DriveSubsystem driveSubsystem) {
+  double m_angle;
+  public ResetGyro(DriveSubsystem driveSubsystem, double angle) {
     m_subsystem = driveSubsystem;
+    m_angle = angle;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.zeroHeading();
+    m_subsystem.setHeading(m_angle);
   }
 
   @Override

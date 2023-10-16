@@ -5,6 +5,7 @@
 package frc.robot.commands.manual;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,8 +14,8 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ManualElevatorCommand extends CommandBase {
   /** Creates a new ManualElevatorCommand. */
   ElevatorSubsystem m_subsystem;
-  boolean m_up;
-  public ManualElevatorCommand(ElevatorSubsystem elevatorSubsystem, boolean up) {
+  DoubleSupplier m_up;
+  public ManualElevatorCommand(ElevatorSubsystem elevatorSubsystem, DoubleSupplier up) {
     m_subsystem = elevatorSubsystem;
     m_up = up;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,18 +24,23 @@ public class ManualElevatorCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_subsystem.manualControl(m_up, true);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    double up = m_up.getAsDouble();
+    if (up == 0) {
+      m_subsystem.manualControl(true, false);
+    } else {
+      m_subsystem.manualControl(up < 0, true);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.manualControl(m_up, false);
+    m_subsystem.manualControl(true, false);
   }
 
   // Returns true when the command should end.

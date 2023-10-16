@@ -30,4 +30,9 @@ public class SetCoastModeCommand extends InstantCommand {
     m_wristSubsystem.setBrakeMode(m_brake.getAsBoolean());
     m_elevatorSubsystem.setBrakeMode(m_brake.getAsBoolean());
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

@@ -5,42 +5,28 @@
 package frc.robot;
 
 import java.io.IOException;
-import java.util.List;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-// import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.ApriltagsCamera.ApriltagsCamera;
+import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
-import frc.robot.autos.AutoChargeStation;
-import frc.robot.autos.CreatePathCommand;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OuttakeCommand;
-import frc.robot.commands.PartyMode;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
-import frc.robot.commands.manual.ManualIntakeCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -90,51 +76,61 @@ public class RobotContainer {
     Trigger m_brakeMode = m_xbox.x();
     
     
-    // m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
-      // m_driveSubsystem, 
-      // () -> m_xbox.getLeftX(), 
-      // () -> m_xbox.getLeftY(),
-      // () -> m_xbox.getRightX(),
-      // new ToggleTrigger(m_isFieldRelative.debounce(.1)),
-      // new HoldTrigger(m_isBalancing)
-    // ));
-
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
       () -> m_xbox.getLeftX(), 
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
-      () -> false,
-      () -> false));
+      new HoldTrigger(m_isFieldRelative),
+      new HoldTrigger(m_isBalancing)
+    ));
 
+    // Driver 1
     // m_xbox.leftBumper().whileTrue(new AutoBalanceCommand(m_driveSubsystem, () -> -m_xbox.getLeftY()));
-    m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem));
-    // m_xbox.b().onTrue(new SetGamePieceCommand(m_LEDSubsystem));
+    m_xbox.povUp().onTrue(new ResetGyro(m_driveSubsystem, 0));
+    m_xbox.povRight().onTrue(new ResetGyro(m_driveSubsystem, 90));
+    m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem, 180));
+    m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem, 270));
 
     m_xbox.a().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
-      0, 
+      180, 
+      () -> -m_xbox.getLeftY(), 
+      () -> m_xbox.getLeftX()
+    ));
+    m_xbox.b().onTrue(new AutoOrientCommand(
+      m_driveSubsystem, 
+      90, 
+      () -> -m_xbox.getLeftY(), 
+      () -> m_xbox.getLeftX()
+    ));
+
+    m_xbox.x().onTrue(new AutoOrientCommand(
+      m_driveSubsystem, 
+      270, 
       () -> -m_xbox.getLeftY(), 
       () -> m_xbox.getLeftX()
     ));
 
     m_xbox.y().onTrue(new AutoOrientCommand(
       m_driveSubsystem, 
-      180, 
+      0, 
       () -> -m_xbox.getLeftY(), 
       () -> m_xbox.getLeftX()
     ));
 
-    m_xbox.rightBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
-    // m_xbox.leftBumper().toggleOnTrue(new OuttakeCommand(m_intakeSubsystem, m_wristSubsystem, m_elevatorSubsystem));
-    m_xbox.rightTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, true));
-    m_xbox.leftTrigger().whileTrue(new ManualWristCommand(m_wristSubsystem, false));
-    m_xbox.x().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, false));
-    m_xbox.b().whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, true));
+    m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    m_xbox.leftTrigger().onTrue(new OuttakeCommand(m_intakeSubsystem, m_wristSubsystem, m_elevatorSubsystem));
+    m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
+    m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
-    m_stick.button(3).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
-    m_stick.button(1).onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
-    m_stick.button(4).onTrue(new ResetWrist(m_wristSubsystem));
+    // Driver 2
+    m_stick.button(4).whileTrue(new ManualWristCommand(m_wristSubsystem, () -> m_stick.getY()));
+    m_stick.button(6).whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, () -> m_stick.getY()));
+    
+    m_stick.button(5).onTrue(new ResetWrist(m_wristSubsystem));
+    m_stick.button(8).onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode)));
+
     m_stick.button(7).onTrue(new DecideArmPosCommand(ArmPosition.HIGH));
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
     m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
