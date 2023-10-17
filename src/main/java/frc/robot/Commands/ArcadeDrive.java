@@ -46,22 +46,17 @@ public class ArcadeDrive extends CommandBase {
     double x = -m_getX.getAsDouble();
     double y = -m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
-    boolean isFieldRelative = true;//m_isFieldRelative.getAsBoolean();
+    boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
     boolean isBalancing = m_isBalancing.getAsBoolean();
     
     if (!isBalancing) {
-      //if (x == 0 && y == 0 && rot == 0) {
-       // m_subsystem.setModuleStates(Constants.k_defaultState);
-     // } else {
-          m_subsystem.drive(
-            -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
-            -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
-            -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
-            isFieldRelative, 
-            true
-          );
-        
-     // }
+        m_subsystem.drive(
+          -MathUtil.applyDeadband(y, Constants.k_driveDeadband), 
+          -MathUtil.applyDeadband(x, Constants.k_driveDeadband), 
+          -MathUtil.applyDeadband(rot, Constants.k_driveDeadband), 
+          isFieldRelative, 
+          true
+        );
     }
 
     
