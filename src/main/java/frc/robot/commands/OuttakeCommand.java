@@ -22,7 +22,7 @@ import frc.robot.subsystems.WristSubsystem;
 
 public class OuttakeCommand extends SequentialCommandGroup {
   /** Creates a new OuttakeCommand. */
-  public OuttakeCommand(IntakeSubsystem intakeSubsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem) {
+  public OuttakeCommand(IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

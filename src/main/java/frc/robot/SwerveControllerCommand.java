@@ -48,7 +48,10 @@ public class SwerveControllerCommand extends CommandBase {
   private final Object m_lockWriter = new Object();
   private Field[] k_fields = { 
     new Field("Time", 'f'),
-    new Field("Yaw", 'f'), 
+    new Field("Yaw", 'f'),
+    new Field("X", 'f'), 
+    new Field("Y", 'f'),  
+    new Field("Desired Rotation", 'f'),
     new Field("Vel", 'f'),
     new Field("FR Drive", 'f'),
     new Field("FL Drive", 'f'),
@@ -239,18 +242,22 @@ public class SwerveControllerCommand extends CommandBase {
 
   @Override
   public void execute() {
+    Rotation2d desiredRotation = m_desiredRotation.get();
     double curTime = m_timer.get();
     var desiredState = m_trajectory.sample(curTime);
 
     var targetChassisSpeeds =
-        m_controller.calculate(m_pose.get(), desiredState, m_desiredRotation.get());
+        m_controller.calculate(m_pose.get(), desiredState, desiredRotation);
     var targetModuleStates = m_kinematics.toSwerveModuleStates(targetChassisSpeeds);
 
     m_outputModuleStates.accept(targetModuleStates);
     Pose2d pose = desiredState.poseMeters;
     logData(
       curTime, 
-      pose.getRotation().getDegrees(), 
+      pose.getRotation().getDegrees(),
+      pose.getTranslation().getX(),
+      pose.getTranslation().getY(),
+      desiredRotation,
       desiredState.velocityMetersPerSecond, 
       targetModuleStates[0].speedMetersPerSecond, 
       targetModuleStates[1].speedMetersPerSecond, 

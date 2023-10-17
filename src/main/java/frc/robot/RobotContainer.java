@@ -7,6 +7,8 @@ package frc.robot;
 import java.io.IOException;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,6 +19,7 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
+import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
@@ -57,6 +60,8 @@ public class RobotContainer {
 
   private AprilTagFieldLayout m_tags;
 
+  SendableChooser<Command> m_selectAuto = new SendableChooser<>();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -70,12 +75,28 @@ public class RobotContainer {
     } catch (IOException e) {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }
+  }
 
+  public boolean getThrottle() {
+    return m_stick.getThrottle() < 0;
+  }
+
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
+  private void configureBindings() { 
+    // System.out.println("Working"); 
+    // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
     Trigger m_isFieldRelative = m_xbox.rightBumper();
     Trigger m_isBalancing = m_xbox.leftBumper();
     Trigger m_brakeMode = m_xbox.x();
-    
-    
+
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
       () -> m_xbox.getLeftX(), 
@@ -120,7 +141,7 @@ public class RobotContainer {
     ));
 
     m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem));
-    m_xbox.leftTrigger().onTrue(new OuttakeCommand(m_intakeSubsystem, m_wristSubsystem, m_elevatorSubsystem));
+    m_xbox.leftTrigger().onTrue(new OuttakeCommand(m_intakeSubsystem));
     m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
@@ -135,25 +156,11 @@ public class RobotContainer {
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
     m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
-  }
 
-  public boolean getThrottle() {
-    return m_stick.getThrottle() < 0;
-  }
+    // Auto Selection
+    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem));
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() { 
-    // System.out.println("Working"); 
-    // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
-
+    SmartDashboard.putData(m_selectAuto);
   }
 
   /**
@@ -162,6 +169,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new Auto2GamePiece(m_driveSubsystem);
+    return m_selectAuto.getSelected();
   }
 }

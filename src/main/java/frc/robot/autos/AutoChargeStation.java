@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -27,7 +28,7 @@ public class AutoChargeStation extends SequentialCommandGroup {
     // Commands
       addCommands(
       new CreatePathCommand(m_subsystem, new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(2, 0)), new Pose2d(4, 0, new Rotation2d(0)), false, false),
-      new InstantCommand(() -> m_subsystem.drive(0, 0, 0, true, false)),
+      new WaitCommand(2),
       new CreatePathCommand(m_subsystem, new Pose2d(4, 0, new Rotation2d(0)), List.of(new Translation2d(3, 0)), new Pose2d(2, 0, Rotation2d.fromDegrees(0)), true, false),
       new AutoBalanceCommand(m_subsystem)
     );
