@@ -159,6 +159,7 @@ public class RobotContainer {
 
     // Auto Selection
     m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem));
+    m_selectAuto.addOption("Test Auto", new Auto2GamePiece(m_driveSubsystem));
 
     SmartDashboard.putData(m_selectAuto);
   }
