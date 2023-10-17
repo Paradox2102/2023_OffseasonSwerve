@@ -17,7 +17,6 @@ import frc.robot.Constants;
 public class WristSubsystem extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(Constants.k_wristMotor, "Default Name");
   private double k_deadzonePower = .015;
-  private double k_f = 0;
   private double m_targetAngleDegrees = 0;
   private double m_power = 0;
   private boolean m_manualControl = false;
