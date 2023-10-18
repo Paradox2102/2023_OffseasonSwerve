@@ -57,7 +57,7 @@ public class Auto2GamePieceBumpSide extends SequentialCommandGroup {
         driveSubsystem, 
         new Pose2d(7.068, 3.09, Rotation2d.fromDegrees(1)), 
         List.of(new Translation2d(6, 3.8), new Translation2d(2, 3.2)), 
-        new Pose2d(1.37795, 4.007, Rotation2d.fromDegrees(180)), 
+        new Pose2d(1.37795, 3.04, Rotation2d.fromDegrees(180)), 
         false, 
         true
       ),
