@@ -67,13 +67,6 @@ public class DriveSubsystem extends SubsystemBase {
         new Translation2d(-.33655, .33655),
         new Translation2d(-.33655, -.33655));
 
-  // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-      m_swerve,
-      Rotation2d.fromDegrees(m_gyro.getAngle()),
-      getModulePosition()
-    );
-
     PositionTrackerPose m_tracker = null;
     ApriltagsCamera m_camera;
 
@@ -117,14 +110,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
-        m_gyro.getRotation2d(),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_backLeft.getPosition(),
-            m_backRight.getPosition()
-        });
     SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
     SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
@@ -135,7 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pose Est X", (m_tracker.getPose2dFRC().getTranslation().getX()));
     SmartDashboard.putNumber("Pose Est Y", (m_tracker.getPose2dFRC().getTranslation().getY()));
     SmartDashboard.putNumber("Pose Est Rot", (m_tracker.getPose2dFRC().getRotation().getDegrees()));
-    m_field.setRobotPose(m_odometry.getPoseMeters());
+    m_field.setRobotPose(m_tracker.getPose2dFRC());
 
     m_tracker.update(m_camera);
   }
@@ -149,6 +134,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_tracker.getPose2dFRC();
   }
 
+  public Field2d getField() {
+    return m_field;
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *
@@ -157,18 +146,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     double angle = pose.getRotation().getDegrees();
     m_gyro.setYaw(angle);
-    m_odometry.resetPosition(
-        Rotation2d.fromDegrees(angle),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_backLeft.getPosition(),
-            m_backRight.getPosition()
-        },
-        pose);
     m_tracker.setXYAngleFRC(pose.getX(), pose.getY(), pose.getRotation().getDegrees());
     System.out.println(pose.getX()+" "+ pose.getY()+ " "+pose.getRotation().getDegrees());
-    System.out.println(m_odometry.getPoseMeters().getTranslation());
     System.out.println(m_tracker.getPose2dFRC().getTranslation());
 }
 
@@ -308,6 +287,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void setHeading(double angle) {
     m_gyro.setYaw(angle);
+    m_tracker.setXYAngle(m_tracker.getPose2dFRC().getX(), m_tracker.getPose2dFRC().getY(), angle);
   }
 
   /**

@@ -47,6 +47,7 @@ public class CreatePathCommand extends SequentialCommandGroup {
     config.setReversed(isReversed);
 
     Trajectory path = TrajectoryGenerator.generateTrajectory(start, interiorWaypoints, end, config);
+    m_subsystem.getField().getObject("traj").setTrajectory(path);
   
     if (resetPose) {
       addCommands(
