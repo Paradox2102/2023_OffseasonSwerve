@@ -29,10 +29,10 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
   /** Creates a new Auto2PieceNoBumpSide. */
   public Auto2PieceNoBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem,
       IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem) {
-    Pose2d start = (new Pose2d(1.37795, -0.98806, Rotation2d.fromDegrees(0)));
-    Pose2d mid = (new Pose2d(5, -0.8, new Rotation2d(0)));
-    Pose2d gamePiece = (new Pose2d(7.058, -0.569, Rotation2d.fromDegrees(180)));
-    Pose2d end = (new Pose2d(1.37795, -0.55, Rotation2d.fromDegrees(0)));
+    Pose2d start = (new Pose2d(1.37795, -0.98806, Rotation2d.fromDegrees(180)));
+    Pose2d mid = (new Pose2d(5, -0.8, new Rotation2d(180)));
+    Pose2d gamePiece = (new Pose2d(7.058, -0.569, Rotation2d.fromDegrees(1)));
+    Pose2d end = (new Pose2d(1.37795, -0.55, Rotation2d.fromDegrees(180)));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -43,22 +43,17 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
         new OuttakeCommand(intakeSubsystem),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
         new WaitCommand(0.5),
-        new ParallelRaceGroup(
-            new SequentialCommandGroup(
-                new SetGamePieceCommand(true),
-                new DecideArmPosCommand(ArmPosition.GROUND),
-                new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-                new CreatePathCommand(driveSubsystem, start, null, gamePiece, false, true),
-                new WaitCommand(0.5)
-            ),
-            new IntakeCommand(intakeSubsystem)
-        ),
+        new SetGamePieceCommand(true),
+        new DecideArmPosCommand(ArmPosition.GROUND),
+        new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+        new CreatePathCommand(driveSubsystem, start, null, gamePiece, false, true),
+        new WaitCommand(0.5),
+        new IntakeCommand(intakeSubsystem),
         new CreatePathCommand(driveSubsystem, gamePiece, List.of(mid.getTranslation()), end, true, false),
         new DecideArmPosCommand(ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
         new WaitCommand(0.5),
         new OuttakeCommand(intakeSubsystem),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
-    );
+        new SetArmPosition(wristSubsystem, elevatorSubsystem, true));
   }
 }
