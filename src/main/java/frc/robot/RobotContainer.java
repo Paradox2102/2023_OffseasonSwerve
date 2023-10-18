@@ -19,6 +19,7 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
+import frc.robot.autos.Auto2GamePieceBumpSide;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoOrientCommand;
@@ -158,8 +159,10 @@ public class RobotContainer {
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
 
     // Auto Selection
-    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem));
     m_selectAuto.addOption("Test Auto", new Auto2GamePiece(m_driveSubsystem));
+    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem));
+    m_selectAuto.addOption("No Bump 2", new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Bump 2", new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
     SmartDashboard.putData(m_selectAuto);
   }

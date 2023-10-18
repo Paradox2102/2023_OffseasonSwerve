@@ -4,8 +4,11 @@
 
 package frc.robot.autos;
 
+import java.util.List;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -43,11 +46,25 @@ public class Auto2GamePieceBumpSide extends SequentialCommandGroup {
       new CreatePathCommand(
         driveSubsystem, 
         new Pose2d(1.37795, 4.007, Rotation2d.fromDegrees(180)), 
-        null, 
+        List.of(new Translation2d(2, 3.2), new Translation2d(6, 3.8)), 
         new Pose2d(7.068, 3.09, Rotation2d.fromDegrees(1)), 
         false, 
         true
-      )
+      ),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+
+      new CreatePathCommand(
+        driveSubsystem, 
+        new Pose2d(7.068, 3.09, Rotation2d.fromDegrees(1)), 
+        List.of(new Translation2d(6, 3.8), new Translation2d(2, 3.2)), 
+        new Pose2d(1.37795, 4.007, Rotation2d.fromDegrees(180)), 
+        false, 
+        true
+      ),
+      new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      new OuttakeCommand(intakeSubsystem),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
       
     );
   }
