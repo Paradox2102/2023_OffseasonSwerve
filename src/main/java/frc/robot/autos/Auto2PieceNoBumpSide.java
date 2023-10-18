@@ -39,7 +39,7 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
         new SetGamePieceCommand(false),
         new DecideArmPosCommand(ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-        new WaitCommand(0.5),
+        new WaitCommand(1),
         new OuttakeCommand(intakeSubsystem),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
         new WaitCommand(0.5),
