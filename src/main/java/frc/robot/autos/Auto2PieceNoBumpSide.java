@@ -39,25 +39,26 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
         new SetGamePieceCommand(false),
         new DecideArmPosCommand(ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-        new WaitCommand(1),
+        new WaitCommand(0.5),
         new OuttakeCommand(intakeSubsystem),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
         new WaitCommand(0.5),
-        new SetGamePieceCommand(true),
-        new DecideArmPosCommand(ArmPosition.GROUND),
         new ParallelRaceGroup(
             new SequentialCommandGroup(
+                new SetGamePieceCommand(true),
+                new DecideArmPosCommand(ArmPosition.GROUND),
+                new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
                 new CreatePathCommand(driveSubsystem, start, null, gamePiece, false, true),
-                new WaitCommand(0.1)
+                new WaitCommand(0.5)
             ),
-            new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
             new IntakeCommand(intakeSubsystem)
         ),
-        new CreatePathCommand(driveSubsystem, gamePiece, List.of(mid.getTranslation()), start, true, false),
+        new CreatePathCommand(driveSubsystem, gamePiece, List.of(mid.getTranslation()), end, true, false),
         new DecideArmPosCommand(ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-        new WaitCommand(1),
-        new OuttakeCommand(intakeSubsystem)
+        new WaitCommand(0.5),
+        new OuttakeCommand(intakeSubsystem),
+        new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
     );
   }
 }
