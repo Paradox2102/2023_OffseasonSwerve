@@ -51,7 +51,7 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
         new WaitCommand(0.5),
         new IntakeCommand(intakeSubsystem),
 
-        new CreatePathCommand(driveSubsystem, gamePiece, List.of(mid.getTranslation()), end, true, false),
+        new CreatePathCommand(driveSubsystem, gamePiece, List.of(mid.getTranslation()), end, false, false),
         new DecideArmPosCommand(ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
         new WaitCommand(1),
