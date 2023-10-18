@@ -30,7 +30,7 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
   public Auto2PieceNoBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem,
       IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem) {
     Pose2d start = (new Pose2d(1.37795, -0.98806, Rotation2d.fromDegrees(180)));
-    Pose2d mid = (new Pose2d(5, -0.8, new Rotation2d(180)));
+    Pose2d mid = (new Pose2d(5, -0.8, new Rotation2d(0)));
     Pose2d gamePiece = (new Pose2d(7.058, -0.569, Rotation2d.fromDegrees(1)));
     Pose2d end = (new Pose2d(1.37795, -0.55, Rotation2d.fromDegrees(180)));
     // Add your commands in the addCommands() call, e.g.
@@ -47,7 +47,7 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
         new DecideArmPosCommand(ArmPosition.GROUND),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
 
-        new CreatePathCommand(driveSubsystem, start, null, gamePiece, false, true),
+        new CreatePathCommand(driveSubsystem, start, List.of(mid.getTranslation()), gamePiece, false, true),
         new WaitCommand(0.5),
         new IntakeCommand(intakeSubsystem),
         
