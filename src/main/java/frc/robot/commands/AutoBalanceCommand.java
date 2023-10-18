@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
@@ -19,6 +20,9 @@ public class AutoBalanceCommand extends CommandBase {
   double m_previousPitch = 0;
   double m_futureRoll = 0;
   DoubleSupplier m_power = () -> 1;
+  Timer m_timer = new Timer();
+  double k_lookAheadTime = .3;
+  double k_maxPower = .05;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
@@ -35,6 +39,24 @@ public class AutoBalanceCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("AutoBalanceCommand", 0, "initialize");
+    m_timer.reset();
+    m_timer.start();
+    double heading = m_subsystem.getHeading();
+    if (Math.abs(heading) <= 50) {
+      m_previousPitch = m_subsystem.getRoll();
+    } 
+    // Facing backward
+    else if (Math.abs(heading) >= 130) {
+      m_previousPitch = -m_subsystem.getRoll();
+    }
+    // Facing right
+    else if (heading < 130 && heading > 50) {
+      m_previousPitch = -m_subsystem.getPitch();
+    }
+    // Facing left
+    else if (heading < -50 && heading > -130) {
+      m_previousPitch = m_subsystem.getPitch();
+    }
     m_isFinished = false;
   }
 
@@ -46,7 +68,8 @@ public class AutoBalanceCommand extends CommandBase {
     double power = Math.abs(m_power.getAsDouble());
 
     // Robot's predicted pitch in half a second
-    double futurePitch = 25 * (currentPitch - m_previousPitch) + currentPitch;
+    double pitchROC = (currentPitch - m_previousPitch) / m_timer.get();
+    double futurePitch = k_lookAheadTime * pitchROC + currentPitch;
 
     // Facing forward
     if (Math.abs(heading) <= 50) {
@@ -65,13 +88,13 @@ public class AutoBalanceCommand extends CommandBase {
       currentPitch = m_subsystem.getPitch();
     }
 
-    futurePitch = (currentPitch - m_previousPitch) + currentPitch;
-
     if (Math.abs(futurePitch) < 2) {
-      m_subsystem.setModuleStates(Constants.k_defaultState);
+      m_subsystem.setX();
       m_isFinished = true;
     } else {
-      m_subsystem.drive(k_p * futurePitch * power, 0, 0, true, false);
+      double speed = -k_p * futurePitch;
+      speed = speed > k_maxPower ? k_maxPower : speed;
+      m_subsystem.drive(speed, 0, 0, true, false);
     }
 
     // Update previous to use on next call of execute

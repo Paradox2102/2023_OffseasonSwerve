@@ -43,8 +43,8 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = -m_getX.getAsDouble();
-    double y = -m_getY.getAsDouble();
+    double x = m_getX.getAsDouble();
+    double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
     boolean isBalancing = m_isBalancing.getAsBoolean();

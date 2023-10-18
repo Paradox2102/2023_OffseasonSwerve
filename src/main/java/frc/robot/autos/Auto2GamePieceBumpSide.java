@@ -59,7 +59,7 @@ public class Auto2GamePieceBumpSide extends SequentialCommandGroup {
         List.of(new Translation2d(6, 3.8), new Translation2d(2, 3.2)), 
         new Pose2d(1.37795, 3.04, Rotation2d.fromDegrees(180)), 
         false, 
-        true
+        false
       ),
       new DecideArmPosCommand(Constants.ArmPosition.HIGH),
       new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
