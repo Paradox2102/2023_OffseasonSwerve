@@ -62,10 +62,10 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   private final SwerveDriveKinematics m_swerve = new SwerveDriveKinematics(
-        new Translation2d(.6731, .6731),
-        new Translation2d(.6731, -.6731),
-        new Translation2d(-.6731, .6731),
-        new Translation2d(-.6731, -.6731));
+        new Translation2d(.33655, .33655),
+        new Translation2d(.33655, -.33655),
+        new Translation2d(-.33655, .33655),
+        new Translation2d(-.33655, -.33655));
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
