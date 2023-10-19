@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
@@ -15,13 +16,17 @@ public class AutoBalanceCommand extends CommandBase {
   /** Creates a new AutoBalanceCommand. */
   DriveSubsystem m_subsystem;
   boolean m_isFinished = false;
-  double k_p = .006;
+  double k_p = .0065;
+  double k_i = .0001;
+  double k_d = 0;
   double m_previousPitch = 0;
   double m_futureRoll = 0;
   DoubleSupplier m_power = () -> 1;
   Timer m_timer = new Timer();
   double k_lookAheadTime = 1;
   double k_maxPower = .025;
+
+  PIDController m_pid = new PIDController(k_p, k_i, k_d);
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
@@ -87,14 +92,14 @@ public class AutoBalanceCommand extends CommandBase {
       currentPitch = m_subsystem.getPitch();
     }
 
-    // if (Math.abs(futurePitch) < 2) {
-    //   m_subsystem.setX();
-    //   m_isFinished = true;
-    // } else {
-      double speed = -k_p * futurePitch;
+    if (Math.abs(futurePitch) < 2) {
+      m_subsystem.setX();
+      // m_isFinished = true;
+    } else {
+      double speed = m_pid.calculate(futurePitch);
       speed = speed > k_maxPower ? k_maxPower : speed;
       m_subsystem.drive(speed, 0, 0, true, false);
-    // }
+    }
 
     // Update previous to use on next call of execute
     m_previousPitch = currentPitch;
@@ -107,6 +112,6 @@ public class AutoBalanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //m_isFinished
+    return m_isFinished;
   }
 }

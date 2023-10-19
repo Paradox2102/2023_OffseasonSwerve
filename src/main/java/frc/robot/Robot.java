@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     // Rainbow LEDs when robot is disabled
+    m_robotContainer.m_driveSubsystem.setX();
   }
 
   @Override

@@ -32,6 +32,7 @@ import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
+import frc.robot.commands.yaycommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -50,7 +51,7 @@ import frc.robot.triggers.ToggleTrigger;
 public class RobotContainer {
   public final ApriltagsCamera m_camera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, Constants.k_yFrontCameraOffsetInches, Constants.k_frontCameraAngle);
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
+  final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -143,8 +144,10 @@ public class RobotContainer {
       () -> m_xbox.getLeftX()
     ));
 
-    m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem));
-    m_xbox.leftTrigger().onTrue(new OuttakeCommand(m_intakeSubsystem));
+    // m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    // m_xbox.leftTrigger().onTrue(new OuttakeCommand(m_intakeSubsystem));
+    m_xbox.rightTrigger().whileTrue(new yaycommand(m_intakeSubsystem, .5));
+    m_xbox.leftTrigger().whileTrue(new yaycommand(m_intakeSubsystem, -.5));
     m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
@@ -153,7 +156,7 @@ public class RobotContainer {
     m_stick.button(6).whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, () -> m_stick.getY()));
     
     m_stick.button(5).onTrue(new ResetWrist(m_wristSubsystem));
-    m_stick.button(8).onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode)));
+    m_stick.button(3).onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode)));
 
     m_stick.button(7).onTrue(new DecideArmPosCommand(ArmPosition.HIGH));
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));

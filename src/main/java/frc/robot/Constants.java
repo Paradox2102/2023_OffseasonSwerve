@@ -56,7 +56,7 @@ public final class Constants {
 
   // Neutral Pose
   public static final double k_neutralElevatorInches = 0;
-  public static final double k_neutralWristDegrees = 10;
+  public static final double k_neutralWristDegrees = 0;
 
   public enum ArmPosition {
     HIGH,
@@ -86,7 +86,7 @@ public final class Constants {
     public static final double k_midWristDegrees = 46.1;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 55.7;
-    public static final double k_groundWristDegrees = 87;
+    public static final double k_groundWristDegrees = 67;
   }
 
   // Cone presets
@@ -108,7 +108,7 @@ public final class Constants {
     public static final double k_midWristDegrees = 69.5;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 4;
-    public static final double k_groundWristDegrees = 80;
+    public static final double k_groundWristDegrees = 62;
   }
 
   // DRIVETRAIN SPARK MAX IDs
@@ -128,7 +128,7 @@ public final class Constants {
   // Angular offsets of the modules relative to the chassis in radians
 
   // Bolt
-  public static final double k_FLOffset = 3.26 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
+  public static final double k_FLOffset = .95 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
   public static final double k_FROffset = 6.05; // 1.171;
   public static final double k_BLOffset = 2.17 +(Math.PI); // 6.173 + (Math.PI);
   public static final double k_BROffset = 4.76 + (Math.PI / 2); // 3.243 + (Math.PI / 2);

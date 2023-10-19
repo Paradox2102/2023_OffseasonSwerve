@@ -64,12 +64,16 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
+  public void yay(double power) {
+    m_motor.set(ControlMode.PercentOutput, power);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    isIntakeStalled();
-    double power = k_stallSpeed + m_power;
-    m_motor.set(ControlMode.PercentOutput, power);
-    SmartDashboard.putNumber("Intake Speed", m_motor.getSelectedSensorVelocity());
+    // isIntakeStalled();
+    // double power = k_stallSpeed + m_power;
+    // m_motor.set(ControlMode.PercentOutput, power);
+    // SmartDashboard.putNumber("Intake Speed", m_motor.getSelectedSensorVelocity());
   }
 }
