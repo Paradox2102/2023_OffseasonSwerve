@@ -183,4 +183,12 @@ public class MaxSwerveModule {
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
   }
+
+  public void setTurn() {
+    m_turn.set(.5);
+  }
+
+  public void setDrive() {
+    m_drive.set(.5);
+  }
 }

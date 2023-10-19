@@ -30,12 +30,12 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setPower(double power) {
-    // m_power = power;
     Logger.log("IntakeSubsystem", 1, String.format("setPower: %f", power));
     m_power = power;
   }
 
   public void intake() {
+    m_stallTimer.reset();
     m_power = Constants.k_isCubeMode ? Constants.CubeConstants.k_intakePower : Constants.ConeConstants.k_intakePower;
   }
 
@@ -54,8 +54,13 @@ public class IntakeSubsystem extends SubsystemBase {
   // Lower power if game piece is acquired
   private void isIntakeStalled() {
     double speed = m_motor.getSelectedSensorVelocity();
-    if (Math.abs(speed) < 3) {
-      stop();
+    if (m_stallTimer.get() > 1) {
+      if (Math.abs(speed) < 1) {
+        stop();
+        m_stallTimer.reset();
+      } else {
+        m_stallTimer.reset();
+      }
     }
   }
 

@@ -283,6 +283,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.resetEncoders();
     m_backRight.resetEncoders();
   }
+ 
+  public void setOnePower() {
+    m_backLeft.setDrive();
+  }
 
   /** Zeroes the heading of the robot. */
   public void setHeading(double angle) {

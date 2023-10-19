@@ -114,12 +114,12 @@ public final class Constants {
   // DRIVETRAIN SPARK MAX IDs
   // Front of robot is opposite battery
   public static final int k_FRDriveMotor = 1; // Front Right // 3
-  public static final int k_FLDriveMotor = 3; // Front Left // 1
+  public static final int k_FLDriveMotor = 4; // Front Left // 1
   public static final int k_BRDriveMotor = 5; // Back Right // 7
   public static final int k_BLDriveMotor = 7; // Back Left // 5
 
   public static final int k_FRTurningMotor = 2; // 4
-  public static final int k_FLTurningMotor = 4; // 2
+  public static final int k_FLTurningMotor = 3; // 2
   public static final int k_BRTurningMotor = 6; // 8
   public static final int k_BLTurningMotor = 8; // 6
 
