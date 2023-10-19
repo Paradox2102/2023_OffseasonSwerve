@@ -17,15 +17,12 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
   private double m_power = 0;
   private TalonFX m_motor = new TalonFX(Constants.k_intakeMotor, "Default Name");
-  private final double k_stallSpeed = .075;
-  private Timer m_stallTimer = new Timer();
+  private final double k_stallPower = .075;
 
   public enum IntakeType {INTAKE, OUTTAKE, STOP}
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    m_stallTimer.reset();
-    m_stallTimer.start();
     setBrakeMode(true);
   }
 
@@ -35,7 +32,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intake() {
-    m_stallTimer.reset();
     m_power = Constants.k_isCubeMode ? Constants.CubeConstants.k_intakePower : Constants.ConeConstants.k_intakePower;
   }
 
@@ -44,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    m_power = Constants.k_isCubeMode ? 0 : -k_stallSpeed;
+    m_power = Constants.k_isCubeMode ? 0 : -k_stallPower;
   }
 
   public void setBrakeMode(boolean brake) {
@@ -54,22 +50,18 @@ public class IntakeSubsystem extends SubsystemBase {
   // Lower power if game piece is acquired
   private void isIntakeStalled() {
     double speed = m_motor.getSelectedSensorVelocity();
-    if (m_stallTimer.get() > 1) {
-      if (Math.abs(speed) < 1) {
-        stop();
-        m_stallTimer.reset();
-      } else {
-        m_stallTimer.reset();
-      }
+    
+    if (Math.abs(speed) < 1 && Math.abs(m_power) > k_stallPower) {
+      stop();
     }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    isIntakeStalled();
-    double power = k_stallSpeed + m_power;
-    m_motor.set(ControlMode.PercentOutput, power);
+    // isIntakeStalled();
+    // double power = k_stallPower + m_power;
+    m_motor.set(ControlMode.PercentOutput, m_power);
     SmartDashboard.putNumber("Intake Speed", m_motor.getSelectedSensorVelocity());
   }
 }

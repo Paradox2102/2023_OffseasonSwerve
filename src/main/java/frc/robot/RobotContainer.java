@@ -27,13 +27,12 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetLEDColorCommand;
+import frc.robot.commands.TempIntakeCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -100,9 +99,9 @@ public class RobotContainer {
   private void configureBindings() { 
     // System.out.println("Working"); 
     // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
-    Trigger m_isFieldRelative = m_xbox.rightBumper();
+    Trigger m_isFieldRelative = m_xbox.leftStick();
     Trigger m_isBalancing = m_xbox.leftBumper();
-    Trigger m_brakeMode = m_xbox.x();
+    Trigger m_brakeMode = m_stick.button(3);
 
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
@@ -147,8 +146,8 @@ public class RobotContainer {
       () -> m_xbox.getLeftX()
     ));
 
-    m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem));
-    m_xbox.leftTrigger().onTrue(new OuttakeCommand(m_intakeSubsystem));
+    m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
+    m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
     m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
@@ -157,7 +156,7 @@ public class RobotContainer {
     m_stick.button(6).whileTrue(new ManualElevatorCommand(m_elevatorSubsystem, () -> m_stick.getY()));
     
     m_stick.button(5).onTrue(new ResetWrist(m_wristSubsystem));
-    m_stick.button(8).onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode)));
+    m_stick.button(3).onTrue(new SetCoastModeCommand(m_wristSubsystem, m_elevatorSubsystem, new ToggleTrigger(m_brakeMode)));
 
     m_stick.button(7).onTrue(new DecideArmPosCommand(ArmPosition.HIGH));
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
@@ -169,9 +168,7 @@ public class RobotContainer {
     m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
 
     // Auto Selection
-    m_selectAuto.addOption("Test Auto", testAuto2GamePiece = new Auto2GamePiece(m_driveSubsystem));
-    m_selectAuto.addOption("Test Balance", testAutoBalance = new AutoBalanceCommand(m_driveSubsystem));
-    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem));
+    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 

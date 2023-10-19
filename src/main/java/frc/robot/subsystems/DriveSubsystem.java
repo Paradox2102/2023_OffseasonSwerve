@@ -291,7 +291,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void setHeading(double angle) {
     m_gyro.setYaw(angle);
-    m_tracker.setXYAngle(m_tracker.getPose2dFRC().getX(), m_tracker.getPose2dFRC().getY(), angle);
+    m_tracker.setXYAngleFRC(m_tracker.getPose2dFRC().getX(), m_tracker.getPose2dFRC().getY(), angle);
   }
 
   /**

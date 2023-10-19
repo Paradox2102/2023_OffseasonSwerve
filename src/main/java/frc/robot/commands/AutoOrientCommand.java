@@ -39,7 +39,7 @@ public class AutoOrientCommand extends CommandBase {
     double heading = ParadoxField.rotation2dFromFRC(m_subsystem.getTracker().getPose2d().getRotation()).getDegrees();
     double rot = -(ParadoxField.normalizeAngle(heading - m_angle)) / 120.0;
     rot = Math.abs(rot) < k_minPower ? k_minPower * Math.signum(rot): rot;
-    m_subsystem.drive(-y, x, rot, true, false);
+    m_subsystem.drive(-y, -x, rot, true, false);
   }
 
   // Called once the command ends or is interrupted.
