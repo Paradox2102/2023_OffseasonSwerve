@@ -128,7 +128,7 @@ public final class Constants {
   // Angular offsets of the modules relative to the chassis in radians
 
   // Bolt
-  public static final double k_FLOffset = 3.26 - (Math.PI / 2); // 5.425 - (Math.PI / 2);
+  public static final double k_FLOffset = 0.913 - (Math.PI / 2); // 5.425 - (Math.PI / 2); // 3.26
   public static final double k_FROffset = 6.05; // 1.171;
   public static final double k_BLOffset = 2.17 +(Math.PI); // 6.173 + (Math.PI);
   public static final double k_BROffset = 4.76 + (Math.PI / 2); // 3.243 + (Math.PI / 2);

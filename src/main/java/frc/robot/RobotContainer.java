@@ -163,7 +163,7 @@ public class RobotContainer {
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
     m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
-    m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kChartreuse, Color.kThistle));
+    m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kRed, Color.kGreen));
 
     m_stick.button(1).toggleOnTrue(new RunCommand(() -> m_driveSubsystem.setOnePower()));
     m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
@@ -175,8 +175,8 @@ public class RobotContainer {
     m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
-    // new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
-    // new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
+    new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
+    new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kOrange, Color.kOrange));
 
     SmartDashboard.putData(m_selectAuto);
   }

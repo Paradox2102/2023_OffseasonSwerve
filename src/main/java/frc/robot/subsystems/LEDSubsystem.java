@@ -10,27 +10,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LEDSubsystem extends SubsystemBase {
-  private final AddressableLED m_leftLed = new AddressableLED(0);
-  private final AddressableLED m_rightLed = new AddressableLED(1);
+  // private final AddressableLED m_leftLed = new AddressableLED(1);
+  private final AddressableLED m_rightLed = new AddressableLED(0);
 
   /** Creates a new LEDSubsystem. */
   public LEDSubsystem() {
-    m_leftLed.setLength(Constants.k_LEDLength);
+    // m_leftLed.setLength(Constants.k_LEDLength);
     m_rightLed.setLength(Constants.k_LEDLength);
   }
 
   public void setData(AddressableLEDBuffer leftBuffer, AddressableLEDBuffer rightBuffer) {
-    m_leftLed.setData(leftBuffer) ;
+    // m_leftLed.setData(leftBuffer) ;
     m_rightLed.setData(rightBuffer);
   }
 
   public void start() {
-    m_leftLed.start();
+    // m_leftLed.start();
     m_rightLed.start();
   }
 
   public void end() {
-    m_leftLed.stop();
+    // m_leftLed.stop();
     m_rightLed.stop();
   }
 
