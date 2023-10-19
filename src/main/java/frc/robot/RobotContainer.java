@@ -9,6 +9,7 @@ import java.io.IOException;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,11 +33,13 @@ import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
+import frc.robot.commands.SetLEDColorCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.triggers.HoldTrigger;
 import frc.robot.triggers.ToggleTrigger;
@@ -54,6 +57,7 @@ public class RobotContainer {
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
   public final PositionTrackerPose m_tracker = new PositionTrackerPose(0, 0, m_driveSubsystem);
 
@@ -159,19 +163,28 @@ public class RobotContainer {
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
     m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
+    m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kChartreuse, Color.kThistle));
 
     m_stick.button(1).toggleOnTrue(new RunCommand(() -> m_driveSubsystem.setOnePower()));
     m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
 
     // Auto Selection
-    m_selectAuto.addOption("Test Auto", new Auto2GamePiece(m_driveSubsystem));
-    m_selectAuto.addOption("Test Balance", new AutoBalanceCommand(m_driveSubsystem));
-    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem));
-    m_selectAuto.addOption("No Bump 2", new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Bump 2", new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Test Auto", testAuto2GamePiece = new Auto2GamePiece(m_driveSubsystem));
+    m_selectAuto.addOption("Test Balance", testAutoBalance = new AutoBalanceCommand(m_driveSubsystem));
+    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem));
+    m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+
+    // new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
+    // new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
 
     SmartDashboard.putData(m_selectAuto);
   }
+  Command testAuto2GamePiece;
+  Command testAutoBalance;
+  Command autoChargeStation;
+  Command auto2PieceNoBump;
+  Command auto2PieceBump;
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

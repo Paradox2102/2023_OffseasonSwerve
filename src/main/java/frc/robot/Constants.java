@@ -201,6 +201,8 @@ public final class Constants {
       new SwerveModuleState(0, new Rotation2d(Math.PI / 4))
   };
 
+  public static final int k_LEDLength = 36;
+
   public static final double k_driveDeadband = 0.05;
   public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(
       k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);

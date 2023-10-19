@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.SetLEDColorCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +22,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private Color m_allianceColor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,8 +33,23 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_allianceColor = DriverStation.getAlliance() == Alliance.Red ? Color.kRed : Color.kBlue;
+    if (m_robotContainer.m_selectAuto.getSelected() == m_robotContainer.auto2PieceBump){
+      if (m_allianceColor == Color.kRed){
+        new SetLEDColorCommand(m_robotContainer.m_ledSubsystem, Color.kBlack, m_allianceColor).schedule();
+      } else {
+        new SetLEDColorCommand(m_robotContainer.m_ledSubsystem, m_allianceColor, Color.kBlack).schedule();
+      }
+    } else if (m_robotContainer.m_selectAuto.getSelected() == m_robotContainer.auto2PieceNoBump){
+      if (m_allianceColor == Color.kRed){
+        new SetLEDColorCommand(m_robotContainer.m_ledSubsystem, m_allianceColor, Color.kBlack).schedule();
+      } else {
+        new SetLEDColorCommand(m_robotContainer.m_ledSubsystem, Color.kBlack, m_allianceColor).schedule();
+      }
+    } else if (m_robotContainer.m_selectAuto.getSelected() == m_robotContainer.autoChargeStation){
+      new SetLEDColorCommand(m_robotContainer.m_ledSubsystem, m_allianceColor, m_allianceColor).schedule();
+    }
   }
-
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
