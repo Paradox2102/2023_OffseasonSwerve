@@ -86,13 +86,13 @@ public final class Constants {
     public static final double k_midWristDegrees = 46.1;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 55.7;
-    public static final double k_groundWristDegrees = 87;
+    public static final double k_groundWristDegrees = 78;
   }
 
   // Cone presets
   public static final class ConeConstants {
     // Intake
-    public static final double k_intakePower = .25;
+    public static final double k_intakePower = .75;
     public static final double k_outtakePower = -CubeConstants.k_outtakePower;
     public static final double k_intakeF = -CubeConstants.k_intakeF;
 
@@ -108,7 +108,7 @@ public final class Constants {
     public static final double k_midWristDegrees = 69.5;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 4;
-    public static final double k_groundWristDegrees = 80;
+    public static final double k_groundWristDegrees = 75.3;
   }
 
   // DRIVETRAIN SPARK MAX IDs
@@ -201,7 +201,7 @@ public final class Constants {
       new SwerveModuleState(0, new Rotation2d(Math.PI / 4))
   };
 
-  public static final int k_LEDLength = 36;
+  public static final int k_LEDLength = 72;
 
   public static final double k_driveDeadband = 0.05;
   public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(

@@ -86,7 +86,7 @@ public class WristSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     runP();
-    checkLimits();
+    // checkLimits();
     m_motor.set(ControlMode.PercentOutput, m_power);
     SmartDashboard.putNumber("Wrist Pos", getAngleDegrees());
     SmartDashboard.putBoolean("Is Cube", Constants.k_isCubeMode);

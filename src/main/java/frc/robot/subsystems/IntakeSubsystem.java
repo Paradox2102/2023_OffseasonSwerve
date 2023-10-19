@@ -40,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    m_power = Constants.k_isCubeMode ? 0 : -k_stallPower;
+    m_power = Constants.k_isCubeMode ? 0 : k_stallPower;
   }
 
   public void setBrakeMode(boolean brake) {

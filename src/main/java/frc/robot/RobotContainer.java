@@ -21,8 +21,9 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
-import frc.robot.autos.Auto2GamePieceBumpSide;
 import frc.robot.autos.AutoChargeStation;
+import frc.robot.autos.BumpSideScuff;
+import frc.robot.autos.NoBumpScuff;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
@@ -168,9 +169,11 @@ public class RobotContainer {
     m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
 
     // Auto Selection
-    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+
+    m_selectAuto.addOption("Bump", new BumpSideScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
+
+    m_selectAuto.addOption("No Bump", new NoBumpScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
 
     new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
     new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kOrange, Color.kOrange));

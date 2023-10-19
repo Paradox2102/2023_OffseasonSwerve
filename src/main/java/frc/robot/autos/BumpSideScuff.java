@@ -4,19 +4,18 @@
 
 package frc.robot.autos;
 
-import java.util.List;
-
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-// import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.TempIntakeCommand;
@@ -28,24 +27,19 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoChargeStation extends SequentialCommandGroup {
-  /** Creates a new AutoChargeStation. */
-  public AutoChargeStation(DriveSubsystem m_subsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, IntakeSubsystem intakeSubsystem) {
+public class BumpSideScuff extends SequentialCommandGroup {
+  /** Creates a new BumpSideScuff. */
+  public BumpSideScuff(DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem, IntakeSubsystem intakeSubsystem, ElevatorSubsystem elevatorSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-
-    // Commands
-      addCommands(
-        new TempIntakeCommand(intakeSubsystem, true),
-        new SetGamePieceCommand(false),
-        new DecideArmPosCommand(Constants.ArmPosition.HIGH),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-        new WaitCommand(1),
-        new TempIntakeCommand(intakeSubsystem, false),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
-        new WaitCommand(.75),
-        new ParallelRaceGroup(new WaitCommand(3), new RunCommand(() -> m_subsystem.drive(.25, 0, 0, true, false), m_subsystem)),
-        new AutoBalanceCommand(m_subsystem)
+    addCommands(
+      new SetGamePieceCommand(false),
+      new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      new WaitCommand(1),
+      new ParallelRaceGroup(new WaitCommand(.5), new TempIntakeCommand(intakeSubsystem, false)),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+      new ParallelRaceGroup(new WaitCommand(5), new RunCommand(() -> driveSubsystem.drive(.25, 0, 0, true, false), driveSubsystem))
     );
   }
 }
