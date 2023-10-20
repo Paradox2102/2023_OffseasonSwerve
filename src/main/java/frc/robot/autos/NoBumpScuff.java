@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.TempIntakeCommand;
@@ -27,6 +28,7 @@ public class NoBumpScuff extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new ResetGyro(driveSubsystem, 180),
       new SetGamePieceCommand(false),
       new DecideArmPosCommand(Constants.ArmPosition.HIGH),
       new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
