@@ -79,20 +79,20 @@ public final class Constants {
     public static final double k_midElevatorInches = 22;
     public static final double k_singleElevatorInches = 0;
     public static final double k_doubleElevatorInches = 40;
-    public static final double k_groundElevatorInches = 4.3;
+    public static final double k_groundElevatorInches = 2.7;
 
     // Wrist
     public static final double k_highWristDegrees = 46.1;
     public static final double k_midWristDegrees = 46.1;
     public static final double k_singleWristDegrees = 0;
     public static final double k_doubleWristDegrees = 55.7;
-    public static final double k_groundWristDegrees = 86.3;
+    public static final double k_groundWristDegrees = 87.4;
   }
 
   // Cone presets
   public static final class ConeConstants {
     // Intake
-    public static final double k_intakePower = .75;
+    public static final double k_intakePower = 1;
     public static final double k_outtakePower = -CubeConstants.k_outtakePower;
     public static final double k_intakeF = -CubeConstants.k_intakeF;
 
@@ -100,15 +100,15 @@ public final class Constants {
     public static final double k_highElevatorInches = 40;
     public static final double k_midElevatorInches = 31.5;
     public static final double k_singleElevatorInches = 0;
-    public static final double k_doubleElevatorInches = 15;
+    public static final double k_doubleElevatorInches = 44.2;
     public static final double k_groundElevatorInches = 1.8;
 
     // Wrist
     public static final double k_highWristDegrees = 52.5;
     public static final double k_midWristDegrees = 69.5;
     public static final double k_singleWristDegrees = 0;
-    public static final double k_doubleWristDegrees = 4;
-    public static final double k_groundWristDegrees = 83.7;
+    public static final double k_doubleWristDegrees = 64.8;
+    public static final double k_groundWristDegrees = 76;
   }
 
   // DRIVETRAIN SPARK MAX IDs

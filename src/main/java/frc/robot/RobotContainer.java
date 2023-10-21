@@ -22,6 +22,8 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.AutoChargeStation;
+import frc.robot.autos.AutoNothing;
+import frc.robot.autos.AutoRunElevator;
 import frc.robot.autos.BumpSideScuff;
 import frc.robot.autos.NoBumpScuff;
 import frc.robot.commands.ArcadeDrive;
@@ -118,34 +120,34 @@ public class RobotContainer {
     m_xbox.povUp().onTrue(new ResetGyro(m_driveSubsystem, 0));
     m_xbox.povRight().onTrue(new ResetGyro(m_driveSubsystem, 90));
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem, 180));
-    m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem, 270));
+    m_xbox.povLeft().onTrue(new ResetGyro(m_driveSubsystem, 270));
 
-    m_xbox.a().onTrue(new AutoOrientCommand(
-      m_driveSubsystem, 
-      180, 
-      () -> -m_xbox.getLeftY(), 
-      () -> m_xbox.getLeftX()
-    ));
-    m_xbox.b().onTrue(new AutoOrientCommand(
-      m_driveSubsystem, 
-      90, 
-      () -> -m_xbox.getLeftY(), 
-      () -> m_xbox.getLeftX()
-    ));
+    // m_xbox.a().onTrue(new AutoOrientCommand(
+    //   m_driveSubsystem, 
+    //   180, 
+    //   () -> -m_xbox.getLeftY(), 
+    //   () -> m_xbox.getLeftX()
+    // ));
+    // m_xbox.b().onTrue(new AutoOrientCommand(
+    //   m_driveSubsystem, 
+    //   90, 
+    //   () -> -m_xbox.getLeftY(), 
+    //   () -> m_xbox.getLeftX()
+    // ));
 
-    m_xbox.x().onTrue(new AutoOrientCommand(
-      m_driveSubsystem, 
-      270, 
-      () -> -m_xbox.getLeftY(), 
-      () -> m_xbox.getLeftX()
-    ));
+    // m_xbox.x().onTrue(new AutoOrientCommand(
+    //   m_driveSubsystem, 
+    //   270, 
+    //   () -> -m_xbox.getLeftY(), 
+    //   () -> m_xbox.getLeftX()
+    // ));
 
-    m_xbox.y().onTrue(new AutoOrientCommand(
-      m_driveSubsystem, 
-      0, 
-      () -> -m_xbox.getLeftY(), 
-      () -> m_xbox.getLeftX()
-    ));
+    // m_xbox.y().onTrue(new AutoOrientCommand(
+    //   m_driveSubsystem, 
+    //   0, 
+    //   () -> -m_xbox.getLeftY(), 
+    //   () -> m_xbox.getLeftX()
+    // ));
 
     m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
     m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
@@ -192,6 +194,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_selectAuto.getSelected();
+    // return m_selectAuto.getSelected();
+    return new AutoNothing();
   }
 }
