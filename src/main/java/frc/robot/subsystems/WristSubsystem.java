@@ -21,6 +21,7 @@ public class WristSubsystem extends SubsystemBase {
   private double m_power = 0;
   private boolean m_manualControl = false;
   private DigitalInput m_switch = new DigitalInput(6);
+  private boolean m_brake = true;
 
   private final double k_p = .025;
   private final double k_i = 0;
@@ -55,6 +56,11 @@ public class WristSubsystem extends SubsystemBase {
 
   public void setBrakeMode(boolean brake) {
     m_motor.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    m_brake = brake;
+  }
+
+  public boolean getBrake() {
+    return m_brake;
   }
 
   private double getAngleDegrees() {

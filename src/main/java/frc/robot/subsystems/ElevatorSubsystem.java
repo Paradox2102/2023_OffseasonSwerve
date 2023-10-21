@@ -33,6 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final double k_FHigh = .01;
   private final double k_midHeightInches = 11;
   private final double k_maxDownPower = -.2;
+  private boolean m_brake = true;
 
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
@@ -68,6 +69,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void setBrakeMode(boolean brake) {
     m_motor.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    m_brake = brake;
+  }
+
+  public boolean getBrake() {
+    return m_brake;
   }
 
   private double getExtentInches() {

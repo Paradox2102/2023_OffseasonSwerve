@@ -27,8 +27,8 @@ public class SetCoastModeCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_wristSubsystem.setBrakeMode(m_brake.getAsBoolean());
-    m_elevatorSubsystem.setBrakeMode(m_brake.getAsBoolean());
+    m_wristSubsystem.setBrakeMode(!m_wristSubsystem.getBrake());
+    m_elevatorSubsystem.setBrakeMode(!m_elevatorSubsystem.getBrake());
   }
 
   @Override
