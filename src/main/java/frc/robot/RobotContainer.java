@@ -22,6 +22,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.AutoChargeStation;
+import frc.robot.autos.AutoMobility;
 import frc.robot.autos.AutoNothing;
 import frc.robot.autos.AutoRunElevator;
 import frc.robot.autos.BumpSideScuff;
@@ -105,6 +106,10 @@ public class RobotContainer {
     Trigger m_isFieldRelative = m_xbox.leftStick();
     Trigger m_isBalancing = m_xbox.leftBumper();
     Trigger m_brakeMode = m_stick.button(3);
+    Trigger m_slowMode1 = m_xbox.a();
+    Trigger m_slowMode2 = m_xbox.b();
+    Trigger m_slowMode3 = m_xbox.x();
+    Trigger m_slowMode4 = m_xbox.y();
 
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
@@ -112,7 +117,11 @@ public class RobotContainer {
       () -> m_xbox.getLeftY(),
       () -> m_xbox.getRightX(),
       new HoldTrigger(m_isFieldRelative),
-      new HoldTrigger(m_isBalancing)
+      new HoldTrigger(m_isBalancing),
+      new HoldTrigger(m_slowMode1),
+      new HoldTrigger(m_slowMode2),
+      new HoldTrigger(m_slowMode3),
+      new HoldTrigger(m_slowMode4)
     ));
 
     // Driver 1
@@ -171,11 +180,13 @@ public class RobotContainer {
     m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
 
     // Auto Selection
-    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+    // m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
 
-    m_selectAuto.addOption("Bump", new BumpSideScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
+    // m_selectAuto.addOption("Bump", new BumpSideScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
 
-    m_selectAuto.addOption("No Bump", new NoBumpScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
+    // m_selectAuto.addOption("No Bump", new NoBumpScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
+    m_selectAuto.addOption("Nothing", new AutoNothing());
+    m_selectAuto.addOption("Mobility", new AutoMobility(m_driveSubsystem));
 
     new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
     new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kOrange, Color.kOrange));
@@ -194,7 +205,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return m_selectAuto.getSelected();
-    return new AutoNothing();
+    return m_selectAuto.getSelected();
+    // return new AutoNothing();
   }
 }
