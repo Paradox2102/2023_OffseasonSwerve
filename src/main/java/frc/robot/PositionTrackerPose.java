@@ -70,6 +70,7 @@ public class PositionTrackerPose {
 			m_driveSubsystem.getModulePosition(), 
 			new Pose2d(x, y, Rotation2d.fromDegrees(angleInDegrees))
 		);
+		System.out.println(getPose2dFRC().getRotation().getDegrees());
 	}
 
 	public static class PositionContainer {
