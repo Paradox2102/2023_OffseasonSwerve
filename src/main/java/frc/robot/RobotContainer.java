@@ -205,7 +205,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_selectAuto.getSelected();
+    // return m_selectAuto.getSelected();
     // return new AutoNothing();
+    return new Auto2GamePiece(m_driveSubsystem);
   }
 }

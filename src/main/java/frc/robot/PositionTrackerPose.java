@@ -65,9 +65,8 @@ public class PositionTrackerPose {
 
 	public void setXYAngleFRC(double x, double y, double angleInDegrees) {
 		Logger.log("PositionTracker", 1, String.format("x=%f, y=%f, angle=%f", x, y, angleInDegrees));
-		m_driveSubsystem.getGyro().setYaw(angleInDegrees);
 		m_poseEstimator.resetPosition(
-			Rotation2d.fromDegrees(angleInDegrees), 
+			m_driveSubsystem.getGyroRotation2d(), 
 			m_driveSubsystem.getModulePosition(), 
 			new Pose2d(x, y, Rotation2d.fromDegrees(angleInDegrees))
 		);

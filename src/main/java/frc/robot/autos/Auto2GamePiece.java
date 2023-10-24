@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -24,8 +25,8 @@ public class Auto2GamePiece extends SequentialCommandGroup {
     Pose2d end = (new Pose2d(5, 0, Rotation2d.fromDegrees(180)));
     addCommands(
       // new CreatePathCommand(driveSubsystem, new Pose2d(1.8, -1, new Rotation2d(Math.PI)), List.of(new Translation2d(4, -.7)), new Pose2d(6.32, -.53, (new Rotation2d(Math.PI))), true, true)
-      // new CreatePathCommand(driveSubsystem, new Pose2d(1.8, -1, (new Rotation2d(0))), List.of(new Translation2d(1.85, -1)), new Pose2d(1.9, -1, new Rotation2d(0)), true, true)
-      // new CreatePathCommand(driveSubsystem, start, List.of(mid.getTranslation()), end, false, true)
+      // new CreatePathCommand(driveSubsystem, new Pose2d(1.8, -1, (new Rotation2d(0))), List.of(new Translation2d(1.85, -1)), new Pose2d(1.9, -1, new Rotation2d(0)), true, true),
+      new CreatePathCommand(driveSubsystem, start, List.of(mid.getTranslation()), end, true, true)
     );
   }
 }
