@@ -122,9 +122,10 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pose Est X", (m_tracker.getPose2dFRC().getTranslation().getX()));
     SmartDashboard.putNumber("Pose Est Y", (m_tracker.getPose2dFRC().getTranslation().getY()));
     SmartDashboard.putNumber("Pose Est Rot", (m_tracker.getPose2dFRC().getRotation().getDegrees()));
-    m_field.setRobotPose(m_tracker.getPose2dFRC());
+    System.out.println(m_tracker.getPose2dFRC().getRotation().getDegrees());
 
     m_tracker.update(m_camera);
+    m_field.setRobotPose(m_tracker.getPose2dFRC().getTranslation().getX(), m_tracker.getPose2dFRC().getTranslation().getY(), m_tracker.getPose2dFRC().getRotation());
   }
 
   /**
@@ -294,6 +295,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void setHeading(double angle) {
     m_gyro.setYaw(angle);
     m_tracker.setXYAngleFRC(m_tracker.getPose2dFRC().getX(), m_tracker.getPose2dFRC().getY(), angle);
+    System.out.println("yes");
   }
 
   /**
