@@ -225,7 +225,7 @@ public class DriveSubsystem extends SubsystemBase {
     var swerveModuleStates = m_swerve.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, ParadoxField.rotation2dFromFRC(m_tracker.getPose2d().getRotation()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+            : new ChassisSpeeds(-xSpeedDelivered, -ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.k_maxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
