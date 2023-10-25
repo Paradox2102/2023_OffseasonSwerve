@@ -116,13 +116,13 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
-    // SmartDashboard.putData("Gyro Angle", m_gyro);
-    // SmartDashboard.putNumber("Roll", getRoll());
-    // SmartDashboard.putNumber("Pitch", getPitch());
+    SmartDashboard.putData("Gyro Angle", m_gyro);
+    SmartDashboard.putNumber("Roll", getRoll());
+    SmartDashboard.putNumber("Pitch", getPitch());
     SmartDashboard.putNumber("Pose Est X", (m_tracker.getPose2dFRC().getTranslation().getX()));
     SmartDashboard.putNumber("Pose Est Y", (m_tracker.getPose2dFRC().getTranslation().getY()));
     SmartDashboard.putNumber("Pose Est Rot", (m_tracker.getPose2dFRC().getRotation().getDegrees()));
-    System.out.println(m_tracker.getPose2dFRC().getRotation().getDegrees());
+    // System.out.println(m_tracker.getPose2dFRC().getRotation().getDegrees());
 
     m_tracker.update(m_camera);
     m_field.setRobotPose(m_tracker.getPose2dFRC().getTranslation().getX(), m_tracker.getPose2dFRC().getTranslation().getY(), m_tracker.getPose2dFRC().getRotation());

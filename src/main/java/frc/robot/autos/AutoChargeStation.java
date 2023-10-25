@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.TempIntakeCommand;
@@ -30,22 +32,29 @@ import frc.robot.subsystems.WristSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoChargeStation extends SequentialCommandGroup {
   /** Creates a new AutoChargeStation. */
-  public AutoChargeStation(DriveSubsystem m_subsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, IntakeSubsystem intakeSubsystem) {
+  public AutoChargeStation(DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     // Commands
       addCommands(
-        new TempIntakeCommand(intakeSubsystem, true),
+        new ResetGyro(driveSubsystem, 180),
         new SetGamePieceCommand(false),
+        new TempIntakeCommand(intakeSubsystem, true),
         new DecideArmPosCommand(Constants.ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
         new WaitCommand(1),
         new TempIntakeCommand(intakeSubsystem, false),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
         new WaitCommand(.75),
-        new ParallelRaceGroup(new WaitCommand(3), new RunCommand(() -> m_subsystem.drive(.25, 0, 0, true, false), m_subsystem)),
-        new AutoBalanceCommand(m_subsystem)
+        new ParallelRaceGroup(
+          new RunCommand(() -> driveSubsystem.drive(-2.5, 0, 0, true, false)),
+          new WaitCommand(.1)
+        ),
+        new AutoOrientCommand(driveSubsystem, 0, () -> 0, () -> 0),
+        new DecideArmPosCommand(Constants.ArmPosition.GROUND),
+        new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+        new AutoBalanceCommand(driveSubsystem)
     );
   }
 }

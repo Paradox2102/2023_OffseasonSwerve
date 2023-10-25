@@ -20,8 +20,8 @@ public class AutoBalanceCommand extends CommandBase {
   double m_futureRoll = 0;
   DoubleSupplier m_power = () -> 1;
   Timer m_timer = new Timer();
-  double k_lookAheadTime = 1;
-  double k_maxPower = .025;
+  double k_lookAheadTime = 5;
+  double k_maxPower = .075;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
@@ -87,7 +87,7 @@ public class AutoBalanceCommand extends CommandBase {
       currentPitch = m_subsystem.getPitch();
     }
 
-    if (Math.abs(futurePitch) < 2 && pitchROC < 0.1) {
+    if (Math.abs(futurePitch) < 2 && Math.abs(pitchROC) <= 0.5) {
       m_subsystem.setX();
       m_isFinished = true;
     } else {
@@ -102,11 +102,13 @@ public class AutoBalanceCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_subsystem.setX();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //m_isFinished
+    return m_isFinished;
   }
 }
