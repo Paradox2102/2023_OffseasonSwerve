@@ -21,6 +21,7 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
+import frc.robot.autos.Auto2GamePieceBumpSide;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.AutoMobility;
 import frc.robot.autos.AutoNothing;
@@ -207,6 +208,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return m_selectAuto.getSelected();
     // return new AutoNothing();
-    return new Auto2GamePiece(m_driveSubsystem);
+    return new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem);
   }
 }
