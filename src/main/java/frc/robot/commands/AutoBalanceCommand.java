@@ -87,14 +87,14 @@ public class AutoBalanceCommand extends CommandBase {
       currentPitch = m_subsystem.getPitch();
     }
 
-    // if (Math.abs(futurePitch) < 2) {
-    //   m_subsystem.setX();
-    //   m_isFinished = true;
-    // } else {
+    if (Math.abs(futurePitch) < 2 && pitchROC < 0.1) {
+      m_subsystem.setX();
+      m_isFinished = true;
+    } else {
       double speed = -k_p * futurePitch;
-      speed = speed > k_maxPower ? k_maxPower : speed;
+      speed = Math.abs(speed) > k_maxPower ? Math.signum(speed)* k_maxPower : speed;
       m_subsystem.drive(speed, 0, 0, true, false);
-    // }
+    }
 
     // Update previous to use on next call of execute
     m_previousPitch = currentPitch;

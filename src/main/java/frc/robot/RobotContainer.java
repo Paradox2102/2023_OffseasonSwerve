@@ -180,6 +180,8 @@ public class RobotContainer {
     m_stick.button(1).toggleOnTrue(new RunCommand(() -> m_driveSubsystem.setOnePower()));
     m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
 
+    m_stick.button(8).onTrue(new AutoBalanceCommand(m_driveSubsystem));
+
     // Auto Selection
     // m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
 
