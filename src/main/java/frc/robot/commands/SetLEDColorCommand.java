@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
 import frc.robot.subsystems.LEDSubsystem;
 
@@ -21,7 +20,6 @@ public class SetLEDColorCommand extends InstantCommand {
   
 
   public SetLEDColorCommand(LEDSubsystem subsystem, Color leftColor, Color rightColor) {
-    Logger.log("SetLEDColorCommand", 1, "SetLEDColorCommand()");
     m_subsystem = subsystem;
     setLED(leftColor, rightColor);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,7 +43,6 @@ public class SetLEDColorCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Logger.log("SetLEDColorCommand", 1, "initialize()");
     m_subsystem.setData(m_leftLed, m_rightLed);
     m_subsystem.start();
   }

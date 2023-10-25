@@ -37,7 +37,6 @@ import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetLEDColorCommand;
-import frc.robot.commands.TempIntakeCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -159,8 +158,8 @@ public class RobotContainer {
     //   () -> m_xbox.getLeftX()
     // ));
 
-    m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
-    m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
+    // m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
+    // m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
     m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
@@ -175,24 +174,19 @@ public class RobotContainer {
     m_stick.button(9).onTrue(new DecideArmPosCommand(ArmPosition.MID));
     m_stick.button(11).onTrue(new DecideArmPosCommand(ArmPosition.GROUND));
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
-    m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kRed, Color.kGreen));
-
-    m_stick.button(1).toggleOnTrue(new RunCommand(() -> m_driveSubsystem.setOnePower()));
-    m_stick.button(2).toggleOnTrue(new RunCommand(() -> m_intakeSubsystem.setPower(.5)));
+    m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kChartreuse, Color.kThistle));
 
     m_stick.button(8).onTrue(new AutoBalanceCommand(m_driveSubsystem));
 
     // Auto Selection
-    // m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Test Auto", testAuto2GamePiece = new Auto2GamePiece(m_driveSubsystem));
+    m_selectAuto.addOption("Test Balance", testAutoBalance = new AutoBalanceCommand(m_driveSubsystem));
+    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+    // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
-    // m_selectAuto.addOption("Bump", new BumpSideScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
-
-    // m_selectAuto.addOption("No Bump", new NoBumpScuff(m_driveSubsystem, m_wristSubsystem, m_intakeSubsystem, m_elevatorSubsystem));
-    m_selectAuto.addOption("Nothing", new AutoNothing());
-    m_selectAuto.addOption("Mobility", new AutoMobility(m_driveSubsystem));
-
-    new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
-    new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kOrange, Color.kOrange));
+    // new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
+    // new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
 
     SmartDashboard.putData(m_selectAuto);
   }
