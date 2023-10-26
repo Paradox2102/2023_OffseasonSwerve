@@ -22,6 +22,8 @@ import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.Auto2PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
+import frc.robot.autos.AutoPlaceCone;
+import frc.robot.autos.AutoPlaceCube;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DecideArmPosCommand;
@@ -30,7 +32,7 @@ import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetLEDColorCommand;
-import frc.robot.commands.TempIntakeCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -152,8 +154,8 @@ public class RobotContainer {
     //   () -> m_xbox.getLeftX()
     // ));
 
-    m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
-    m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
+    m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
+    m_xbox.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, false));
     m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
@@ -176,6 +178,8 @@ public class RobotContainer {
     m_selectAuto.addOption("Test Auto", testAuto2GamePiece = new Auto2GamePiece(m_driveSubsystem));
     m_selectAuto.addOption("Test Balance", testAutoBalance = new AutoBalanceCommand(m_driveSubsystem));
     m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
+    m_selectAuto.addOption("Place Cone", new AutoPlaceCone(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Place Cube", new AutoPlaceCube(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
     // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 

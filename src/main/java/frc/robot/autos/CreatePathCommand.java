@@ -10,12 +10,15 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -45,6 +48,14 @@ public class CreatePathCommand extends SequentialCommandGroup {
       .setKinematics(m_subsystem.getSwerve());
 
     config.setReversed(isReversed);
+
+    if (DriverStation.getAlliance() == Alliance.Blue) {
+      start = new Pose2d(start.getX(), -start.getY(), Rotation2d.fromDegrees(-start.getRotation().getDegrees()));
+      for (int i = 0; i < interiorWaypoints.size(); i++) {
+        interiorWaypoints.set(i, new Translation2d(interiorWaypoints.get(i).getX(), -interiorWaypoints.get(i).getY()));
+      }
+      end = new Pose2d(end.getX(), -end.getY(), Rotation2d.fromDegrees(-end.getRotation().getDegrees()));
+    }
 
     Trajectory path = TrajectoryGenerator.generateTrajectory(start, interiorWaypoints, end, config);
     m_subsystem.getField().getObject("traj").setTrajectory(path);

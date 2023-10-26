@@ -46,7 +46,7 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
       new CreatePathCommand(
         driveSubsystem, 
         new Pose2d(1.8923, .98806, Rotation2d.fromDegrees(180)), 
-        List.of(new Translation2d(4, .98806)), 
+        List.of(new Translation2d(4, .78806)), 
         new Pose2d(7.05866, .56896, Rotation2d.fromDegrees(1)), 
         true, 
         true

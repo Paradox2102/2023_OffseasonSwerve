@@ -8,15 +8,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCommand extends CommandBase {
+  /** Creates a new TempIntakeCommand. */
   IntakeSubsystem m_subsystem;
-  public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+  boolean m_intake;
+  public IntakeCommand(IntakeSubsystem intakeSubsystem, boolean intake) {
     m_subsystem = intakeSubsystem;
+    m_intake = intake;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.intake();
+    if (m_intake) {
+      m_subsystem.intake();
+    } else {
+      m_subsystem.outtake();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -26,7 +35,7 @@ public class IntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.intake();
+    m_subsystem.stop();
   }
 
   // Returns true when the command should end.
