@@ -24,7 +24,6 @@ import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.SetLEDColorCommand;
-import frc.robot.commands.TempIntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
