@@ -25,8 +25,10 @@ public class PathPlannerTester extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     // ArrayList<PathPlannerTrajectory> paths = PathPlanner
     PathPlannerPath path1 = PathPlannerPath.fromPathFile("NoBump1");
+    PathPlannerPath path2 = PathPlannerPath.fromPathFile("NoBump2");
     addCommands(
-      AutoBuilder.followPathWithEvents(path1)
+      AutoBuilder.followPathWithEvents(path1),
+      AutoBuilder.followPathWithEvents(path2)
     );
   }
 }
