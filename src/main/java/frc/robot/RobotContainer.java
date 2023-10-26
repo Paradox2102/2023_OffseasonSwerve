@@ -176,12 +176,12 @@ public class RobotContainer {
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
     m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kChartreuse, Color.kThistle));
 
-    m_stick.button(8).onTrue(new AutoBalanceCommand(m_driveSubsystem));
+    m_stick.button(8).onTrue(new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
 
     // Auto Selection
     m_selectAuto.addOption("Test Auto", testAuto2GamePiece = new Auto2GamePiece(m_driveSubsystem));
     m_selectAuto.addOption("Test Balance", testAutoBalance = new AutoBalanceCommand(m_driveSubsystem));
-    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
     // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 

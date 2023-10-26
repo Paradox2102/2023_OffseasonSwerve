@@ -21,7 +21,7 @@ public class AutoBalanceCommand extends CommandBase {
   DoubleSupplier m_power = () -> 1;
   Timer m_timer = new Timer();
   double k_lookAheadTime = 5;
-  double k_maxPower = .075;
+  double k_maxPower = .125;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
@@ -87,7 +87,7 @@ public class AutoBalanceCommand extends CommandBase {
       currentPitch = m_subsystem.getPitch();
     }
 
-    if (Math.abs(futurePitch) < 2 && Math.abs(pitchROC) <= 0.5) {
+    if (Math.abs(futurePitch) < 2 && Math.abs(pitchROC) <= 0.1) {
       m_subsystem.setX();
       m_isFinished = true;
     } else {
