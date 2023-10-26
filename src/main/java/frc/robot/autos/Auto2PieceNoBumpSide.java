@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -45,22 +46,39 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
       
       new CreatePathCommand(
         driveSubsystem, 
-        new Pose2d(1.8923, .98806, Rotation2d.fromDegrees(180)), 
-        List.of(new Translation2d(4, .78806)), 
-        new Pose2d(7.05866, .56896, Rotation2d.fromDegrees(1)), 
+        new Pose2d(1.8923, -.98806, Rotation2d.fromDegrees(180)), 
+        List.of(new Translation2d(4, -.78806)), 
+        new Pose2d(7.05866, -.56896, Rotation2d.fromDegrees(180)), 
         true, 
         true
       ),
+      new IntakeCommand(intakeSubsystem, true)
       // new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
 
-      new CreatePathCommand(
-        driveSubsystem, 
-        new Pose2d(7.05866, .56896, Rotation2d.fromDegrees(1)), 
-        List.of(new Translation2d(3, 66896)), 
-        new Pose2d(1.8923, .78806, Rotation2d.fromDegrees(180)), 
-        false, 
-        false
-      )
+      // new CreatePathCommand(
+      //   driveSubsystem, 
+      //   new Pose2d(7.05866, .56896, Rotation2d.fromDegrees(180)), 
+      //   List.of(new Translation2d(3, 66896)), 
+      //   new Pose2d(1.8923, .78806, Rotation2d.fromDegrees(180)), 
+      //   false, 
+      //   false
+      // )
+      // new CreatePathCommand(
+      //   driveSubsystem, 
+      //   new Pose2d(1.8923, .98806, Rotation2d.fromDegrees(180)), 
+      //   List.of(new Translation2d(4, .98806)), 
+      //   new Pose2d(7.05866, .98806, Rotation2d.fromDegrees(180)), 
+      //   true, 
+      //   true
+      // ),
+      // new CreatePathCommand(
+      //   driveSubsystem, 
+      //   new Pose2d(7.05866, .98806, Rotation2d.fromDegrees(180)), 
+      //   List.of(new Translation2d(4, .98806)), 
+      //   new Pose2d(1.8923, .98806, Rotation2d.fromDegrees(180)), 
+      //   false, 
+      //   false
+      // )
       // new DecideArmPosCommand(Constants.ArmPosition.HIGH),
       // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
       // new OuttakeCommand(intakeSubsystem),

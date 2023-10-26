@@ -24,6 +24,7 @@ import frc.robot.autos.Auto2PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
+import frc.robot.autos.PathPlannerTester;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DecideArmPosCommand;
@@ -203,5 +204,6 @@ public class RobotContainer {
     // return m_selectAuto.getSelected();
     // return new AutoNothing();
     return new Auto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
+    // return new PathPlannerTester(m_driveSubsystem);
   }
 }
