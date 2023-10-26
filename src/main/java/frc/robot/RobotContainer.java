@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.util.Color;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -21,17 +20,10 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
-import frc.robot.autos.Auto2GamePieceBumpSide;
 import frc.robot.autos.Auto2PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
-import frc.robot.autos.AutoMobility;
-import frc.robot.autos.AutoNothing;
-import frc.robot.autos.AutoRunElevator;
-import frc.robot.autos.BumpSideScuff;
-import frc.robot.autos.NoBumpScuff;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
@@ -187,8 +179,8 @@ public class RobotContainer {
     // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
-    // new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
-    // new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
+    new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
+    new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
 
     SmartDashboard.putData(m_selectAuto);
   }
