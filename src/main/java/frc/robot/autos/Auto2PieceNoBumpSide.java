@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmPosition;
@@ -35,26 +36,43 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new SetGamePieceCommand(false),
-        new DecideArmPosCommand(ArmPosition.HIGH),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-        new WaitCommand(1),
-        new OuttakeCommand(intakeSubsystem),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
-        new WaitCommand(0.5),
-        new SetGamePieceCommand(true),
-        new DecideArmPosCommand(ArmPosition.GROUND),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+        // new SetGamePieceCommand(false),
+      // new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      // new WaitCommand(1),
+      // new ParallelRaceGroup(
+      //   new TempIntakeCommand(Constants.ConeConstants.k_outtakePower, isFinished())
+      // ),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+      // new WaitCommand(.75),
+      // new SetGamePieceCommand(true),
+      // new DecideArmPosCommand(Constants.ArmPosition.GROUND),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      // new IntakeCommand(intakeSubsystem),
+      
+      new CreatePathCommand(
+        driveSubsystem, 
+        new Pose2d(1.8923, .98806, Rotation2d.fromDegrees(180)), 
+        List.of(new Translation2d(4, .98806)), 
+        new Pose2d(7.05866, .56896, Rotation2d.fromDegrees(1)), 
+        true, 
+        true
+      ),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
 
-        new CreatePathCommand(driveSubsystem, start, List.of(mid.getTranslation()), gamePiece, false, true),
-        new WaitCommand(0.5),
-        new IntakeCommand(intakeSubsystem),
+      new CreatePathCommand(
+        driveSubsystem, 
+        new Pose2d(7.05866, .56896, Rotation2d.fromDegrees(1)), 
+        List.of(new Translation2d(3, 66896)), 
+        new Pose2d(1.8923, .78806, Rotation2d.fromDegrees(180)), 
+        false, 
+        false
+      )
+      // new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      // new OuttakeCommand(intakeSubsystem),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
 
-        new CreatePathCommand(driveSubsystem, gamePiece, List.of(mid.getTranslation()), end, false, false),
-        new DecideArmPosCommand(ArmPosition.HIGH),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-        new WaitCommand(1),
-        new OuttakeCommand(intakeSubsystem),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, true));
+    );
   }
 }

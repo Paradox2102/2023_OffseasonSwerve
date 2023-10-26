@@ -6,14 +6,19 @@ package frc.robot.autos;
 
 import java.util.List;
 
-import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.controllers.PathFollowingController;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.PIDConstants;
-
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
+import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.SetArmPosition;
+import frc.robot.commands.SetGamePieceCommand;
+import frc.robot.commands.TempIntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -27,10 +32,44 @@ public class Auto2GamePieceBumpSide extends SequentialCommandGroup {
   public Auto2GamePieceBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    List<PathPlannerPath> paths = PathPlannerAuto.getPathGroupFromAutoFile("2023_OffseasonSwerve");
-    PathFollowingController controller = new PPHolonomicDriveController(new PIDConstants(1, 0, 0), new PIDConstants(1, 0, 0), 4.8, .6731);
     addCommands(
-        new FollowPathCommand(paths.get(0), driveSubsystem::getPose, null, null, controller, null, driveSubsystem) 
+      // new SetGamePieceCommand(false),
+      // new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      // new WaitCommand(1),
+      // new ParallelRaceGroup(
+      //   new TempIntakeCommand(Constants.ConeConstants.k_outtakePower, isFinished())
+      // ),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+      // new WaitCommand(.75),
+      // new SetGamePieceCommand(true),
+      // new DecideArmPosCommand(Constants.ArmPosition.GROUND),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      // new IntakeCommand(intakeSubsystem),
+      
+      new CreatePathCommand(
+        driveSubsystem, 
+        new Pose2d(1.37795, 4.007, Rotation2d.fromDegrees(180)), 
+        List.of(new Translation2d(2, 3.2), new Translation2d(6, 3.8)), 
+        new Pose2d(7.068, 3.09, Rotation2d.fromDegrees(1)), 
+        true, 
+        true
+      ),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+
+      new CreatePathCommand(
+        driveSubsystem, 
+        new Pose2d(7.068, 3.09, Rotation2d.fromDegrees(1)), 
+        List.of(new Translation2d(6, 3.8), new Translation2d(2, 3.2)), 
+        new Pose2d(1.37795, 3.04, Rotation2d.fromDegrees(180)), 
+        false, 
+        false
+      )
+      // new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      // new OuttakeCommand(intakeSubsystem),
+      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
+      
     );
-  }     
+  }
 }
