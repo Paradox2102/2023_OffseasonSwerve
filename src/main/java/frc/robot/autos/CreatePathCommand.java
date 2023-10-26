@@ -36,12 +36,12 @@ public class CreatePathCommand extends SequentialCommandGroup {
   public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, boolean resetPose) {
     m_subsystem = driveSubsystem;
     var thetaController = new ProfiledPIDController(
-      1, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
+      1.2, 0, 0, new TrapezoidProfile.Constraints(Math.PI, Math.PI));
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     TrajectoryConfig config = new TrajectoryConfig(
-      Constants.k_maxSpeedMetersPerSecond,
-      Constants.k_maxDriveAcceleration)
+      1.2,
+      1)
       .setKinematics(m_subsystem.getSwerve());
 
     config.setReversed(isReversed);
@@ -65,8 +65,7 @@ public class CreatePathCommand extends SequentialCommandGroup {
       new PIDController(k_p, k_i, k_d),
       thetaController,
       m_subsystem::setModuleStates,
-      m_subsystem), 
-      new RunCommand(() -> m_subsystem.setX(), driveSubsystem)
+      m_subsystem)
     );
   }
 
@@ -108,8 +107,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
   public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, boolean resetPose, DoubleSupplier speed) {
     m_subsystem = driveSubsystem;
     TrajectoryConfig config = new TrajectoryConfig(
-      Constants.k_maxSpeedMetersPerSecond,
-      Constants.k_maxDriveAcceleration)
+      1.2,
+      1)
       .setKinematics(m_subsystem.getSwerve());
 
     // config.setReversed(isReversed);

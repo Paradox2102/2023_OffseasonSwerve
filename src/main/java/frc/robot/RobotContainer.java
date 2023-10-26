@@ -22,6 +22,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.Auto2GamePieceBumpSide;
+import frc.robot.autos.Auto2PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.AutoMobility;
 import frc.robot.autos.AutoNothing;
@@ -37,6 +38,7 @@ import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetLEDColorCommand;
+import frc.robot.commands.TempIntakeCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -158,8 +160,8 @@ public class RobotContainer {
     //   () -> m_xbox.getLeftX()
     // ));
 
-    // m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
-    // m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
+    m_xbox.rightTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, true));
+    m_xbox.leftTrigger().whileTrue(new TempIntakeCommand(m_intakeSubsystem, false));
     m_xbox.rightBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, false));
     m_xbox.leftBumper().onTrue(new SetArmPosition(m_wristSubsystem, m_elevatorSubsystem, true));
 
@@ -204,6 +206,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return m_selectAuto.getSelected();
     // return new AutoNothing();
-    return new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem);
+    return new Auto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
   }
 }
