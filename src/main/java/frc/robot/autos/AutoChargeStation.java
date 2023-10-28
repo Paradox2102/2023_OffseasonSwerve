@@ -20,6 +20,7 @@ import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
 import frc.robot.commands.DriveUntilPitch;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetGamePieceCommand;
@@ -35,25 +36,26 @@ import frc.robot.subsystems.WristSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoChargeStation extends SequentialCommandGroup {
   /** Creates a new AutoChargeStation. */
-  public AutoChargeStation(DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, IntakeSubsystem intakeSubsystem, LEDSubsystem ledSubsystem) {
+  public AutoChargeStation(DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem,
+      ElevatorSubsystem elevatorSubsystem, IntakeSubsystem intakeSubsystem, LEDSubsystem ledSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     // Commands
-      addCommands(
+    addCommands(
         new ResetGyro(driveSubsystem, 180),
         new SetGamePieceCommand(false),
-        // new TempIntakeCommand(intakeSubsystem, true),
         new DecideArmPosCommand(Constants.ArmPosition.HIGH),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
         new WaitCommand(1),
-        // new TempIntakeCommand(intakeSubsystem, false),
-        new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
-        new WaitCommand(.75),
         new ParallelRaceGroup(
-          new RunCommand(() -> driveSubsystem.drive(-0.25, 0, 0, true, false)),
-          new WaitCommand(0.5)
-        ),
+            new IntakeCommand(intakeSubsystem, false),
+            new WaitCommand(.25)),
+        new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+        new WaitCommand(.5),
+        new ParallelRaceGroup(
+            new RunCommand(() -> driveSubsystem.drive(-0.25, 0, 0, true, false)),
+            new WaitCommand(0.5)),
         new AutoOrientCommand(driveSubsystem, 179, () -> 0, () -> 0),
         new SetLEDColorCommand(ledSubsystem, Color.kGreen, Color.kGreen),
         new DecideArmPosCommand(Constants.ArmPosition.GROUND),
@@ -61,10 +63,10 @@ public class AutoChargeStation extends SequentialCommandGroup {
         new DriveUntilPitch(driveSubsystem, -0.25, 0, 8),
         new SetLEDColorCommand(ledSubsystem, Color.kBlue, Color.kBlue),
         new ParallelRaceGroup(
-          new RunCommand(() -> driveSubsystem.drive(-0.25, 0, 0, true, false)),
-          new WaitCommand(1)
-        ),
-        new AutoBalanceCommand(driveSubsystem)
-    );
+            new RunCommand(() -> driveSubsystem.drive(-0.25, 0, 0, true, false)),
+            new WaitCommand(0.5)),
+        new AutoBalanceCommand(driveSubsystem),
+        new SetLEDColorCommand(ledSubsystem, Color.kBlack, Color.kBlack),
+        new RunCommand(() -> driveSubsystem.setX(), driveSubsystem));
   }
 }

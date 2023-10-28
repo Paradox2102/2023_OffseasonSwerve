@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.DriveSubsystem;
@@ -20,8 +21,8 @@ public class AutoBalanceCommand extends CommandBase {
   double m_futureRoll = 0;
   DoubleSupplier m_power = () -> 1;
   Timer m_timer = new Timer();
-  double k_lookAheadTime = 5;
-  double k_maxPower = .125;
+  double k_lookAheadTime = 6;
+  double k_maxPower = .05;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
@@ -87,13 +88,15 @@ public class AutoBalanceCommand extends CommandBase {
       currentPitch = m_subsystem.getPitch();
     }
 
-    if (Math.abs(futurePitch) < 2 && Math.abs(pitchROC) <= 0.1) {
+    if (Math.abs(currentPitch) < 1 && Math.abs(pitchROC) <= 0.05) {
       m_subsystem.setX();
       m_isFinished = true;
     } else {
       double speed = -k_p * futurePitch;
       speed = Math.abs(speed) > k_maxPower ? Math.signum(speed)* k_maxPower : speed;
       m_subsystem.drive(speed, 0, 0, true, false);
+      SmartDashboard.putNumber("Charge Station Target Speed", speed);
+      SmartDashboard.putNumber("Charge Station Rate Of Change", pitchROC);
     }
 
     // Update previous to use on next call of execute
