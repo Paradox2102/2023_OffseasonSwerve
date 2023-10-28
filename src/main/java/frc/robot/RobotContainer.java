@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.util.Color;
 // import edu.wpi.first.math.MathUtil;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -21,10 +22,11 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
-import frc.robot.autos.Auto2PieceNoBumpSide;
+import frc.robot.autos.REDAuto2PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
+import frc.robot.autos.BLUEAuto2PieceNoBumpSide;
 import frc.robot.autos.PathPlannerTester;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
@@ -101,10 +103,9 @@ public class RobotContainer {
   private void configureBindings() { 
     // System.out.println("Working"); 
     // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
-    Trigger m_isFieldRelative = m_xbox.leftStick();
+    Trigger m_isFieldRelative = m_xbox.a();
     Trigger m_isBalancing = m_xbox.leftBumper();
     Trigger m_brakeMode = m_stick.button(3);
-    Trigger m_slowMode1 = m_xbox.a();
     Trigger m_slowMode2 = m_xbox.b();
     Trigger m_slowMode3 = m_xbox.x();
     Trigger m_slowMode4 = m_xbox.y();
@@ -116,7 +117,7 @@ public class RobotContainer {
       () -> m_xbox.getRightX(),
       new HoldTrigger(m_isFieldRelative),
       new HoldTrigger(m_isBalancing),
-      new HoldTrigger(m_slowMode1),
+      new HoldTrigger(m_slowMode2),
       new HoldTrigger(m_slowMode2),
       new HoldTrigger(m_slowMode3),
       new HoldTrigger(m_slowMode4)
@@ -174,7 +175,7 @@ public class RobotContainer {
     m_stick.button(10).onTrue(new DecideArmPosCommand(ArmPosition.DOUBLE));
     m_stick.button(12).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kChartreuse, Color.kThistle));
 
-    m_stick.button(8).onTrue(new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
+    m_stick.button(8).whileTrue(new RunCommand(() -> m_driveSubsystem.setX(), m_driveSubsystem));
     m_stick.button(2).whileTrue(new RunCommand(()-> m_driveSubsystem.setX(), m_driveSubsystem));
 
     // Auto Selection
@@ -205,7 +206,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return m_selectAuto.getSelected();
     // return new AutoNothing();
-    return new Auto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
+    return new BLUEAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
     // return new PathPlannerTester(m_driveSubsystem);
   }
 }

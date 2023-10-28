@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final double k_startAngleDegrees = 90;
+  public final static double k_fieldWidthMeters = 8.0137;
 
   public static final double k_xFrontCameraOffsetInches = 0;
   public static final double k_yFrontCameraOffsetInches = 13.25;
@@ -203,7 +204,7 @@ public final class Constants {
 
   public static final int k_LEDLength = 72;
 
-  public static final double k_driveDeadband = 0.05;
+  public static final double k_driveDeadband = 0.5;
   public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(
       k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);
 

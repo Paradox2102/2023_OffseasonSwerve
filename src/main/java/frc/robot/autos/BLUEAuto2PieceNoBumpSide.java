@@ -9,6 +9,7 @@ import java.util.List;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -25,14 +26,10 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
+public class BLUEAuto2PieceNoBumpSide extends SequentialCommandGroup {
   /** Creates a new Auto2PieceNoBumpSide. */
-  public Auto2PieceNoBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem,
+  public BLUEAuto2PieceNoBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem,
       IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem) {
-    Pose2d start = (new Pose2d(1.37795, -0.98806, Rotation2d.fromDegrees(180)));
-    Pose2d mid = (new Pose2d(5, -0.8, new Rotation2d(0)));
-    Pose2d gamePiece = (new Pose2d(7.058, -0.569, Rotation2d.fromDegrees(1)));
-    Pose2d end = (new Pose2d(1.37795, -0.55, Rotation2d.fromDegrees(180)));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -52,33 +49,34 @@ public class Auto2PieceNoBumpSide extends SequentialCommandGroup {
       new ParallelRaceGroup(
         new CreatePathCommand(
           driveSubsystem, 
-          new Pose2d(1.8923, 4.9944274, Rotation2d.fromDegrees(180)), 
-          List.of(new Translation2d(4, 5.3)),
-          new Pose2d(7, 5.45, Rotation2d.fromDegrees(1)), 
+          new Pose2d(1.8923, Constants.k_fieldWidthMeters - 4.9944274, Rotation2d.fromDegrees(180)), 
+          List.of(new Translation2d(4, Constants.k_fieldWidthMeters - 5.1)),
+          new Pose2d(7, Constants.k_fieldWidthMeters - 5.45, Rotation2d.fromDegrees(1)), 
           true, 
           true
         ),
         new IntakeCommand(intakeSubsystem, true)
-      )
-      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
+      ),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
 
-      // new CreatePathCommand(
-      //   driveSubsystem, 
-      //   new Pose2d(7.05866, 5.4, Rotation2d.fromDegrees(1)), 
-      //   List.of(new Translation2d(4, 5.3)), 
-      //   new Pose2d(1.89233, 5.1, Rotation2d.fromDegrees(180)), 
-      //   true, 
-      //   false
-      // ),
+      new CreatePathCommand(
+        driveSubsystem, 
+        new Pose2d(7.05866, Constants.k_fieldWidthMeters - 5.4, Rotation2d.fromDegrees(1)), 
+        List.of(new Translation2d(4, Constants.k_fieldWidthMeters - 5)), 
+        new Pose2d(1.89233, Constants.k_fieldWidthMeters - 6, Rotation2d.fromDegrees(180)), 
+        true, 
+        false
+      ),
+      new InstantCommand(() -> driveSubsystem.setX(), driveSubsystem),
       
-      // new DecideArmPosCommand(Constants.ArmPosition.HIGH),
-      // new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-      // new WaitCommand(1),
-      // new ParallelRaceGroup(
-      //   new IntakeCommand(intakeSubsystem, false),
-      //   new WaitCommand(.5)
-      // ),
-      // new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
+      new DecideArmPosCommand(Constants.ArmPosition.HIGH),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      new WaitCommand(1),
+      new ParallelRaceGroup(
+        new IntakeCommand(intakeSubsystem, false),
+        new WaitCommand(.5)
+      ),
+      new SetArmPosition(wristSubsystem, elevatorSubsystem, true)
 
     );
   }
