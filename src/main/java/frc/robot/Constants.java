@@ -167,7 +167,7 @@ public final class Constants {
 
   // Swerve Module Drive PID
   public static final double k_driveP = 0.04;
-  public static final double k_driveI = 0;
+  public static final double k_driveI = 0.0002;
   public static final double k_driveD = 0;
   public static final double k_driveFF = 1 / k_driveWheelFreeSpeedRps;
   public static final double k_drivingMinOutput = -1;
