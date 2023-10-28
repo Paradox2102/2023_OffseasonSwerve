@@ -30,9 +30,9 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CreatePathCommand extends SequentialCommandGroup {
   DriveSubsystem m_subsystem;
-  private final double k_p = 1;
+  private final double k_p = .5;
   private final double k_i = 0;
-  private final double k_d = 0;
+  private final double k_d = .8;
 
   public CreatePathCommand(DriveSubsystem driveSubsystem, Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, boolean isReversed, boolean resetPose) {
     m_subsystem = driveSubsystem;
@@ -41,8 +41,8 @@ public class CreatePathCommand extends SequentialCommandGroup {
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     TrajectoryConfig config = new TrajectoryConfig(
-      1.2,
-      1)
+      2,
+      2)
       .setKinematics(m_subsystem.getSwerve());
 
     config.setReversed(isReversed);
