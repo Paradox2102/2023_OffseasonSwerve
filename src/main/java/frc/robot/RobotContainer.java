@@ -54,9 +54,10 @@ import frc.robot.triggers.ToggleTrigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public final ApriltagsCamera m_camera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, Constants.k_yFrontCameraOffsetInches, Constants.k_frontCameraAngle);
+  public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, Constants.k_yFrontCameraOffsetInches, Constants.k_frontCameraAngle);
+  public final ApriltagsCamera m_backCamera = new ApriltagsCamera(Constants.k_xBackCameraOffsetInches, Constants.k_yBackCameraOffsetInches, Constants.k_backCameraAngle);
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_camera);
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera);
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -77,7 +78,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_driveSubsystem.setTracker(m_tracker);
-    m_camera.connect("10.21.2.10", 5800);
+    m_frontCamera.connect("10.21.2.10", 5800);
+    m_backCamera.connect("10.21.2.11", 5800);
 
     try {
       AprilTagFieldLayout tags = new AprilTagFieldLayout("/home/lvuser/deploy/2023-chargedup.json");

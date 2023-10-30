@@ -26,9 +26,13 @@ public final class Constants {
   public static final double k_startAngleDegrees = 90;
   public final static double k_fieldWidthMeters = 8.0137;
 
-  public static final double k_xFrontCameraOffsetInches = 0;
-  public static final double k_yFrontCameraOffsetInches = 13.25;
+  public static final double k_xFrontCameraOffsetInches = 12;
+  public static final double k_yFrontCameraOffsetInches = 7.5;
   public static final double k_frontCameraAngle = 0;
+
+  public static final double k_xBackCameraOffsetInches = 12;
+  public static final double k_yBackCameraOffsetInches = 7.5;
+  public static final double k_backCameraAngle = 180;
 
   public static boolean k_isCubeMode = true;
   public static boolean k_hasGamePiece = false;
@@ -129,10 +133,10 @@ public final class Constants {
   // Angular offsets of the modules relative to the chassis in radians
 
   // Bolt
-  public static final double k_FLOffset = 0.913 - (Math.PI / 2); // 5.425 - (Math.PI / 2); // 3.26
+  public static final double k_FLOffset = 0.9 - (Math.PI / 2); // 5.425 - (Math.PI / 2); // 3.26
   public static final double k_FROffset = 6.05; // 1.171;
-  public static final double k_BLOffset = 2.17 +(Math.PI); // 6.173 + (Math.PI);
-  public static final double k_BROffset = 4.76 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
+  public static final double k_BLOffset = 2.18 +(Math.PI); // 6.173 + (Math.PI);
+  public static final double k_BROffset = 4.75 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
 
   // Byte
   // public static final double k_FLOffset = 5.425 - (Math.PI / 2);
@@ -168,7 +172,7 @@ public final class Constants {
 
   // Swerve Module Drive PID
   public static final double k_driveP = 0.04;
-  public static final double k_driveI = 0.0002;
+  public static final double k_driveI = 0;
   public static final double k_driveD = 0;
   public static final double k_driveFF = 1 / k_driveWheelFreeSpeedRps;
   public static final double k_drivingMinOutput = -1;
@@ -204,7 +208,7 @@ public final class Constants {
 
   public static final int k_LEDLength = 72;
 
-  public static final double k_driveDeadband = 0.5;
+  public static final double k_driveDeadband = 0.1;
   public static final TrapezoidProfile.Constraints k_thetaControllerConstraints = new TrapezoidProfile.Constraints(
       k_maxSpeedMetersPerSecond, k_maxAngularAcceleration);
 

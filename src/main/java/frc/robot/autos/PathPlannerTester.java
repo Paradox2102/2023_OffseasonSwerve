@@ -7,11 +7,6 @@ package frc.robot.autos;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathHolonomic;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -24,11 +19,8 @@ public class PathPlannerTester extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // ArrayList<PathPlannerTrajectory> paths = PathPlanner
-    PathPlannerPath path1 = PathPlannerPath.fromPathFile("NoBump1");
-    PathPlannerPath path2 = PathPlannerPath.fromPathFile("NoBump2");
     addCommands(
-      AutoBuilder.followPathWithEvents(path1),
-      AutoBuilder.followPathWithEvents(path2)
+
     );
   }
 }

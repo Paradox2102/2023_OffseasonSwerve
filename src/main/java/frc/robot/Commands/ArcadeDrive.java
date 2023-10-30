@@ -54,11 +54,11 @@ public class ArcadeDrive extends CommandBase {
     double x = m_getX.getAsDouble();
     double y = m_getY.getAsDouble();
     double rot = m_getRot.getAsDouble();
-    if (m_slowMode1.getAsBoolean() || m_slowMode2.getAsBoolean() || m_slowMode3.getAsBoolean() || m_slowMode4.getAsBoolean()) {
-      x *= .25;
-      y *= .25;
-      rot *= .25;
-    }
+    // if (m_slowMode1.getAsBoolean() || m_slowMode2.getAsBoolean() || m_slowMode3.getAsBoolean() || m_slowMode4.getAsBoolean()) {
+    //   x *= .25;
+    //   y *= .25;
+    //   rot *= .25;
+    // }
     boolean isFieldRelative = m_isFieldRelative.getAsBoolean();
     boolean isBalancing = m_isBalancing.getAsBoolean();
     m_subsystem.drive(
