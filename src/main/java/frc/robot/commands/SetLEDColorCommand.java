@@ -15,9 +15,7 @@ import frc.robot.subsystems.LEDSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SetLEDColorCommand extends InstantCommand {
   private final LEDSubsystem m_subsystem;
-  private final AddressableLEDBuffer m_leftLed = new AddressableLEDBuffer(Constants.k_LEDLength);
-  private final AddressableLEDBuffer m_rightLed = new AddressableLEDBuffer(Constants.k_LEDLength);
-  
+  private final AddressableLEDBuffer m_led = new AddressableLEDBuffer(Constants.k_LEDLength);  
 
   public SetLEDColorCommand(LEDSubsystem subsystem, Color leftColor, Color rightColor) {
     m_subsystem = subsystem;
@@ -32,18 +30,19 @@ public class SetLEDColorCommand extends InstantCommand {
   }
 
   public void setLED(Color leftColor, Color rightColor) {
-    int i = 0;
-    while (i < Constants.k_LEDLength) {
-      m_leftLed.setLED(i, leftColor);
-      m_rightLed.setLED(i, rightColor);
-      i++;
+    for (int i = 0 ; i < Constants.k_LEDLength/2 ; i++) {
+      m_led.setLED(i, rightColor);
+    }
+
+    for (int i = Constants.k_LEDLength/2 ; i < Constants.k_LEDLength ; i++) {
+      m_led.setLED(i, leftColor);
     }
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setData(m_leftLed, m_rightLed);
+    m_subsystem.setData(m_led);
     m_subsystem.start();
   }
 }

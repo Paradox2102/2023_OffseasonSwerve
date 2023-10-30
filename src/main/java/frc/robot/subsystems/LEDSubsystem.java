@@ -11,27 +11,27 @@ import frc.robot.Constants;
 
 public class LEDSubsystem extends SubsystemBase {
   // private final AddressableLED m_leftLed = new AddressableLED(1);
-  private final AddressableLED m_rightLed = new AddressableLED(0);
+  private final AddressableLED m_led = new AddressableLED(0);
 
   /** Creates a new LEDSubsystem. */
   public LEDSubsystem() {
     // m_leftLed.setLength(Constants.k_LEDLength);
-    m_rightLed.setLength(Constants.k_LEDLength);
+    m_led.setLength(Constants.k_LEDLength);
   }
 
-  public void setData(AddressableLEDBuffer leftBuffer, AddressableLEDBuffer rightBuffer) {
+  public void setData(AddressableLEDBuffer buffer) {
     // m_leftLed.setData(leftBuffer) ;
-    m_rightLed.setData(rightBuffer);
+    m_led.setData(buffer);
   }
 
   public void start() {
     // m_leftLed.start();
-    m_rightLed.start();
+    m_led.start();
   }
 
   public void end() {
     // m_leftLed.stop();
-    m_rightLed.stop();
+    m_led.stop();
   }
 
   @Override
