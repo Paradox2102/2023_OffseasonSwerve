@@ -27,7 +27,7 @@ import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
 import frc.robot.autos.BLUEAuto2PieceNoBumpSide;
-import frc.robot.autos.PathPlannerTester;
+//import frc.robot.autos.PathPlannerTester;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DecideArmPosCommand;
@@ -36,6 +36,7 @@ import frc.robot.commands.ResetWrist;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetCoastModeCommand;
 import frc.robot.commands.SetLEDColorCommand;
+import frc.robot.commands.SetLEDColorFlashCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.manual.ManualElevatorCommand;
 import frc.robot.commands.manual.ManualWristCommand;
@@ -189,8 +190,12 @@ public class RobotContainer {
     // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
-    new Trigger(() -> Constants.k_isCubeMode).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
-    new Trigger(() -> Constants.k_isCubeMode).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
+    new Trigger(() -> (Constants.k_isCubeMode && ! m_intakeSubsystem.isIntakeStalled())).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
+    //update this for the flashing lights
+    new Trigger(() -> (Constants.k_isCubeMode && m_intakeSubsystem.isIntakeStalled())).onTrue(new SetLEDColorFlashCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
+    new Trigger(() -> (Constants.k_isCubeMode && ! m_intakeSubsystem.isIntakeStalled())).onFalse(new SetLEDColorCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
+    //update this for the flashing lights
+    new Trigger(() -> (Constants.k_isCubeMode &&  m_intakeSubsystem.isIntakeStalled())).onFalse(new SetLEDColorFlashCommand(m_ledSubsystem, Color.kYellow, Color.kYellow));
 
     SmartDashboard.putData(m_selectAuto);
   }
