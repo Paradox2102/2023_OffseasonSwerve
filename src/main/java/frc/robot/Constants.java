@@ -30,8 +30,8 @@ public final class Constants {
   public static final double k_yFrontCameraOffsetInches = 7.5;
   public static final double k_frontCameraAngle = 0;
 
-  public static final double k_xBackCameraOffsetInches = 12;
-  public static final double k_yBackCameraOffsetInches = 7.5;
+  public static final double k_xBackCameraOffsetInches = -12;
+  public static final double k_yBackCameraOffsetInches = -7.5;
   public static final double k_backCameraAngle = 180;
 
   public static boolean k_isCubeMode = true;

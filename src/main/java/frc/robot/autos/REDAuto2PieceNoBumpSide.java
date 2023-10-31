@@ -33,19 +33,7 @@ public class REDAuto2PieceNoBumpSide extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetGamePieceCommand(false),
-      new DecideArmPosCommand(Constants.ArmPosition.HIGH),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-      new WaitCommand(1),
-      new ParallelRaceGroup(
-        new IntakeCommand(intakeSubsystem, false),
-        new WaitCommand(.5)
-      ),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
-      new WaitCommand(.75),
-      new SetGamePieceCommand(true),
-      new DecideArmPosCommand(Constants.ArmPosition.GROUND),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
+      new ScoreConeHigh(elevatorSubsystem, intakeSubsystem, wristSubsystem),
       new ParallelRaceGroup(
         new CreatePathCommand(
           driveSubsystem, 
