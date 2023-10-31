@@ -208,7 +208,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return m_selectAuto.getSelected();
     // return new AutoNothing();
-    return new BLUEAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
+    return new REDAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
     // return new PathPlannerTester(m_driveSubsystem);
   }
 }
