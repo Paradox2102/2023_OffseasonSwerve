@@ -111,6 +111,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     runP();
     checkLimitSwitches();
     SmartDashboard.putNumber("Elevator Extent", m_motor.getSelectedSensorPosition() * Constants.k_elevatorTicksToInches);
+    SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
+    SmartDashboard.putBoolean("Mid Switch", m_midSwitch.get());
+    SmartDashboard.putBoolean("High Switch", m_topSwitch.get());
     setPower(m_power);
   }
 }

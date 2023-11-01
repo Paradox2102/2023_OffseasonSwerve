@@ -26,9 +26,9 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class REDAuto2GamePieceBumpSide extends SequentialCommandGroup {
+public class BLUEAuto2GamePieceBumpSide extends SequentialCommandGroup {
   /** Creates a new Auto2GamePieceBumpSide. */
-  public REDAuto2GamePieceBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
+  public BLUEAuto2GamePieceBumpSide(WristSubsystem wristSubsystem, ElevatorSubsystem elevatorSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -49,9 +49,9 @@ public class REDAuto2GamePieceBumpSide extends SequentialCommandGroup {
       new ParallelRaceGroup(
         new CreatePathCommand(
           driveSubsystem, 
-          new Pose2d(1.37795, 7.458, Rotation2d.fromDegrees(180)), 
-          List.of(new Translation2d(2.5, 7.2), new Translation2d(6, 7.1)), 
-          new Pose2d(7.068, 7.06, Rotation2d.fromDegrees(-1)), 
+          new Pose2d(1.37795, Constants.k_fieldWidth - 7.458, Rotation2d.fromDegrees(180)), 
+          List.of(new Translation2d(2.5, Constants.k_fieldWidth - 7.2), new Translation2d(6, Constants.k_fieldWidth - 7.1)), 
+          new Pose2d(7.068, Constants.k_fieldWidth - 7.06, Rotation2d.fromDegrees(-1)), 
           true, 
           true
         ),
@@ -61,9 +61,9 @@ public class REDAuto2GamePieceBumpSide extends SequentialCommandGroup {
 
       new CreatePathCommand(
         driveSubsystem, 
-        new Pose2d(7.068, 7.06, Rotation2d.fromDegrees(1)), 
-        List.of(new Translation2d(5, 7.4), new Translation2d(3, 7.4)), 
-        new Pose2d(1.37795, 7.15, Rotation2d.fromDegrees(180)), 
+        new Pose2d(7.068, Constants.k_fieldWidth - 7.06, Rotation2d.fromDegrees(1)), 
+        List.of(new Translation2d(5, Constants.k_fieldWidth - 7.4), new Translation2d(3, 7.4)), 
+        new Pose2d(1.37795, Constants.k_fieldWidth - 7.15, Rotation2d.fromDegrees(180)), 
         false, 
         false
       ),
