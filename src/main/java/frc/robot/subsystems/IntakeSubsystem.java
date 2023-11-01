@@ -48,12 +48,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   // Lower power if game piece is acquired
-  private void isIntakeStalled() {
+  public boolean isIntakeStalled() {
     double speed = m_motor.getSelectedSensorVelocity();
     
-    if (Math.abs(speed) < 1 && Math.abs(m_power) > k_stallPower) {
-      stop();
-    }
+    return (Math.abs(speed) < 1 && Math.abs(m_power) > k_stallPower);
+
   }
 
   @Override
