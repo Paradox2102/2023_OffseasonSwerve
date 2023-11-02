@@ -90,10 +90,10 @@ public class PositionTrackerPose {
 			m_driveSubsystem.getGyroRotation2d(),
 			m_driveSubsystem.getModulePosition()
 		);
-		// if (!DriverStation.isAutonomous()) {
+		if (!DriverStation.isAutonomous()) {
 			frontCamera.processRegions(m_poseEstimator);
 			rearCamera.processRegions(m_poseEstimator);
-		// }
+		}
 
 		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
 
