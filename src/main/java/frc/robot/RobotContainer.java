@@ -22,14 +22,14 @@ import frc.ApriltagsCamera.ApriltagsCamera    ;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
-import frc.robot.autos.REDAuto2PieceNoBumpSide;
+import frc.robot.autos.REDAuto3PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
 import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
 import frc.robot.autos.BLUEAuto2PieceBumpSide;
 import frc.robot.autos.BLUEAuto2PieceNoBumpSide;
 import frc.robot.autos.REDAuto2GamePieceBumpSide;
-//import frc.robot.autos.PathPlannerTester;
+import frc.robot.autos.REDAuto2PieceNoBumpSide;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DecideArmPosCommand;
@@ -215,6 +215,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
     return m_selectAuto.getSelected();
+
   }
 }
