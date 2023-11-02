@@ -50,8 +50,8 @@ public class BLUEAuto2PieceNoBumpSide extends SequentialCommandGroup {
         new CreatePathCommand(
           driveSubsystem, 
           new Pose2d(1.8923, Constants.k_fieldWidthMeters - 4.9944274, Rotation2d.fromDegrees(180)), 
-          List.of(new Translation2d(4, Constants.k_fieldWidthMeters - 5.1)),
-          new Pose2d(7, Constants.k_fieldWidthMeters - 5.45, Rotation2d.fromDegrees(1)), 
+          List.of(new Translation2d(3.25, Constants.k_fieldWidthMeters - 5.2)),
+          new Pose2d(7, Constants.k_fieldWidthMeters - 4.9, Rotation2d.fromDegrees(-1)), 
           true, 
           true
         ),
@@ -61,9 +61,9 @@ public class BLUEAuto2PieceNoBumpSide extends SequentialCommandGroup {
 
       new CreatePathCommand(
         driveSubsystem, 
-        new Pose2d(7.05866, Constants.k_fieldWidthMeters - 5.4, Rotation2d.fromDegrees(1)), 
-        List.of(new Translation2d(4, Constants.k_fieldWidthMeters - 5)), 
-        new Pose2d(1.89233, Constants.k_fieldWidthMeters - 6, Rotation2d.fromDegrees(180)), 
+        new Pose2d(7.05866, Constants.k_fieldWidthMeters - 4.9, Rotation2d.fromDegrees(-1)), 
+        List.of(new Translation2d(4, Constants.k_fieldWidthMeters - 5.2)), 
+        new Pose2d(1.89233, Constants.k_fieldWidthMeters - 5.3, Rotation2d.fromDegrees(-179)), 
         true, 
         false
       ),

@@ -28,6 +28,7 @@ import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
 import frc.robot.autos.BLUEAuto2PieceBumpSide;
 import frc.robot.autos.BLUEAuto2PieceNoBumpSide;
+import frc.robot.autos.REDAuto2GamePieceBumpSide;
 //import frc.robot.autos.PathPlannerTester;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
@@ -183,11 +184,13 @@ public class RobotContainer {
     m_stick.button(2).whileTrue(new RunCommand(()-> m_driveSubsystem.setX(), m_driveSubsystem));
 
     // Auto Selection
-    m_selectAuto.addOption("Test Auto", testAuto2GamePiece = new Auto2GamePiece(m_driveSubsystem));
-    m_selectAuto.addOption("Test Balance", testAutoBalance = new AutoBalanceCommand(m_driveSubsystem));
-    m_selectAuto.addOption("Charge Station", autoChargeStation = new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
-    m_selectAuto.addOption("Place Cone", new AutoPlaceCone(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Place Cube", new AutoPlaceCube(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
+    m_selectAuto.addOption("Blue Bump", new BLUEAuto2PieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Blue No Bump", new BLUEAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("Red Bump", new REDAuto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Red No Bump", new REDAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem));
+    m_selectAuto.setDefaultOption("Nothing", new InstantCommand());
+    
     // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
@@ -214,7 +217,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return m_selectAuto.getSelected();
     // return new AutoNothing();
-    return new BLUEAuto2PieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem);
+    return new BLUEAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem);
     // return new PathPlannerTester(m_driveSubsystem);
   }
 }
