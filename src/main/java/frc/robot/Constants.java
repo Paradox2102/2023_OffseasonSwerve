@@ -133,16 +133,10 @@ public final class Constants {
   // Angular offsets of the modules relative to the chassis in radians
 
   // Bolt
-  public static final double k_FLOffset = 0.9 - (Math.PI / 2); // 5.425 - (Math.PI / 2); // 3.26
-  public static final double k_FROffset = 6.05; // 1.171;
-  public static final double k_BLOffset = 2.18 +(Math.PI); // 6.173 + (Math.PI);
-  public static final double k_BROffset = 4.75 + (Math.PI / 2); // 3.243 + (Math.PI / 2);
-
-  // Byte
-  // public static final double k_FLOffset = 5.425 - (Math.PI / 2);
-  // public static final double k_FROffset = 1.171;
-  // public static final double k_BLOffset = .937 + (Math.PI);
-  // public static final double k_BROffset = 3.243 + (Math.PI / 2);
+  public static final double k_FLOffset = 0.9 - (Math.PI / 2);
+  public static final double k_FROffset = 6.05;
+  public static final double k_BLOffset = 2.18 +(Math.PI);
+  public static final double k_BROffset = 4.69 + (Math.PI / 2);
 
   public static final boolean k_isGyroReversed = true;
 
