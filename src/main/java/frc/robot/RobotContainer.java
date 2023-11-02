@@ -24,6 +24,7 @@ import frc.robot.Constants.ArmPosition;
 import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.REDAuto3PieceNoBumpSide;
 import frc.robot.autos.AutoChargeStation;
+import frc.robot.autos.REDAutoChargeStationApriltagPos;
 import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
 import frc.robot.autos.BLUEAuto2PieceBumpSide;
@@ -32,6 +33,7 @@ import frc.robot.autos.REDAuto2GamePieceBumpSide;
 import frc.robot.autos.REDAuto2PieceNoBumpSide;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
@@ -108,12 +110,12 @@ public class RobotContainer {
   private void configureBindings() { 
     // System.out.println("Working"); 
     // System.out.print(String.format("x=%f, y=%f", m_xbox.getLeftX(), m_xbox.getLeftY()));
-    Trigger m_isFieldRelative = m_xbox.a();
+    Trigger m_isFieldRelative = m_xbox.x();
     Trigger m_isBalancing = m_xbox.leftBumper();
     Trigger m_brakeMode = m_stick.button(3);
     Trigger m_slowMode2 = m_xbox.b();
-    Trigger m_slowMode3 = m_xbox.x();
-    Trigger m_slowMode4 = m_xbox.y();
+    Trigger m_slowMode3 = m_xbox.b();
+    Trigger m_slowMode4 = m_xbox.b();
 
     m_driveSubsystem.setDefaultCommand(new ArcadeDrive(
       m_driveSubsystem, 
@@ -135,12 +137,12 @@ public class RobotContainer {
     m_xbox.povDown().onTrue(new ResetGyro(m_driveSubsystem, 180));
     m_xbox.povLeft().onTrue(new ResetGyro(m_driveSubsystem, 270));
 
-    // m_xbox.a().onTrue(new AutoOrientCommand(
-    //   m_driveSubsystem, 
-    //   180, 
-    //   () -> -m_xbox.getLeftY(), 
-    //   () -> m_xbox.getLeftX()
-    // ));
+    m_xbox.a().onTrue(new AutoOrientCommand(
+      m_driveSubsystem, 
+      180, 
+      () -> -m_xbox.getLeftY(), 
+      () -> m_xbox.getLeftX()
+    ));
     // m_xbox.b().onTrue(new AutoOrientCommand(
     //   m_driveSubsystem, 
     //   90, 
@@ -155,12 +157,12 @@ public class RobotContainer {
     //   () -> m_xbox.getLeftX()
     // ));
 
-    // m_xbox.y().onTrue(new AutoOrientCommand(
-    //   m_driveSubsystem, 
-    //   0, 
-    //   () -> -m_xbox.getLeftY(), 
-    //   () -> m_xbox.getLeftX()
-    // ));
+    m_xbox.y().onTrue(new AutoOrientCommand(
+      m_driveSubsystem, 
+      0, 
+      () -> -m_xbox.getLeftY(), 
+      () -> m_xbox.getLeftX()
+    ));
 
     m_xbox.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
     m_xbox.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, false));
@@ -185,14 +187,12 @@ public class RobotContainer {
 
     // Auto Selection
     m_selectAuto.addOption("Charge Station", new AutoChargeStation(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
+    m_selectAuto.addOption("Charge Station Mobility", new REDAutoChargeStationApriltagPos(m_driveSubsystem, m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_ledSubsystem));
     m_selectAuto.addOption("Blue Bump", new BLUEAuto2PieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Blue No Bump", new BLUEAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem));
     m_selectAuto.addOption("Red Bump", new REDAuto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Red No Bump", new REDAuto2PieceNoBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_intakeSubsystem, m_driveSubsystem));
     m_selectAuto.setDefaultOption("Nothing", new InstantCommand());
-    
-    // m_selectAuto.addOption("No Bump 2", auto2PieceNoBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
-    // m_selectAuto.addOption("Bump 2", auto2PieceBump = new Auto2GamePieceBumpSide(m_wristSubsystem, m_elevatorSubsystem, m_driveSubsystem, m_intakeSubsystem));
 
     new Trigger(() -> (Constants.k_isCubeMode && ! m_intakeSubsystem.isIntakeStalled())).onTrue(new SetLEDColorCommand(m_ledSubsystem, Color.kPurple, Color.kPurple));
     //update this for the flashing lights
