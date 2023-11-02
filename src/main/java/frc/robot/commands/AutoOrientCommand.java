@@ -17,7 +17,7 @@ public class AutoOrientCommand extends CommandBase {
   DoubleSupplier m_x;
   double m_angle;
   double k_deadzone = 2.5;
-  double k_minPower = .1;
+  double k_minPower = .2;
   public AutoOrientCommand(DriveSubsystem driveSubsystem, double angle, DoubleSupplier y, DoubleSupplier x) {
     m_subsystem = driveSubsystem;
     m_y = y;
@@ -36,10 +36,10 @@ public class AutoOrientCommand extends CommandBase {
   public void execute() {
     double x = m_x.getAsDouble();
     double y = m_y.getAsDouble();
-    double heading = ParadoxField.rotation2dFromFRC(m_subsystem.getTracker().getPose2d().getRotation()).getDegrees();
+    double heading = m_subsystem.getHeading();
     double rot = -(ParadoxField.normalizeAngle(heading - m_angle)) / 120.0;
     rot = Math.abs(rot) < k_minPower ? k_minPower * Math.signum(rot): rot;
-    m_subsystem.drive(-y, -x, rot, true, false);
+    m_subsystem.drive(-y, x, rot, true, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +49,6 @@ public class AutoOrientCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(ParadoxField.rotation2dFromFRC(m_subsystem.getTracker().getPose2d().getRotation()).getDegrees() - m_angle) <= k_deadzone;
+    return Math.abs(m_subsystem.getHeading() - m_angle) <= k_deadzone;
   }
 }
