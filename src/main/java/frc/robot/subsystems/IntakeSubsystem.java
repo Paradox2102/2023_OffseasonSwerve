@@ -55,7 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
     double speed = m_motor.getSelectedSensorVelocity();
     boolean isIntakeStalled = Math.abs(speed) < 1 && Math.abs(m_power) > k_stallPower;
     if (isIntakeStalled) {
-      if (m_stallTimer.get() <.25) {
+      if (m_stallTimer.get() > .25) {
         return true;
       }
       return false;
