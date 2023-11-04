@@ -20,6 +20,7 @@ public class SetGamePieceCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("SetGamePieceCommand initialize");
     Constants.k_isCubeMode = m_isCube;
   }
 }

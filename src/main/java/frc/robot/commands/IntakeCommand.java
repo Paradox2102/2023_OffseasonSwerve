@@ -21,6 +21,7 @@ public class IntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("IntakeCommand initialize");
     if (m_intake) {
       m_subsystem.intake();
     } else {

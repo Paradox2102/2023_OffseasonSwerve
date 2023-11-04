@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmPosition;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
@@ -34,9 +35,9 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoChargeStation extends SequentialCommandGroup {
+public class AutoCharge extends SequentialCommandGroup {
   /** Creates a new AutoChargeStation. */
-  public AutoChargeStation(DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem,
+  public AutoCharge(DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem,
       ElevatorSubsystem elevatorSubsystem, IntakeSubsystem intakeSubsystem, LEDSubsystem ledSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -50,23 +51,27 @@ public class AutoChargeStation extends SequentialCommandGroup {
         new WaitCommand(1),
         new ParallelRaceGroup(
             new IntakeCommand(intakeSubsystem, false),
-            new WaitCommand(.25)),
+            new WaitCommand(.25)
+        ),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
         new WaitCommand(.5),
         new ParallelRaceGroup(
             new RunCommand(() -> driveSubsystem.drive(-0.25, 0, 0, true, false)),
-            new WaitCommand(0.5)),
+            new WaitCommand(0.5)
+        ),
         new AutoOrientCommand(driveSubsystem, 179, () -> 0, () -> 0),
-        new SetLEDColorCommand(ledSubsystem, Color.kGreen, Color.kGreen),
+        // new SetLEDColorCommand(ledSubsystem, Color.kGreen, Color.kGreen),
         new DecideArmPosCommand(Constants.ArmPosition.GROUND),
         new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
         new DriveUntilPitch(driveSubsystem, -0.25, 0, 8),
-        new SetLEDColorCommand(ledSubsystem, Color.kBlue, Color.kBlue),
+        // new SetLEDColorCommand(ledSubsystem, Color.kBlue, Color.kBlue),
         new ParallelRaceGroup(
             new RunCommand(() -> driveSubsystem.drive(-0.25, 0, 0, true, false)),
-            new WaitCommand(0.5)),
+            new WaitCommand(0.5)
+        ),
         new AutoBalanceCommand(driveSubsystem),
-        new SetLEDColorCommand(ledSubsystem, Color.kBlack, Color.kBlack),
-        new RunCommand(() -> driveSubsystem.setX(), driveSubsystem));
+        // new SetLEDColorCommand(ledSubsystem, Color.kBlack, Color.kBlack),
+        new RunCommand(() -> driveSubsystem.setX(), driveSubsystem)
+    );
   }
 }

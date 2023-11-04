@@ -22,7 +22,7 @@ public class AutoBalanceCommand extends CommandBase {
   DoubleSupplier m_power = () -> 1;
   Timer m_timer = new Timer();
   double k_lookAheadTime = 6;
-  double k_maxPower = .05;
+  double k_maxPower = .08;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;

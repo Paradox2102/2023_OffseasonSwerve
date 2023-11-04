@@ -21,6 +21,7 @@ public class DecideArmPosCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("DecideArmPosCommand initialize");
     Constants.k_armPosition = m_pos;
   }
 }
