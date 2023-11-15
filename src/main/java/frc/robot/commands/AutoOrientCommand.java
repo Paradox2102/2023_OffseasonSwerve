@@ -36,7 +36,7 @@ public class AutoOrientCommand extends CommandBase {
   public void execute() {
     double x = m_x.getAsDouble();
     double y = m_y.getAsDouble();
-    double heading = m_subsystem.getHeading();
+    double heading = m_subsystem.getHeadingInDegrees();
     double rot = -(ParadoxField.normalizeAngle(heading - m_angle)) / 120.0;
     rot = Math.abs(rot) < k_minPower ? k_minPower * Math.signum(rot): rot;
     m_subsystem.drive(-y, x, rot, true, true);
@@ -49,6 +49,6 @@ public class AutoOrientCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_subsystem.getHeading() - m_angle) <= k_deadzone;
+    return Math.abs(m_subsystem.getHeadingInDegrees() - m_angle) <= k_deadzone;
   }
 }

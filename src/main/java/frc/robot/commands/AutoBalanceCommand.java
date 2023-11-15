@@ -16,9 +16,9 @@ public class AutoBalanceCommand extends CommandBase {
   /** Creates a new AutoBalanceCommand. */
   DriveSubsystem m_subsystem;
   boolean m_isFinished = false;
-  double k_p = .006;
+  double k_p = -.006;
   double m_previousPitch = 0;
-  double m_futureRoll = 0;
+  // double m_futureRoll = 0;
   DoubleSupplier m_power = () -> 1;
   Timer m_timer = new Timer();
   double k_lookAheadTime = 6;
@@ -41,7 +41,7 @@ public class AutoBalanceCommand extends CommandBase {
     Logger.log("AutoBalanceCommand", 0, "initialize");
     m_timer.reset();
     m_timer.start();
-    double heading = m_subsystem.getHeading();
+    double heading = m_subsystem.getHeadingInDegrees();
     if (Math.abs(heading) <= 50) {
       m_previousPitch = m_subsystem.getRoll();
     } 
@@ -63,7 +63,7 @@ public class AutoBalanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double heading = m_subsystem.getHeading();
+    double heading = m_subsystem.getHeadingInDegrees();
     double currentPitch = m_subsystem.getRoll();
     double power = Math.abs(m_power.getAsDouble());
 
@@ -92,7 +92,7 @@ public class AutoBalanceCommand extends CommandBase {
       m_subsystem.setX();
       m_isFinished = true;
     } else {
-      double speed = -k_p * futurePitch;
+      double speed = k_p * futurePitch;
       speed = Math.abs(speed) > k_maxPower ? Math.signum(speed)* k_maxPower : speed;
       m_subsystem.drive(speed, 0, 0, true, false);
       SmartDashboard.putNumber("Charge Station Target Speed", speed);

@@ -151,10 +151,10 @@ public final class Constants {
       / k_drivingMotorReduction) / 60.0;
   public static final double k_driveTicksToMetersPosition = (k_wheelDiameterMeters * Math.PI) / k_drivingMotorReduction;
   public static final double k_turnTicksToDegreesVelocity = (2 * Math.PI) / 60.0;
-  public static final double k_turnTicksToMetersPosition = (2 * Math.PI);
+  public static final double k_turnTicksToRadiansPosition = (2 * Math.PI);
 
   public static final double k_turningEncoderPositionPIDMinInput = 0; // radians
-  public static final double k_turningEncoderPositionPIDMaxInput = k_turnTicksToMetersPosition; // radians
+  public static final double k_turningEncoderPositionPIDMaxInput = k_turnTicksToRadiansPosition; // radians
 
   public static final boolean k_turningEncoderInverted = true;
 

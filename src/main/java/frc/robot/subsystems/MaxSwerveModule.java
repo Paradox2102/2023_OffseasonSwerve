@@ -63,7 +63,7 @@ public class MaxSwerveModule {
     // Apply position and velocity conversion factors for the turning encoder. We
     // want these in radians and radians per second to use with WPILib's swerve
     // APIs.
-    m_turningEncoder.setPositionConversionFactor(Constants.k_turnTicksToMetersPosition);
+    m_turningEncoder.setPositionConversionFactor(Constants.k_turnTicksToRadiansPosition);
     m_turningEncoder.setVelocityConversionFactor(Constants.k_turnTicksToDegreesVelocity);
 
     // Invert the turning encoder, since the output shaft rotates in the opposite direction of
@@ -136,7 +136,7 @@ public class MaxSwerveModule {
         new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
-  public double getAngle() {
+  public double getAngleRadians() {
     return m_turningEncoder.getPosition();
   }
 
@@ -184,10 +184,12 @@ public class MaxSwerveModule {
     m_drivingEncoder.setPosition(0);
   }
 
+  // Manually run the turn motor for debugging purposes
   public void setTurn() {
     m_turn.set(.5);
   }
 
+  // Manually run the drive motors for debugging purposes
   public void setDrive() {
     m_drive.set(.5);
   }

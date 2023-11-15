@@ -80,6 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_backCamera = backCamera;
   }
 
+  // For debugging purposes (drive robot forward at full speed)
   public void setPower() {
     drive(1, 0, 0, true, false);
   }
@@ -114,10 +115,10 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngle()));///Math.PI);
-    SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngle());// - (Math.PI / 2)) / Math.PI);
-    SmartDashboard.putNumber("ATurn BR", m_backRight.getAngle());// + (Math.PI / 2)) / Math.PI);
-    SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngle());// + (Math.PI)) / Math.PI);
+    SmartDashboard.putNumber("ATurn FR", (m_frontRight.getAngleRadians()));///Math.PI);
+    SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngleRadians());// - (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BR", m_backRight.getAngleRadians());// + (Math.PI / 2)) / Math.PI);
+    SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngleRadians());// + (Math.PI)) / Math.PI);
     SmartDashboard.putData("Gyro Angle", m_gyro);
     SmartDashboard.putNumber("Roll", getRoll());
     SmartDashboard.putNumber("Pitch", getPitch());
@@ -289,6 +290,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRight.resetEncoders();
   }
  
+  // Debugging purposes (drives one motor)
   public void setOnePower() {
     m_backLeft.setDrive();
   }
@@ -296,7 +298,6 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void setHeading(double angle) {
     m_tracker.setXYAngleFRC(m_tracker.getPose2dFRC().getX(), m_tracker.getPose2dFRC().getY(), angle);
-    System.out.println("yes");
   }
 
   /**
@@ -304,7 +305,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  public double getHeading() {
+  public double getHeadingInDegrees() {
     double angle =  -Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     angle %= 360;
     angle = (angle + 360) % 360;
