@@ -28,6 +28,7 @@ public class SetArmPosition extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("SetArmPosition initialize");
     double elevator = 0;
     double wrist = 0;
     m_pose = m_neutralPose ? ArmPosition.NEUTRAL : Constants.k_armPosition;

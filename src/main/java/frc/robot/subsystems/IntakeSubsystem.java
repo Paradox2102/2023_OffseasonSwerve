@@ -18,12 +18,15 @@ public class IntakeSubsystem extends SubsystemBase {
   private double m_power = 0;
   private TalonFX m_motor = new TalonFX(Constants.k_intakeMotor, "Default Name");
   private final double k_stallPower = .075;
+  private Timer m_stallTimer = new Timer();
 
   public enum IntakeType {INTAKE, OUTTAKE, STOP}
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     setBrakeMode(true);
+    m_stallTimer.reset();
+    m_stallTimer.start();
   }
 
   public void setPower(double power) {
@@ -50,8 +53,15 @@ public class IntakeSubsystem extends SubsystemBase {
   // Lower power if game piece is acquired
   public boolean isIntakeStalled() {
     double speed = m_motor.getSelectedSensorVelocity();
-    
-    return (Math.abs(speed) < 1 && Math.abs(m_power) > k_stallPower);
+    boolean isIntakeStalled = Math.abs(speed) < 1 && Math.abs(m_power) > k_stallPower;
+    if (isIntakeStalled) {
+      if (m_stallTimer.get() > .25) {
+        return true;
+      }
+      return false;
+    } 
+    m_stallTimer.reset();
+    return false;
 
   }
 

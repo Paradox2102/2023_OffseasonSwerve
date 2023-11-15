@@ -82,14 +82,15 @@ public final class Constants {
     // Elevator
     public static final double k_highElevatorInches = 39.9;
     public static final double k_midElevatorInches = 22;
-    public static final double k_singleElevatorInches = 0;
+    public static final double k_singleElevatorInches = 16.6;
     public static final double k_doubleElevatorInches = 40;
     public static final double k_groundElevatorInches = 2.7;
 
     // Wrist
     public static final double k_highWristDegrees = 46.1;
     public static final double k_midWristDegrees = 46.1;
-    public static final double k_singleWristDegrees = 0;
+    public static final double k_singleWristDegrees = 2.3;
+    ;
     public static final double k_doubleWristDegrees = 55.7;
     public static final double k_groundWristDegrees = 87.4;
   }
@@ -111,7 +112,7 @@ public final class Constants {
     // Wrist
     public static final double k_highWristDegrees = 54.9;
     public static final double k_midWristDegrees = 69.5;
-    public static final double k_singleWristDegrees = 0;
+    public static final double k_singleWristDegrees = 10.4;
     public static final double k_doubleWristDegrees = 2.3;
     public static final double k_groundWristDegrees = 76;
   }

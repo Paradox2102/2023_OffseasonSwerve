@@ -23,6 +23,7 @@ public class ResetGyro extends InstantCommand {
   @Override
   public void initialize() {
     m_subsystem.setHeading(m_angle);
+  System.out.println("GyroReset initialize");
   }
 
   @Override

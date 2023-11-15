@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -45,8 +46,7 @@ public class REDAuto2PieceNoBumpSide extends SequentialCommandGroup {
       new WaitCommand(.75),
       new SetGamePieceCommand(true),
       new DecideArmPosCommand(Constants.ArmPosition.GROUND),
-      new SetArmPosition(wristSubsystem, elevatorSubsystem, false),
-      new ParallelRaceGroup(
+      new ParallelDeadlineGroup(
         new CreatePathCommand(
           driveSubsystem, 
           new Pose2d(1.8923, 4.9944274, Rotation2d.fromDegrees(180)), 
@@ -55,7 +55,11 @@ public class REDAuto2PieceNoBumpSide extends SequentialCommandGroup {
           true, 
           true
         ),
-        new IntakeCommand(intakeSubsystem, true)
+        new IntakeCommand(intakeSubsystem, true),
+        new SequentialCommandGroup(
+          new WaitCommand(1.8),
+          new SetArmPosition(wristSubsystem, elevatorSubsystem, false)
+        )
       ),
       new SetArmPosition(wristSubsystem, elevatorSubsystem, true),
 
