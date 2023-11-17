@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.io.IOException;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -221,7 +223,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return m_selectAuto.getSelected();
+    // return m_selectAuto.getSelected();
+    return new PathPlannerAuto("yay");
 
   }
 }

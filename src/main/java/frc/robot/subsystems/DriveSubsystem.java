@@ -5,6 +5,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -78,6 +82,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_frontCamera = frontCamera;
     m_backCamera = backCamera;
+
+    AutoBuilder.configureHolonomic(
+      this::getPose, 
+      this::resetOdometry, 
+      this::getChassisSpeeds, 
+      this::driveWithChassisSpeedRobotRelative, 
+      new HolonomicPathFollowerConfig(
+        new PIDConstants(1, 0 , 0), 
+        new PIDConstants(1, 0, 0), 
+        Constants.k_maxSpeedMetersPerSecond, 
+        .475953574, 
+        new ReplanningConfig()), 
+      this);
   }
 
   // For debugging purposes (drive robot forward at full speed)
@@ -96,8 +113,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void setTracker(PositionTrackerPose tracker) {
     m_tracker = tracker;
   }
-
-
 
   public SwerveModulePosition[] getModulePosition() {
     return new SwerveModulePosition[] {
@@ -144,6 +159,24 @@ public class DriveSubsystem extends SubsystemBase {
     return m_field;
   }
 
+  public SwerveModuleState[] getModuleStates() {
+    SwerveModuleState[] states = {m_frontLeft.getState(), m_frontRight.getState(), m_backLeft.getState(), m_backRight.getState()};
+    return states;
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return m_swerve.toChassisSpeeds(getModuleStates());
+  }
+
+  public void driveWithChassisSpeedRobotRelative(ChassisSpeeds chassisSpeeds) {
+    var swerveModuleStates = m_swerve.toSwerveModuleStates(chassisSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.k_maxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    m_backLeft.setDesiredState(swerveModuleStates[2]);
+    m_backRight.setDesiredState(swerveModuleStates[3]);
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *
@@ -151,7 +184,6 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     double angle = pose.getRotation().getDegrees();
-    m_gyro.setYaw(angle);
     m_tracker.setXYAngleFRC(pose.getX(), pose.getY(), pose.getRotation().getDegrees());
     System.out.println(pose.getX()+" "+ pose.getY()+ " "+pose.getRotation().getDegrees());
     System.out.println(m_tracker.getPose2dFRC().getTranslation());
