@@ -6,7 +6,7 @@ package frc.robot;
 
 import java.io.IOException;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+//import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,6 +27,19 @@ import frc.robot.autos.Auto2GamePiece;
 import frc.robot.autos.AutoCharge;
 import frc.robot.autos.REDAuto3PieceNoBumpSide;
 import frc.robot.autos.REDAutoChargeStationApriltagPos;
+import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.AutoOrientCommand;
+import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ResetGyro;
+import frc.robot.commands.ResetWrist;
+import frc.robot.commands.SetArmPosition;
+import frc.robot.commands.SetCoastModeCommand;
+import frc.robot.commands.SetLEDColorCommand;
+import frc.robot.commands.SetLEDColorFlashCommand;
+import frc.robot.commands.manual.ManualElevatorCommand;
+import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.autos.AutoPlaceCone;
 import frc.robot.autos.AutoPlaceCube;
 import frc.robot.autos.AutoScoreConeHigh;
@@ -34,19 +47,6 @@ import frc.robot.autos.BLUEAuto2PieceBumpSide;
 import frc.robot.autos.BLUEAuto2PieceNoBumpSide;
 import frc.robot.autos.REDAuto2GamePieceBumpSide;
 import frc.robot.autos.REDAuto2PieceNoBumpSide;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.AutoOrientCommand;
-import frc.robot.commands.DecideArmPosCommand;
-import frc.robot.commands.ResetGyro;
-import frc.robot.commands.ResetWrist;
-import frc.robot.commands.SetArmPosition;
-import frc.robot.commands.SetCoastModeCommand;
-import frc.robot.commands.SetLEDColorCommand;
-import frc.robot.commands.SetLEDColorFlashCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.manual.ManualElevatorCommand;
-import frc.robot.commands.manual.ManualWristCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -222,9 +222,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    // return m_selectAuto.getSelected();
-    return new PathPlannerAuto("yay");
+    return m_selectAuto.getSelected();
+   // return new PathPlannerAuto("yay");
 
   }
 }

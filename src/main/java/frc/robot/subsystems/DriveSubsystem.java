@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+// import com.pathplanner.lib.util.PIDConstants;
+// import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -83,18 +83,18 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontCamera = frontCamera;
     m_backCamera = backCamera;
 
-    AutoBuilder.configureHolonomic(
-      this::getPose, 
-      this::resetOdometry, 
-      this::getChassisSpeeds, 
-      this::driveWithChassisSpeedRobotRelative, 
-      new HolonomicPathFollowerConfig(
-        new PIDConstants(1, 0 , 0), 
-        new PIDConstants(1, 0, 0), 
-        Constants.k_maxSpeedMetersPerSecond, 
-        .475953574, 
-        new ReplanningConfig()), 
-      this);
+    // AutoBuilder.configureHolonomic(
+    //   this::getPose, 
+    //   this::resetOdometry, 
+    //   this::getChassisSpeeds, 
+    //   this::driveWithChassisSpeedRobotRelative, 
+    //   new HolonomicPathFollowerConfig(
+    //     new PIDConstants(1, 0 , 0), 
+    //     new PIDConstants(1, 0, 0), 
+    //     Constants.k_maxSpeedMetersPerSecond, 
+    //     .475953574, 
+    //     new ReplanningConfig()), 
+    //   this);
   }
 
   // For debugging purposes (drive robot forward at full speed)
