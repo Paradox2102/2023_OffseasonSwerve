@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.io.Serial;
+
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 // import com.pathplanner.lib.auto.AutoBuilder;
 // import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -26,6 +28,7 @@ import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.robot.Constants;
 import frc.robot.ParadoxField;
 import frc.robot.PositionTrackerPose;
+import frc.robot.SerialGyro;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -55,6 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
+  private final SerialGyro m_serialGyro = new SerialGyro();
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -134,9 +138,10 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ATurn FL", m_frontLeft.getAngleRadians());// - (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BR", m_backRight.getAngleRadians());// + (Math.PI / 2)) / Math.PI);
     SmartDashboard.putNumber("ATurn BL", m_backLeft.getAngleRadians());// + (Math.PI)) / Math.PI);
-    SmartDashboard.putData("Gyro Angle", m_gyro);
-    SmartDashboard.putNumber("Roll", getRoll());
-    SmartDashboard.putNumber("Pitch", getPitch());
+    // SmartDashboard.putData("Gyro Angle", m_gyro);
+    // SmartDashboard.putNumber("Roll", getRoll());
+    // SmartDashboard.putNumber("Pitch", getPitch());
+    SmartDashboard.putNumber("Heading", getHeadingDegNew());
     SmartDashboard.putNumber("Pose Est X", (m_tracker.getPose2dFRC().getTranslation().getX()));
     SmartDashboard.putNumber("Pose Est Y", (m_tracker.getPose2dFRC().getTranslation().getY()));
     SmartDashboard.putNumber("Pose Est Rot", (m_tracker.getPose2dFRC().getRotation().getDegrees()));
@@ -345,6 +350,11 @@ public class DriveSubsystem extends SubsystemBase {
       angle -= 360;
     }
     return angle;
+  }
+
+  public double getHeadingDegNew() {
+    double angle = m_serialGyro.getAngle();
+    return(ParadoxField.normalizeAngle(angle));
   }
 
   /**
