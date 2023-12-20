@@ -37,6 +37,7 @@ public class PositionTrackerPose {
 		m_poseEstimator = new SwerveDrivePoseEstimator(
 			m_driveSubsystem.getSwerve(),
 			m_driveSubsystem.getGyroRotation2d(),
+			// Rotation2d.fromDegrees(m_driveSubsystem.getHeadingDegNew()),
 			m_driveSubsystem.getModulePosition(),
 			ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees)
 		);
