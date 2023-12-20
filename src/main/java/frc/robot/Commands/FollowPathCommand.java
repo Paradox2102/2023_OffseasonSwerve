@@ -8,6 +8,8 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -38,13 +40,19 @@ public class FollowPathCommand extends CommandBase {
   @Override
   public void execute() {
     double currentTime = (Timer.getFPGATimestamp() - m_startTime);
-    PathPlannerState currentState = (PathPlannerState)(m_path.sample(currentTime - m_trajStartTime));
+    // PathPlannerState currentState = (PathPlannerState)(m_path.sample(currentTime - m_trajStartTime));
     PathPlannerState nextState = (PathPlannerState)(m_path.sample(currentTime - m_trajStartTime + .02));
+
+    Rotation2d nextHeading = nextState.holonomicRotation;
+
+    m_subsystem.runHolonomicPath(nextState, nextHeading);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_subsystem.stop();
+  }
 
   // Returns true when the command should end.
   @Override

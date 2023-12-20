@@ -11,7 +11,11 @@ import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 // import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 // import com.pathplanner.lib.util.PIDConstants;
 // import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,6 +25,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +36,7 @@ import frc.robot.ParadoxField;
 import frc.robot.PositionTrackerPose;
 import frc.robot.SerialGyro;
 import frc.utils.SwerveUtils;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -68,6 +75,11 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(Constants.k_magnitudeSlewRate);
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.k_rotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+  private HolonomicDriveController m_holonomic = new HolonomicDriveController(
+    new PIDController(1, 0, 0), 
+    new PIDController(1, 0, 0), 
+    new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(2 * Math.PI, Math.PI))
+  );
 
   private final SwerveDriveKinematics m_swerve = new SwerveDriveKinematics(
         new Translation2d(.33655, .33655),
@@ -173,13 +185,18 @@ public class DriveSubsystem extends SubsystemBase {
     return m_swerve.toChassisSpeeds(getModuleStates());
   }
 
-  public void driveWithChassisSpeedRobotRelative(ChassisSpeeds chassisSpeeds) {
+  public void runHolonomicPath(State desiredState, Rotation2d desiredHeading) {
+    ChassisSpeeds chassisSpeeds = m_holonomic.calculate(m_tracker.getPose2dFRC(), desiredState, desiredHeading);
     var swerveModuleStates = m_swerve.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.k_maxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_backLeft.setDesiredState(swerveModuleStates[2]);
     m_backRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  public void stop() {
+    drive(0, 0, 0, true, false);
   }
 
   /**

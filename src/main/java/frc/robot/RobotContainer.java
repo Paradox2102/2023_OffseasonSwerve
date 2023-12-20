@@ -31,6 +31,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutoOrientCommand;
 import frc.robot.commands.DecideArmPosCommand;
+import frc.robot.commands.FollowPathCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ResetWrist;
@@ -222,8 +223,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_selectAuto.getSelected();
+    // return m_selectAuto.getSelected();
    // return new PathPlannerAuto("yay");
+   return new FollowPathCommand(m_driveSubsystem, "yay");
 
   }
 }
