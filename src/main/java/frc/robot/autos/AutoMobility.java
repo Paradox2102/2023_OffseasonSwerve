@@ -5,6 +5,7 @@
 package frc.robot.autos;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -18,8 +19,8 @@ public class AutoMobility extends ParallelRaceGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunCommand(() -> driveSubsystem.drive(-.25, 0, 0, true, false), driveSubsystem),
-      new WaitCommand(1.5)
+      new PrintCommand("HEHEHEHA")
+      // AutoBuilder.buildAuto("yay")
     );
   }
 }

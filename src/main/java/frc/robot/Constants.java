@@ -133,6 +133,8 @@ public final class Constants {
 
   // Angular offsets of the modules relative to the chassis in radians
 
+  public static final double k_driveRadius = .475953574;
+
   // Bolt
   public static final double k_FLOffset = 0.9 - (Math.PI / 2);
   public static final double k_FROffset = 6.05;
